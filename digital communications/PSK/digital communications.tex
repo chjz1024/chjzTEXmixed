@@ -1,0 +1,107 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{ctex}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage[bookmarks=true]{hyperref}
+\lstset{language=Matlab,%
+    %basicstyle=\color{red},
+    breaklines=true,%
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+% \thispagestyle{headings}
+\begin{document}
+  \title{数字通信实验四~调制解调}
+  \author{PB16061024 陈进泽}
+  \date{\today}
+  \maketitle
+  \newpage
+  \section{实验目的}
+  \begin{itemize}
+    \item 掌握数字频带传输系统调制解调的仿真过程
+    \item 掌握数字频带传输系统误码率仿真分析方法
+  \end{itemize}
+
+  \section{实验原理}
+  以BPSK为例，数字频带传输过程如下:
+
+  \includegraphics[width=\textwidth]{BPSK.png}
+
+  假定:信道为加性高斯白噪声信道，其均值为0、方差为$\sigma^2$，采用矩形成形;发射端BPSK调制信号为:
+  \begin{displaymath}
+    s(t)=\left\{
+      \begin{array}{cc}
+        A \cos{2\pi f_c t} & b_k=''1''\\
+        -A \cos{2\pi f_c t} & b_k=''0''
+      \end{array}
+      \qquad kT\leq t <(k+1)T
+    \right.
+  \end{displaymath}
+  经信道传输，接受端输入信号为:
+  \begin{displaymath}
+    y_d(t)=s(t)+n(t)
+  \end{displaymath}
+  经相干解调，匹配滤波，定时恢复后输出:
+  \begin{displaymath}
+    x_k=\left\{
+      \begin{array}{cc}
+        A+n_k & b_k=''1''\\
+        -A+n_k & b_k=''0''
+      \end{array}
+      \right.
+  \end{displaymath}
+
+  当1，0独立等概出现时，BPSK系统的最佳判决门限电平$U_{d}^{*}=0$。故判决规则为在取样时刻的判决值大于0，判1，小于0，判0
+  \section{实验内容}
+    \subsection{分别编写BPSK与QPSK调制解调系统的Matlab仿真程序}
+      \subsubsection{BPSK源代码}
+        \lstinputlisting{BPSK.m}
+        为了方便绘制误码率曲线时调用采用了函数形式。以下解释代码中内容:
+      \subsubsection{BPSK代码解释}
+        \begin{description}
+          \item 代码15行生成N个随机信源符号
+          \item 代码17到20行产生相应的基带信号，根升余弦滤波器滚降系数为0.5
+          \item 代码22行进行信源的调制
+          \item 代码24行加噪声
+          \item 代码26到28行进行信号的解调，匹配滤波及采样判决
+        \end{description}
+        其中因为发送滤波器的影响，需根据SNR对噪声进行调整。这里采用了等效为码元功率的变化的方式等效了其影响，具体体现在代码12行
+      \subsubsection{QPSK源代码}
+        \lstinputlisting{QPSK.m}
+        同BPSK一致采用了函数形式表达
+      \subsubsection{QPSK代码解释}
+        \begin{description}
+          \item 代码将发送信号分两路进行发送，并分两路解调
+          \item 代码31行判决接受到的码元各位是否与发送码元一致
+          \item 代码32行判决若所有位的码元均相等，则接受成功
+        \end{description}
+    \subsection{绘制BPSK与QPSK调制下的误码率与新噪比曲线图，并与理论曲线进行对比}
+      \subsubsection{BPSK}
+        \lstinputlisting{PSKEVAL.m}
+      \subsubsection{实验效果}
+        \includegraphics[width=\textwidth]{BPSKEVAL.png}
+
+        由图可见，仿真曲线与实际曲线十分相似，说明理论正确，解调方式也无误
+      \subsubsection{QPSK}
+        \lstinputlisting{QPSKEVAL.m}
+      \subsubsection{实验效果}
+        \includegraphics[width=\textwidth]{QPSKEVAL.png}
+
+        如图，由QPSK函数计算的是误码率，上方曲线代表理论误码率曲线，为$1-(1-\frac{1}{2}erfc(\sqrt{snr})^2$。下方曲线为理论误比特率曲线，与BPSK情况下的误码率曲线一致，且在对数坐标下几乎只差个平移，说明两者为倍数关系，与理论值$P_e\approx erfc(\sqrt{snr})^2=2P_b$一致，说明调制与解调方法没错，且与理论一致
+    \subsection{几点说明}
+      \begin{enumerate}
+        \item 由于实际随机生成序列长度有限，当误码率足够小时可以想到错误的点的个数也足够小，故计算获得的误码率偏差较大。这点在仿真图上也有体现，当SNR足够大时误码率足够小，故理论曲线与仿真曲线偏差较大，而在小SNR处两者吻合的很好
+        \item 由于filter进行的是卷积操作，原信号会有所偏移。且$rcosdesign$函数生成的函数长度为$|h|=span\times N_{sample}+1$，为使采样判决不出现偏差需将判决点右移$|h|$个单位
+        \item 关于发送滤波器对SNR的影响，若其在BPSK下的影响为$\alpha$，则由于发送信号为累加的关系，在QPSK下它的影响为$\alpha^2$。具体数值$\alpha$为发送滤波器的函数。由于并无太多时间分析matlab函数$rcosdesign$的具体原理，其数值$\alpha=0.5$为多次尝试后所得结果，并经验证其与span的具体数值无关。一个可能有用的信息为$\sum_{i=1}^{|h|}h^2(i)=1$
+      \end{enumerate}
+\end{document}

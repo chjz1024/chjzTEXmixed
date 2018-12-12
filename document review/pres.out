@@ -1,0 +1,8 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Related\040work}{}% 2
+\BOOKMARK [1][-]{section.3}{Different\040methodologies}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{Neuron\040Pruning\040for\040Compressing\040Deep\040Networks\040using\040Maxout\040ArchitecturesRueda2017NeuronPF}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{ThiNet:\040A\040Filter\040Level\040Pruning\040Method\040for\040Deep\040Neural\040Network\040CompressionLuo2017ThiNetAF}{section.3}% 5
+\BOOKMARK [2][-]{subsection.3.3}{Sparsifying\040Neural\040Network\040Connections\040for\040Face\040RecognitionSun2016SparsifyingNN}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.4}{DeepRebirth:\040Accelerating\040Deep\040Neural\040Network\040Execution\040on\040Mobile\040DevicesLi2018DeepRebirthAD}{section.3}% 7
+\BOOKMARK [1][-]{section.4}{Summary}{}% 8

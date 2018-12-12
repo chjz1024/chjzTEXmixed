@@ -1,0 +1,38 @@
+\documentclass[12px]{article}
+\usepackage{ctex,graphicx,float,listings}
+\setkeys{Gin}{width=.6\textwidth}
+\lstset{language=Matlab,%
+    %basicstyle=\color{red},
+    breaklines=true,%
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},
+}
+\begin{document}
+  \title{滤波器设计与滤波器特性分析}
+  \author{PB16061024 陈进泽}
+  \date{\today}
+  \maketitle
+  \newpage
+
+  \section{实验目的}
+    \begin{itemize}
+      \item 掌握Matlab下滤波器设计工具（fdatool）的使用方法
+      \item 掌握IIR滤波器设计方法与FIR滤波器设计方法
+      \item 了解IIR滤波器设计与FIR滤波器设计方法的差异
+      \item 掌握滤波器特性分析的方法
+      \item 了解Matlab中sptool工具的使用方法
+    \end{itemize}
+  \section{实验原理}
+    本实验基于Matlab工具箱fdatool(filterDesigner)与sptool(signalAnalyzer)完成
+  \section{实验内容}
+\end{document}

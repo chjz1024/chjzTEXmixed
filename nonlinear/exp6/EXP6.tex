@@ -1,0 +1,283 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{ctex}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage[bookmarks=true]{hyperref}
+\begin{document}
+  \tableofcontents
+  \newpage
+  \section{实验数据}
+    \subsection{脉冲计数式鉴频器特性参数测试}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{pict/cir1.jpg}
+      \end{figure}
+      \begin{figure}[H]
+        \centering
+          \includegraphics[width=.75\textwidth]{pict/photo_2018-12-02_19-33-07.jpg}
+        \caption{无调频，从上至下分别为TP05,06,07,08}
+      \end{figure}
+      TP04正弦FM,载波300kHz，幅度100mVpp,调制频率1kHz，频率偏移75kHz
+
+      可见TP05为TP04失真放大后信号,TP06对TP05反相限幅输出,TP07为TP06微分结果,TP08将TP06整形
+      \begin{figure}[H]
+        \centering
+        \begin{minipage}[b]{.45\textwidth}
+          \centering
+          \includegraphics[width=\textwidth]{pict/photo_2018-12-02_19-33-18.jpg}
+          \caption{FM通道1}
+        \end{minipage}
+        \begin{minipage}[b]{.45\textwidth}
+          \centering
+          \includegraphics[width=\textwidth]{pict/photo_2018-12-02_19-33-11.jpg}
+          \caption{FM通道2,3,4}
+        \end{minipage}
+      \end{figure}
+
+      如图可见，调频现象明显，且经鉴频器后输出波形为标准的正弦波
+      \begin{figure}[H]
+        \begin{minipage}[!h]{.7\textwidth}
+          \centering
+          \includegraphics[width=\textwidth]{pict/curve1.png}
+          \caption{拟合曲线1}
+        \end{minipage}
+        \begin{minipage}[!h]{.2\textwidth}
+          \centering
+          \begin{tabular}{c|c}
+            $\Delta f(kHz)$ & $u_o(mVpp)$\\
+            \hline
+            10&97.50\\
+            20&200.5\\
+            30&300.5\\
+            40&407.25\\
+            50&519.75\\
+            60&627.75\\
+            70&738.25\\
+            80&844.5\\
+            90&939.00\\
+            100&1050
+          \end{tabular}
+        \end{minipage}
+      \end{figure}
+
+      $u_o$与$\Delta f$线性良好,说明该脉冲计数鉴频器性能良好
+      \[S_d = 10.644mVpp/kHz\]
+    \subsection{锁相鉴频器特性参数测试}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{pict/cir2.jpg}
+      \end{figure}
+      \begin{figure}[H]
+        \centering
+        \begin{minipage}[!h]{.7\textwidth}
+          \centering
+          \includegraphics[width=\textwidth]{pict/curve2.png}
+          \caption{拟合曲线2}
+        \end{minipage}
+        \begin{minipage}[!h]{.2\textwidth}
+          \centering
+          \begin{tabular}{c|c}
+            $\Delta f(kHz)$ & $u_o(Vpp)$\\
+            \hline
+            10&0.255\\
+            20&0.5075\\
+            30&0.75625\\
+            40&1.035\\
+            50&1.28\\
+            60&1.5375\\
+            70&1.80575\\
+            80&2.05375\\
+            90&2.32875\\
+            100&2.58
+          \end{tabular}
+        \end{minipage}
+      \end{figure}
+      由拟合曲线,可见$u_o$与$\Delta f$线性良好，说明该锁相鉴频器性能良好
+      \[S_d = 25.898mVpp/kHz\]
+      \begin{figure}[H]
+        \centering
+        \begin{minipage}[!h]{.45\textwidth}
+          \centering
+          \includegraphics[width=\textwidth]{pict/photo_2018-12-02_19-33-20.jpg}
+          \caption{$TP15(U_{FM})$}
+        \end{minipage}
+        \begin{minipage}[!h]{.45\textwidth}
+          \centering
+          \includegraphics[width=\textwidth]{pict/photo_2018-12-02_19-33-22.jpg}
+          \caption{$TP18(U_o)$}
+        \end{minipage}
+      \end{figure}
+      由上图,输入为频率偏移较大的调频信号,$u_{FM}=1.0325Vpp,u_o=2.58Vpp,f=1kHz$  
+
+    \subsection{电容耦合相位鉴频器特性参数测试}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{pict/cir3.jpg}
+      \end{figure}
+      \subsubsection{频谱仪测量}
+        \begin{figure}[H]
+          \centering
+          \includegraphics[width=\textwidth]{pict/photo_2018-12-02_19-33-19.jpg}          
+        \end{figure}
+        \begin{displaymath}
+          \begin{array}{cc}
+            f_{max}=9.05MHz & f_{min}=7.93MHz\\
+            +\Delta f_{max}=0.55MHz & -\Delta f_{max}=-0.57MHz\\
+            \multicolumn{2}{c}{2\Delta f_{max}=1.12MHz}
+          \end{array}
+        \end{displaymath}
+      \subsubsection{示波器测量}
+        \begin{figure}[H]
+          \centering
+          \includegraphics[width=.8\textwidth]{pict/photo_2018-12-02_19-33-23.jpg}
+          \caption{平衡点,$u_o=786.5mVpp$}
+        \end{figure}
+        由上图,该鉴频器输出波形为标准的正弦波
+        \begin{figure}[H]
+          \centering
+          \begin{minipage}[!h]{.89\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{pict/curve3.png}
+            \caption{拟合曲线3}
+          \end{minipage}
+          \begin{minipage}[!h]{.1\textwidth}
+            \centering
+            \begin{tabular}{c|c}
+              $\Delta f(kHz)$ & $u_o(mVpp)$\\
+              \hline
+              10&105\\
+              20&215.5\\
+              30&322\\
+              40&424.5\\
+              50&525\\
+              60&625.5\\
+              70&728.75\\
+              80&832.5\\
+              90&940.75\\
+              100&1025.5
+            \end{tabular}
+          \end{minipage}
+        \end{figure}
+
+        由于该鉴频器在很大的范围内均保持良好的线性,可用于鉴频
+        \[S_d=10.644mVpp/kHz\]
+        \begin{figure}[H]
+          \centering
+          \begin{minipage}[!h]{.6\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{pict/curve4.png}
+            \caption{拟合曲线4}
+          \end{minipage}
+          \begin{minipage}[!h]{.35\textwidth}
+            \centering
+            \begin{tabular}{c|cc|c}
+              $f(MHz)$ & $u_o(V)$ &$f(MHz)$ & $u_o(V)$\\
+              \hline
+              7.0 & -0.295 & 8.6 & 0.50918\\
+              7.2 & -0.40622 & 8.8 & 1.17833\\
+              7.4 & -0.56626 & 9.0 & 1.27921\\
+              7.6 & -0.79128 & 9.2 & 1.0892\\
+              7.8 & -1.08823 & 9.4 & 0.85986\\
+              8.0 & -1.3397 & 9.6 & 0.66932\\
+              8.2 & -1.2328 & 9.8 & 0.52711\\
+              8.4 & -0.52251 & 10.0 & 0.42352\\
+              8.5 & 0.521mV\\
+            \end{tabular}
+          \end{minipage}
+        \end{figure}
+
+        可见该曲线与频谱仪测得曲线十分相似,说明两种方法均可行
+
+    \subsection{乘积型相位鉴频器特性参数测试}
+      \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{pict/cir4.jpg}
+      \end{figure}
+      \subsubsection{频谱仪测量}
+        \begin{figure}[H]
+          \centering
+          \includegraphics[width=\textwidth]{pict/photo_2018-12-02_19-33-25.jpg}
+        \end{figure}
+        \begin{displaymath}
+          \begin{array}{cc}
+            +\Delta f_{max}=192kHz & -\Delta f_{max}=--210kHz\\
+            \multicolumn{2}{c}{2\Delta f_{max}=402Hz}
+          \end{array}
+        \end{displaymath}
+      \subsubsection{示波器测量}
+        \begin{figure}[H]
+          \centering
+          \includegraphics[width=.8\textwidth]{pict/photo_2018-12-02_19-33-26.jpg}
+          \caption{平衡点,$u_o=347mVpp$}
+        \end{figure}
+        由上图,该鉴频器输出波形为标准的正弦波
+        \begin{figure}[H]
+          \centering
+          \begin{minipage}[!h]{.89\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{pict/curve5.png}
+            \caption{拟合曲线5}
+          \end{minipage}
+          \begin{minipage}[!h]{.1\textwidth}
+            \centering
+            \begin{tabular}{c|c}
+              $\Delta f(kHz)$ & $u_o(mVpp)$\\
+              \hline
+              10&47.5\\
+              20&96.75\\
+              30&143.75\\
+              40&193.75\\
+              50&235.5\\
+              60&278\\
+              70&321.25\\
+              80&355.5\\
+              90&387.75\\
+              100&415.5
+            \end{tabular}
+          \end{minipage}
+        \end{figure}
+        该曲线明显呈线性,但线性度不如其他曲线好,说明这种乘积型鉴频器性能可能弱于其他类型鉴频器
+        \[S_d=4.1431mVpp/kHz\]
+        \begin{figure}[H]
+          \centering
+          \begin{minipage}[!h]{.9\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{pict/curve6.png}
+            \caption{拟合曲线6}
+          \end{minipage}
+          \begin{minipage}[!h]{.9\textwidth}
+            \centering
+            \begin{tabular}{c|cc|c}
+              $f(MHz)$ & $u_o(V)$ &$f(MHz)$ & $u_o(V)$\\
+              \hline
+              4.00 & 0.28492 & 4.55 & -0.114046\\
+              4.05 & 0.30328 & 4.60 & -0.18582\\
+              4.10 & 0.32302 & 4.65 & -0.21868\\
+              4.15 & 0.34339 & 4.70 & -0.22642\\
+              4.20 & 0.36204 & 4.75 & -0.22057\\
+              4.25 & 0.37410 & 4.80 & -0.20840\\
+              4.30 & 0.37077 & 4.85 & -0.19383\\
+              4.35 & 0.33817 & 4.90 & -0.17887\\
+              4.40 & 0.26208 & 4.95 & -0.16465\\
+              4.45 & 0.14058 & 5.00 & -0.14961\\
+              4.50 & 1.898mV
+            \end{tabular}
+          \end{minipage}
+        \end{figure}
+
+        该曲线与频谱仪测得曲线很相近,且与理论曲线规律一致。中心点之外出现了较大的不对称性。考虑到实验过程中频谱仪与示波器法测量时需重新调参,可能是频谱仪的接入电容对曲线有了一定影响
+
+  \section{思考题}
+    \begin{enumerate}
+      \item 对鉴频器的性能指标要求有哪些
+      \begin{enumerate}
+        \item 鉴频特性曲线,指鉴频器输出电压$u_o(t)$与输入FM信号$f$或频偏$\Delta f(t)$之间的关系曲线
+        \item 鉴频中心频率,指鉴频特性曲线原点处的频率
+        \item 灵敏度,中心频率附近单位频偏所引起的输出电压的变化两
+        \item 鉴频线性范围,鉴频特性曲线接近于直线段的频率范围
+      \end{enumerate}
+      \item 分析鉴频器输出波形出现失真的原因,实验中应如何保证鉴频输出不失真
+      
+      由于鉴频器元件为非线性元件,当频率范围过大超过线性区后便会出现明显的失真。为了令鉴频输出不失真,应
+    \end{enumerate}
+\end{document}
