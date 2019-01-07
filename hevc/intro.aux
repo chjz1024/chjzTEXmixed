@@ -25,5 +25,39 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.4}H.265/HEVC简介}{3}{subsection.1.4}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.1}标准化历程}{3}{subsubsection.1.4.1}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.2}编码框架}{3}{subsubsection.1.4.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Block diagram of an HEVC encoder with built-in decoder (gray shaded)}}{4}{figure.1}}
-\newlabel{framework}{{1}{4}{Block diagram of an HEVC encoder with built-in decoder (gray shaded)}{figure.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}编码结构}{4}{section.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}HEVC编码结构简介}{5}{subsection.2.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Block diagram of an HEVC encoder with built-in decoder (gray shaded)\relax }}{5}{figure.caption.1}}
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{FW:pic1}{{2.1}{5}{Block diagram of an HEVC encoder with built-in decoder (gray shaded)\relax }{figure.caption.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}块分割}{6}{subsection.2.2}}
+\citation{Chou1989OptimalPW}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}CTU与CTB}{7}{subsubsection.2.2.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces 图像划分方式:(a)$16\times 16$宏块;(b)$64\times 64$ CTU。可见对于该图像来说$16\times 16$的分块方式明显不如$64\times 64$的方式编码来得有效率\relax }}{8}{figure.caption.2}}
+\newlabel{FW:pic2}{{2.2}{8}{图像划分方式:(a)$16\times 16$宏块;(b)$64\times 64$ CTU。可见对于该图像来说$16\times 16$的分块方式明显不如$64\times 64$的方式编码来得有效率\relax }{figure.caption.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Macroblock partitioning modes supported in the High profile of H.264 | MPEG-4 AVC for inter-picture coding (top line) and intra-picture coding (bottom line). If the $Inter-8\times 8$ is chosen, the $8 \times 8$ sub-macroblocks can be further partitioned into $8\times 4$, $4\times 8$, or $4\times 4$ blocks\relax }}{9}{figure.caption.3}}
+\newlabel{FW:pic3}{{2.3}{9}{Macroblock partitioning modes supported in the High profile of H.264 | MPEG-4 AVC for inter-picture coding (top line) and intra-picture coding (bottom line). If the $Inter-8\times 8$ is chosen, the $8 \times 8$ sub-macroblocks can be further partitioned into $8\times 4$, $4\times 8$, or $4\times 4$ blocks\relax }{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}CTU与CU}{9}{subsubsection.2.2.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Example for the partitioning of a $64\times 64$ coding tree unit (CTU) into coding units (CUs) of $8 \times 8$ to $32 \times 32$ luma samples. The partitioning can be described by a quadtree, also referred to as coding tree, which is shown on the right. The numbers indicate the coding order of the CUs\relax }}{10}{figure.caption.4}}
+\newlabel{FW:pic4}{{2.4}{10}{Example for the partitioning of a $64\times 64$ coding tree unit (CTU) into coding units (CUs) of $8 \times 8$ to $32 \times 32$ luma samples. The partitioning can be described by a quadtree, also referred to as coding tree, which is shown on the right. The numbers indicate the coding order of the CUs\relax }{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}PB与PU}{10}{subsubsection.2.2.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces Illustration of the horizontal intra prediction of a selected sample inside an $8 \times 8$ coding block with $4 \times 4$ transform blocks, if the intra prediction is applied on the basis of coding blocks (a) or transform blocks (b)\relax }}{11}{figure.caption.5}}
+\newlabel{FW:pic5}{{2.5}{11}{Illustration of the horizontal intra prediction of a selected sample inside an $8 \times 8$ coding block with $4 \times 4$ transform blocks, if the intra prediction is applied on the basis of coding blocks (a) or transform blocks (b)\relax }{figure.caption.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces Supported partitioning modes for splitting a coding unit (CU) into one, two, or four prediction units (PU). The $(M/2)\times (M/2)$ mode and the modes shown in the bottom row are not supported for all CU sizes\relax }}{12}{figure.caption.6}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.4}残差四叉树(RQT),TB与TU}{12}{subsubsection.2.2.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.7}{\ignorespaces Example for the partitioning of a $64 \times 64$ luma coding tree block (black) into coding blocks (blue) and transform blocks (red). In the illustration on the right, the blue lines show the corresponding coding tree with the coding tree block (black square) at its root and the coding blocks (blue circles) at its leaf nodes; the red lines show the non-degenerated residual quadtrees with the transform blocks (red circles) as leaf nodes. Note that the transform blocks chosen identical to the corresponding coding blocks are not explicitly marked in this figure. The numbers indicate the coding order of the transform blocks\relax }}{13}{figure.caption.7}}
+\newlabel{FW:pic6}{{2.7}{13}{Example for the partitioning of a $64 \times 64$ luma coding tree block (black) into coding blocks (blue) and transform blocks (red). In the illustration on the right, the blue lines show the corresponding coding tree with the coding tree block (black square) at its root and the coding blocks (blue circles) at its leaf nodes; the red lines show the non-degenerated residual quadtrees with the transform blocks (red circles) as leaf nodes. Note that the transform blocks chosen identical to the corresponding coding blocks are not explicitly marked in this figure. The numbers indicate the coding order of the transform blocks\relax }{figure.caption.7}{}}
+\citation{23}
+\citation{24,30}
+\citation{25}
+\citation{5}
+\citation{25,38}
+\citation{38}
+\citation{38}
+\bibstyle{plain}
+\bibdata{ref}
+\@writefile{toc}{\contentsline {section}{\numberline {3}预测编码}{15}{section.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}变换编码与量化}{15}{section.4}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}环路滤波}{15}{section.5}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}熵编码}{15}{section.6}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}其他}{15}{section.7}}
