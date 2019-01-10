@@ -1,0 +1,48 @@
+上下文参考自适应二进制算术编码(Context-Based Adaptive Binary Arithmetic Coding,CABAC)是HEVC使用的熵编码方法。尽管它最早在H.264/AVC标准中提出并拥有高于绝大多数熵编码的压缩率,其数据依存性使得它难以并行处理,因此仅在Main Profile以及更高档次下可以使用。对应地在HEVC熵编码标准化过程中,编码效率以及吞吐量两方面被细致地研究了。本章节先介绍熵编码的一些概念,再给出CABAC的实现方式以及其压缩效率,HEVC中CABAC的设计准则见文献\cite{HEVC},本文并不讨论。
+
+\subsection{熵编码概述}
+由Shannon的信息论,一个离散信源X的信源熵为$H(X)=E\left[log\frac{1}{P(x_i)}\right]$,这也代表了对该信源进行可正确解码的编码后表示每个码字平均需要的最短码长,而原信源平均码长等于信源熵的充要条件是其编码后的序列服从等概率分布\cite{Shannon}。
+
+这告诉了我们两件事:
+\begin{enumerate}
+  \item 我们必须以不小于原信源信源熵的空间来储存信息,额外需消耗的空间叫做这种表达方式的冗余。冗余的存在是能对信源进行压缩的前提与基础。
+  \item 熵编码的实质是对离散信源进行适当的变换,使变换后新的符号序列信源尽可能为等概率分布,从而使新信源的每个码符号平均所含的信息量达到最大。这一点和密码学的表述十分相近,只不过密码学是要用少量信息来让源信源看似多了很多信息。
+\end{enumerate}
+
+实际通信中,信源通常输出的是符号序列,而符号间彼此有一定相关性,其联合熵可用来表征信源输出一个序列所提供的平均信息量,定义为$H_N(X)=H(X_1X_2\cdots X_N)$,则当信源足够长时每个符号平均信息量可表示为$h(\mathcal{X})=\lim_{N\rightarrow\infty}\frac{H_N(X)}{N}$,称为该信源的熵率。进一步来说,对于平稳Markov信源(给定当前信源符号,未来符号与过去无关)若将整个随机过程视为一整体来编码,可以证明\cite{Information_Theory}条件熵$H(X_N|X_1X_2\cdots X_{N-1})$是$N$的非增函数,则有不等式:
+\begin{equation}
+  h(\mathcal{X}) = \lim_{N\rightarrow\infty}\frac{H_N(X)}{N} \leq H(X_N|X_1X_2\cdots X_{N-1}) \leq H(X_i)
+\end{equation}
+因此自适应编码一般来说压缩率总是比非自适应算法要高。
+
+Huffman于1952年提出了一种针对已知信源构造最优变长码的方法,被称作Huffman编码,其基本思想是为出现频率高的码字分配较短的码长,因此能够实现压缩,且有平均码长满足$H(X)\leq \bar{l} <H(X)+1$。
+
+\subsection{算术编码}
+算术编码也为一种熵编码方法,但由于它把整个信源当成一个符号处理,可以为单个码字分配小于1的码长,因此压缩效率更高。
+
+算术编码原理是:根据信源概率将$[0,1)$区间划分为互不重叠的子区间,子区间宽度为各符号序列概率,这样信源符号就和各子区间一一对应。每输入一个符号就将选择的区间进一步划分,则最终该区间就对应于输入码字,实际输出的是该区间下长度最短的码字,具体编码过程见图\ref{EC:AC},其中I,K,W概率分别为0.5,0.25,0.25。
+\begin{figure}
+  \centering
+  \includegraphics{pict/EC/Arithmetic_coding_visualisation_circle.png}
+  \caption{The above example visualised as a circle, the values in red encoding "WIKI" and "KIWI" \href{https://en.wikipedia.org/wiki/Arithmetic_coding}{\texttt{https://en.wikipedia.org/wiki/Arithmetic\_coding}}}
+  \label{EC:AC}
+\end{figure}
+解码过程就是根据所传输数据判断它所对应的编码区间,从而得到传输符号。
+
+算数编码平均码长满足$H(X)\leq \bar{l} < H(x)+\frac{2}{N}$,其中$N$为序列长度。
+
+\subsection{CABAC}
+普通的算术编码在实现上有几个问题:
+\begin{enumerate}
+  \item 实际计算机精度不可能无限长,因此运算过程中可能导致溢出,这点可以通过比例缩放解决。
+  \item 编解码过程中需要不断进行查表并进行浮点数运算,当符号个数大的时候开销很大。\label{EC:prob}
+  \item 传输过程中有一个bit出现问题则代表整个解码序列出差错,且在接收到所有序列前无法解码。
+\end{enumerate}
+其中针对\ref{EC:prob},本章节作者写了一个算数编/解码程序\href{github}{github},信源符号视为1字节ASCII码256个字符,在使用了如Hash索引,二分查找等快速算法的情况下平均编码速度36MB/s,解码速度12MB/s(i7-6700单核,g++环境),效率不高。
+
+相对来说,CABAC以二进制信源作为编码元素,并采用自适应方法编码,总体上有以下优点:
+\begin{enumerate}
+  \item 只编码二进制元素,因此运算复杂度较低,并且可以针对最大概率符号(Most Probable Symbol,MPS)进行概率建模。
+  \item 概率模型由当前上下文自适应选择,因此可以建模的很好。
+  \item 通过量化过的区间与概率状态在区间划分时不使用除法,提高了运行效率。
+\end{enumerate}

@@ -1,17 +1,20 @@
-\documentclass{article}
+\documentclass[utf8]{article}
 \usepackage{ctex}
-\usepackage{graphicx}
+\usepackage{graphicx} % figure
 \usepackage{float}
 \usepackage{cite}
 \usepackage{amsmath}
 \usepackage{verbatim}
-\usepackage{chngcntr}
-\usepackage{mathrsfs}
-\usepackage{subfig}
+\usepackage{chngcntr} % counterwithin
+\usepackage{mathrsfs} % mathcal,mathscr
+\usepackage{subfig} % subfigure
+\usepackage{inputenc} % accent
 \usepackage{hyperref}
 
 \counterwithin{figure}{section}
-\numberwithin{equation}{section}
+\counterwithin{table}{section}
+\counterwithin{equation}{section}
+%\numberwithin{equation}{section}
 
 \setkeys{Gin}{width=\textwidth}
 \begin{document}
@@ -25,7 +28,7 @@
 
   dct能量集中性
 
-  bib:iso,新一代...,High Efficiency Video Coding (HEVC): Algorithms and Architectures,AI: https://zhuanlan.zhihu.com/p/40034222,chapter 6,dct: https://blog.csdn.net/u012596983/article/details/39925333
+  bib:iso,新一代...,High Efficiency Video Coding (HEVC): Algorithms and Architectures,AI: https://zhuanlan.zhihu.com/p/40034222,chapter 6,dct: https://blog.csdn.net/u012596983/article/details/39925333,%https://baijiahao.baidu.com/s?id=1588454914189589504&wfr=spider&for=pc
   \begin{abstract}
     The new HEVC standard enables a major advance in compression relative to its predecessors, and its development was a large collaborative effort that distilled the collective knowledge of the whole industry and academic community into a single coherent and extensible design. This book collects the knowledge of some of the key people who have been directly involved in developing or deploying the standard to help the community understand the standard itself and its implications. A detailed presentation is provided for each of the standard’s fundamental building blocks and how they fit together to make HEVC the powerful package that it is. The compression performance of the standard is analyzed, and architectures for its implementation are described.
   \end{abstract}
@@ -81,6 +84,7 @@
       \section{变换编码与量化}
       \section{环路滤波}
       \section{熵编码}
+        \input{section/entropyEncoding.tex}
       \section{其他}
 %bib
       \bibliographystyle{plain}

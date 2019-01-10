@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99999 (TeX Live 2018) (preloaded format=xelatex 2018.12.4)  29 DEC 2018 16:05
+This is XeTeX, Version 3.14159265-2.6-0.99999 (TeX Live 2018) (preloaded format=xelatex 2018.12.4)  9 JAN 2019 14:03
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -729,14 +729,14 @@ LaTeX Info: Redefining \nameref on input line 9.
 LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <10.53937> not available
 (Font)              size <10.95> substituted on input line 11.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 18.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 19.
 [1
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 18.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 19.
  (./thoughts.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 18.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 18.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 19.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 19.
 Package rerunfilecheck Info: File `thoughts.out' has not changed.
 (rerunfilecheck)             Checksum: 10547BE26EE0141FAA152A889F842AD2.
 
@@ -744,12 +744,12 @@ Package rerunfilecheck Info: File `thoughts.out' has not changed.
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.41063pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 18.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 19.
  ) 
 Here is how much of TeX's memory you used:
  25263 strings out of 492956
  492802 string characters out of 6133502
- 569845 words of memory out of 5000000
+ 570845 words of memory out of 5000000
  29091 multiletter control sequences out of 15000+600000
  534494 words of font info for 44 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
