@@ -1,4 +1,4 @@
-\documentclass[utf8]{article}
+\documentclass[utf8,a4paper,12pt]{article}
 \usepackage{ctex}
 \usepackage{graphicx} % figure
 \usepackage{float}
@@ -9,12 +9,21 @@
 \usepackage{mathrsfs} % mathcal,mathscr
 \usepackage{subfig} % subfigure
 \usepackage{inputenc} % accent
+\usepackage{fancyhdr} % fancey heading
+\usepackage[cm]{fullpage}
+\usepackage{multirow}
 \usepackage{hyperref}
+
+
+\pagestyle{fancy}
 
 \counterwithin{figure}{section}
 \counterwithin{table}{section}
 \counterwithin{equation}{section}
 %\numberwithin{equation}{section}
+
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
 
 \setkeys{Gin}{width=\textwidth}
 \begin{document}
