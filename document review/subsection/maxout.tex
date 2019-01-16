@@ -1,15 +1,15 @@
 This paper presents an approach for reducing the size of deep neural networks by pruning entire neurons. It also can be combined with subsequent weight pruning.
 
-The idea of the proposed approach is to use the maxout units and their model selection abilities for pruning entire neurons from an architecture without expensive processing. Thus, reducing the size and the memory consumption of a deep network. It's assumed redundancies exist in a deep neural network. The process is shown below:
+The idea of the proposed approach is to use the maxout units and their model selection abilities for pruning entire neurons from an architecture without expensive processing. Thus,  reducing the size and the memory consumption of a deep network. It's assumed redundancies exist in a deep neural network. The process is shown below:
 \begin{figure}[H]
   \centering
   \includegraphics{subsection/maxout.png}
 \end{figure}
 
-First, a CNN with a maxout layer is trained. This maxout layer performs a max function among k adjacent neurons, reducing the amount of weights connecting with the next layer by a factor of k. So, placing this maxout layer after the one with the highest number of weights would be advisable. Second, by counting the number of times neurons become the maximal value in each maxout unit when computing a forward pass over the training dataset, the least active neurons of each maxout unit are removed from the network. Their effects are negligible with respect to other neurons. Third, the remaining neurons of the CNN are re-trained. After re-training, the process is repeated;
+First,  a CNN with a maxout layer is trained. This maxout layer performs a max function among k adjacent neurons,  reducing the amount of weights connecting with the next layer by a factor of k. So,  placing this maxout layer after the one with the highest number of weights would be advisable. Second,  by counting the number of times neurons become the maximal value in each maxout unit when computing a forward pass over the training dataset,  the least active neurons of each maxout unit are removed from the network. Their effects are negligible with respect to other neurons. Third,  the remaining neurons of the CNN are re-trained. After re-training,  the process is repeated;
 
-In weight pruning, the weights get pruned by thresholding them. This is one simple approach, and it can be replaced by other criterions like relevance measure using Hessian matrix.
+In weight pruning,  the weights get pruned by thresholding them. This is one simple approach,  and it can be replaced by other criterions like relevance measure using Hessian matrix.
 
-This approach reduced the network size by up to 74\% in LeNet-5 and 61\% in VGG16 without affecting the network's performance, only applying the neuron pruning.
+This approach reduced the network size by up to 74\% in LeNet-5 and 61\% in VGG16 without affecting the network's performance,  only applying the neuron pruning.
 
-\textbf{The main insight in this paper is considering redundancies in maxout architecture. Because this can be combined with other weight pruning methods, it's not bad to combine this approach in certain networks.}
+\textbf{The main insight in this paper is considering redundancies in maxout architecture. Because this can be combined with other weight pruning methods,  it's not bad to combine this approach in certain networks.}

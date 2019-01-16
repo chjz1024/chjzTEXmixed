@@ -1,5 +1,5 @@
 \documentclass[a4paper]{article}
-\usepackage{ctex,graphicx,float}
+\usepackage{ctex, graphicx, float}
 \setkeys{Gin}{width=\textwidth}
 \begin{document}
   \section{实验数据}
@@ -13,7 +13,7 @@
         \includegraphics{pict/photo_2018-12-07_18-46-14.jpg}
         \caption{音乐波形}
       \end{figure}
-      如上图,音乐波形为幅值为10.2Vpp的方波。经测量,有$f_{max}=2.7174kHz,f_min=1.2886kHz$
+      如上图, 音乐波形为幅值为10.2Vpp的方波。经测量, 有$f_{max}=2.7174kHz, f_min=1.2886kHz$
       \begin{figure}[H]
         \centering
         \begin{minipage}[b]{.49\textwidth}
@@ -38,9 +38,9 @@
         \includegraphics{pict/photo_2018-12-07_18-46-06.jpg}
         \caption{TP29调幅波形}
       \end{figure}
-      $2u_{max}=21.8Vpp,2u_{min}=18.9Vpp,\Rightarrow m=\frac{u_{max}-u_{min}}{u_{max}+u{min}}=7.1\%$
+      $2u_{max}=21.8Vpp, 2u_{min}=18.9Vpp, \Rightarrow m=\frac{u_{max}-u_{min}}{u_{max}+u{min}}=7.1\%$
 
-      经过调制,低频的音频信号变成了可通过天线传输的信号
+      经过调制, 低频的音频信号变成了可通过天线传输的信号
     \subsection{调幅接收系统测试}
       \begin{figure}[H]
         \centering
@@ -51,52 +51,52 @@
         \centering
         \includegraphics{pict/photo_2018-12-07_18-46-03.jpg}
         \caption{调谐放大器频谱}
-        $f=10.245MHz,f_{3dB}=970kHz$
+        $f=10.245MHz, f_{3dB}=970kHz$
       \end{figure}
-      经过该电路,经由天线传输的有用信号得以放大,以供接下来使用
+      经过该电路, 经由天线传输的有用信号得以放大, 以供接下来使用
       \begin{figure}[H]
         \centering
         \includegraphics[width=.8\textwidth]{pict/photo_2018-12-07_18-46-01.jpg}
         \caption{调谐放大器示波器测试}
       \end{figure}
-      由上图示波器测试结果,可见该调谐放大器很好地保留了原信号。$2u_{max}=505mVpp,2u_{min}=406.25mVpp,m=\frac{u_{max}-u{min}}{u_{max}+u{min}}=10.8\%$
+      由上图示波器测试结果, 可见该调谐放大器很好地保留了原信号。$2u_{max}=505mVpp, 2u_{min}=406.25mVpp, m=\frac{u_{max}-u{min}}{u_{max}+u{min}}=10.8\%$
       \begin{figure}[H]
         \centering
         \includegraphics[width=.8\textwidth]{pict/photo_2018-12-07_18-45-59.jpg}
         \caption{本机震荡器波形}
-        $u=686.25mVpp,f=10.66MHz$
+        $u=686.25mVpp, f=10.66MHz$
       \end{figure}
-      本振输出10.7MHz正弦波,目的是在下级混频电路中将原信号的频谱搬移到中频段
+      本振输出10.7MHz正弦波, 目的是在下级混频电路中将原信号的频谱搬移到中频段
       \begin{figure}[H]
         \centering
         \includegraphics[width=.8\textwidth]{pict/photo_2018-12-07_18-45-52.jpg}
         \caption{混频器输出}
-        $u_o=4.98Vpp,f=454.8kHz$
+        $u_o=4.98Vpp, f=454.8kHz$
       \end{figure}
-      可见,经混频后原来的10.245MHz信号被搬移到了455kHz处,以便下级放大
+      可见, 经混频后原来的10.245MHz信号被搬移到了455kHz处, 以便下级放大
       \begin{figure}[H]
         \centering
         \includegraphics[width=.8\textwidth]{pict/photo_2018-12-07_18-45-48.jpg}
         \caption{中频放大器输出}
-        $u=4.06Vpp,f=452.7kHz$
+        $u=4.06Vpp, f=452.7kHz$
       \end{figure}
-      如上图,经过中频放大器后原信号被放大输出到下一级,同时其他频率信号被抑制
+      如上图, 经过中频放大器后原信号被放大输出到下一级, 同时其他频率信号被抑制
       \begin{figure}[H]
         \centering
         \includegraphics{pict/photo_2018-12-07_18-45-45.jpg}
         \caption{二极管检波与功放波形}
-        $u_{TP32}=5.275Vpp,u_{TP31}=1.1Vpp,f=1kHz$
+        $u_{TP32}=5.275Vpp, u_{TP31}=1.1Vpp, f=1kHz$
       \end{figure}
-      如上图,调幅后波形经过二极管峰值检波器后恢复出了原1kHz信号,且该信号经过功放后电压值变为5倍,可供耳机使用
+      如上图, 调幅后波形经过二极管峰值检波器后恢复出了原1kHz信号, 且该信号经过功放后电压值变为5倍, 可供耳机使用
     \subsection{调幅收、发系统联调}
-      实验中可观察到信号通过发射模块经由天线传输,接受模块经由天线收到对应信号,且经各个元件后成功放出了音乐,但杂音较多,这与模块的调试情况,天线的状态也有关
+      实验中可观察到信号通过发射模块经由天线传输, 接受模块经由天线收到对应信号, 且经各个元件后成功放出了音乐, 但杂音较多, 这与模块的调试情况, 天线的状态也有关
       \begin{figure}[H]
         \centering
         \includegraphics{pict/photo_2018-12-07_18-45-38.jpg}
         \caption{系统联调}
-        $u_\Omega = 169mVpp, u_o=1.73Vpp$
+        $u_\Omega = 169mVpp,  u_o=1.73Vpp$
       \end{figure}
-      联调成功,可通过类似思路进行信息的收发
+      联调成功, 可通过类似思路进行信息的收发
   \section{总结}
-    调幅发射模块由晶体振荡器,信号产生电路,调幅电路功率放大器组成;调幅接收机由调谐放大器,本振,混频器,中频放大器,AGC电路,检波器,低频功放组成。本次实验实现了除了AGC电路的所有部分,经过分别调试确定其性能,并最终将其组合成功地实现了音频信号的收发过程。但是虽然思路正确,实际实验过程中天线的摆放,周围信号的干扰,AGC电路的缺失等等都对接收音频的质量有影响,说明要想应用于现实中实际上还是需要很多调整与修正的
+    调幅发射模块由晶体振荡器, 信号产生电路, 调幅电路功率放大器组成;调幅接收机由调谐放大器, 本振, 混频器, 中频放大器, AGC电路, 检波器, 低频功放组成。本次实验实现了除了AGC电路的所有部分, 经过分别调试确定其性能, 并最终将其组合成功地实现了音频信号的收发过程。但是虽然思路正确, 实际实验过程中天线的摆放, 周围信号的干扰, AGC电路的缺失等等都对接收音频的质量有影响, 说明要想应用于现实中实际上还是需要很多调整与修正的
 \end{document}

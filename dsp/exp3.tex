@@ -1,22 +1,22 @@
 \documentclass[12px]{article}
-\usepackage{ctex,graphicx,float,listings,hyperref}
+\usepackage{ctex, graphicx, float, listings, hyperref}
 \usepackage{subfig}
 \setkeys{Gin}{width=\textwidth}
-\lstset{language=Matlab,%
-    %basicstyle=\color{red},
-    breaklines=true,%
-    morekeywords={matlab2tikz},
-    keywordstyle=\color{blue},%
-    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
-    identifierstyle=\color{black},%
-    stringstyle=\color{mylilas},
-    commentstyle=\color{mygreen},%
-    showstringspaces=false,%without this there will be a symbol in the places where there is a space
-    numbers=left,%
-    numberstyle={\tiny \color{black}},% size of the numbers
-    numbersep=9pt, % this defines how far the numbers are from the text
-    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
-    %emph=[2]{word1,word2}, emphstyle=[2]{style},
+\lstset{language=Matlab, %
+    %basicstyle=\color{red}, 
+    breaklines=true, %
+    morekeywords={matlab2tikz}, 
+    keywordstyle=\color{blue}, %
+    morekeywords=[2]{1},  keywordstyle=[2]{\color{black}}, 
+    identifierstyle=\color{black}, %
+    stringstyle=\color{mylilas}, 
+    commentstyle=\color{mygreen}, %
+    showstringspaces=false, %without this there will be a symbol in the places where there is a space
+    numbers=left, %
+    numberstyle={\tiny \color{black}}, % size of the numbers
+    numbersep=9pt,  % this defines how far the numbers are from the text
+    emph=[1]{for, end, break}, emphstyle=[1]\color{red},  %some words to emphasise
+    %emph=[2]{word1, word2},  emphstyle=[2]{style}, 
 }
 \begin{document}
   \title{滤波器设计与滤波器特性分析}
@@ -44,7 +44,7 @@
         \caption{幅频特性}
         \label{3311m}
       \end{figure}
-      如图\ref{3311m},为所设计滤波器幅频特性,满足通带衰减0.8dB,阻带衰减20dB要求。其传递函数见H(z)图\ref{3311}
+      如图\ref{3311m}, 为所设计滤波器幅频特性, 满足通带衰减0.8dB, 阻带衰减20dB要求。其传递函数见H(z)图\ref{3311}
       \begin{figure}
         \centering
         \subfloat[pole-zero]{\includegraphics{pict/zero-pole/3311.png}}\hfill
@@ -53,7 +53,7 @@
         \label{3311}
       \end{figure}
 
-      因使用符号表述在matlab上显示不直观,这里采用零极点图与其系数来表达
+      因使用符号表述在matlab上显示不直观, 这里采用零极点图与其系数来表达
       \subsubsection{}
       \begin{figure}
         \centering
@@ -61,7 +61,7 @@
         \caption{幅频特性}
         \label{3312m}
       \end{figure}
-      如图\ref{3312m},该幅频特性满足通带衰减1dB,阻带衰减25dB要求。传递函数H(z)见图\ref{3312}
+      如图\ref{3312m}, 该幅频特性满足通带衰减1dB, 阻带衰减25dB要求。传递函数H(z)见图\ref{3312}
       \begin{figure}
         \centering
         \subfloat[pole-zero]{\includegraphics{pict/zero-pole/3312.png}}\hfill
@@ -76,7 +76,7 @@
         \caption{幅频特性}
         \label{3313m}
       \end{figure}
-      如图\ref{3313m},该幅频特性满足通带衰减1dB,阻带衰减40dB要求。传递函数H(z)见图\ref{3313}
+      如图\ref{3313m}, 该幅频特性满足通带衰减1dB, 阻带衰减40dB要求。传递函数H(z)见图\ref{3313}
       \begin{figure}
         \centering
         \subfloat[pole-zero]{\includegraphics{pict/zero-pole/3313.png}}\hfill
@@ -92,10 +92,10 @@
         \subfloat[h(n)]{\includegraphics{pict/coef/3321.png}}\hfill
         \subfloat[幅频特性]{\includegraphics{pict/mag/3321.png}}\hfill
         \subfloat[相频特性]{\includegraphics{pict/phase/3321.png}}
-        \caption{N=15,45,hanning窗}
+        \caption{N=15, 45, hanning窗}
         \label{3321}
       \end{figure}
-      如图\ref{3321},分别表示以hanning窗设计的FIR滤波器沖激响应,幅频及相频特性。可见,幅频特性上随N的增加在保持通带的前提下幅频特性越来越陡,且旁瓣幅值有所降低,带通效应更好,3dB带宽N=45略小,但20dB带宽明显更大;相频上两者均为线性相位,但明显N越大斜率越大
+      如图\ref{3321}, 分别表示以hanning窗设计的FIR滤波器沖激响应, 幅频及相频特性。可见, 幅频特性上随N的增加在保持通带的前提下幅频特性越来越陡, 且旁瓣幅值有所降低, 带通效应更好, 3dB带宽N=45略小, 但20dB带宽明显更大;相频上两者均为线性相位, 但明显N越大斜率越大
       \subsubsection{}
       \begin{figure}
         \centering
@@ -111,25 +111,25 @@
         \caption{N=15}
         \label{3322-45}
       \end{figure}
-      如图\ref{3322-15}与\ref{3322-45},表示采用矩窗与Blackman窗设计滤波器的对应结果。三者在相频特性上斜率一致,初始相位不同,但在幅频特性上明显hanning窗与矩窗带宽小于Blackman窗,但阻带衰减明显Blackman窗优于hanning矩窗优于矩窗。在N=15时矩窗3dB带宽最小,N=45时则不是特别明显。
+      如图\ref{3322-15}与\ref{3322-45}, 表示采用矩窗与Blackman窗设计滤波器的对应结果。三者在相频特性上斜率一致, 初始相位不同, 但在幅频特性上明显hanning窗与矩窗带宽小于Blackman窗, 但阻带衰减明显Blackman窗优于hanning矩窗优于矩窗。在N=15时矩窗3dB带宽最小, N=45时则不是特别明显。
 
-      上述结果很好地体现了三种窗的特性。主瓣宽度上矩窗<hanning窗<Blackman窗,旁瓣电平上矩窗>hanning窗>Blackman窗,故3dB带宽应矩窗<hanning窗<Blackman窗,阻带衰减则相反。但实际上N=45时hanning窗明显优于矩窗,这是因为矩窗的旁瓣电平过大,在这时候甚至直接影响到了它的通带带宽。
+      上述结果很好地体现了三种窗的特性。主瓣宽度上矩窗<hanning窗<Blackman窗, 旁瓣电平上矩窗>hanning窗>Blackman窗, 故3dB带宽应矩窗<hanning窗<Blackman窗, 阻带衰减则相反。但实际上N=45时hanning窗明显优于矩窗, 这是因为矩窗的旁瓣电平过大, 在这时候甚至直接影响到了它的通带带宽。
       \subsubsection{}
       \begin{figure}
         \centering
         \includegraphics{pict/mag/3323.png}
-        \caption{Kaiser窗,$\beta=4,6,8$}
+        \caption{Kaiser窗, $\beta=4, 6, 8$}
         \label{3323}
       \end{figure}
-      如图\ref{3323},为基于Kaiser窗设计的多通FIR滤波器。该多通滤波器设计方法如下:
+      如图\ref{3323}, 为基于Kaiser窗设计的多通FIR滤波器。该多通滤波器设计方法如下:
       \begin{enumerate}
-        \item 基于N=20设计一带通滤波器,通带频率为$\omega_{p1}=0.2\pi,\omega_{p2}=0.8\pi$
-        \item 基于N=20设计一带阻滤波器,阻带频率为$\omega_{s1}=0.4\pi,\omega_{s2}=0.6\pi$
-        \item 将上述两滤波器串联,则得到需要的N=40的Kaiser窗FIR多通滤波器
+        \item 基于N=20设计一带通滤波器, 通带频率为$\omega_{p1}=0.2\pi, \omega_{p2}=0.8\pi$
+        \item 基于N=20设计一带阻滤波器, 阻带频率为$\omega_{s1}=0.4\pi, \omega_{s2}=0.6\pi$
+        \item 将上述两滤波器串联, 则得到需要的N=40的Kaiser窗FIR多通滤波器
       \end{enumerate}
-      可看出随$\beta$值的增大,幅频特性越缓,但相频特性不受影响。这也与$\beta$值本身代表了频谱宽度有关。
+      可看出随$\beta$值的增大, 幅频特性越缓, 但相频特性不受影响。这也与$\beta$值本身代表了频谱宽度有关。
     \subsection{滤波器特性分析}
-    所有设计均满足通带,阻带,衰减等要求
+    所有设计均满足通带, 阻带, 衰减等要求
       \subsubsection{高通}
         \begin{figure}
           \centering
@@ -140,7 +140,7 @@
           \caption{高通}
           \label{3331}
         \end{figure}
-        如图\ref{3331},可见幅频特性上IIR明显好与FIR,相频上FIR具有良好的线性;零极点图上因FIR滤波器零点过大使得IIR体现不明显,具体图像参见\ref{3311},主要产生原因为FIR滤波器阶数过大。因为FIR的线性相位特性,其在群延迟与相位延迟处均体现了良好的线性,而不具有现行相位特性的IIR滤波器就没有对应性质了。
+        如图\ref{3331}, 可见幅频特性上IIR明显好与FIR, 相频上FIR具有良好的线性;零极点图上因FIR滤波器零点过大使得IIR体现不明显, 具体图像参见\ref{3311}, 主要产生原因为FIR滤波器阶数过大。因为FIR的线性相位特性, 其在群延迟与相位延迟处均体现了良好的线性, 而不具有现行相位特性的IIR滤波器就没有对应性质了。
       \subsubsection{低通}
         \begin{figure}
           \centering
@@ -151,7 +151,7 @@
           \caption{低通}
           \label{3332}
         \end{figure}
-        如图\ref{3332},为低通滤波器的设计情况,分析同上。
+        如图\ref{3332}, 为低通滤波器的设计情况, 分析同上。
       \subsubsection{带通}
         \begin{figure}
           \centering
@@ -162,7 +162,7 @@
           \caption{带通}
           \label{3333}
         \end{figure}
-        如图\ref{3333},为带通滤波器的设计情况。零极点图很明显地显示出了FIR滤波器不具有极点的特性,因此其很稳定,可直接设置在单位圆上表示对特定几个频率或者频率区间进行滤波。
+        如图\ref{3333}, 为带通滤波器的设计情况。零极点图很明显地显示出了FIR滤波器不具有极点的特性, 因此其很稳定, 可直接设置在单位圆上表示对特定几个频率或者频率区间进行滤波。
     \subsection{滤波器的实际运用}
     \begin{figure}
       \centering
@@ -178,7 +178,7 @@
         \caption{x(n)}
         \label{3341}
       \end{figure}
-      如图\ref{3341},加噪声方标准差为0.1,蓝色信号为未加噪信号,,噪声均匀地分布在整个频谱上。
+      如图\ref{3341}, 加噪声方标准差为0.1, 蓝色信号为未加噪信号, , 噪声均匀地分布在整个频谱上。
       \subsubsection{}
       \begin{figure}
         \centering
@@ -189,7 +189,7 @@
         \caption{滤波器特性}
         \label{3342}
       \end{figure}
-      如图\ref{3342},该滤波器可实现对低于100Hz频率的频谱成分的保留
+      如图\ref{3342}, 该滤波器可实现对低于100Hz频率的频谱成分的保留
       \subsubsection{}
       \begin{figure}
         \centering
@@ -197,7 +197,7 @@
         \caption{滤波1}
         \label{3343}
       \end{figure}
-      如图\ref{3343},滤波后信号频谱中200Hz被抑制了,留下的是50Hz成分与直流成分
+      如图\ref{3343}, 滤波后信号频谱中200Hz被抑制了, 留下的是50Hz成分与直流成分
       \subsubsection{}
       \begin{figure}
         \centering
@@ -207,5 +207,5 @@
       \end{figure}
       所生成滤波器为一通带频率为100Hz的高通滤波器。经滤波保留了原信号中的200Hz成分
   \section{总结}
-  该实验根据不同需求设计了对应的IIR\&FIR滤波器,通过对fvtool的使用掌握了滤波器的设计方法,并了解了两者的差异与优缺点。具体来说IIR滤波器具有较好的幅频特性且较容易设计,但其相频一般是非线性的,且若极点位置过于靠近单位原由于舍入误差有可能会出现系统不稳定的结果;FIR滤波器具有线性相位特性,用于信号传输时不同频率分量可以以相同时延传输,没有系统可能性,但其设计参数较多,且幅频特性相较于IIR滤波器一般更差。在实现方面由于FIR滤波器实现的是一卷积操作,可以较快输出结果,而IIR就没有这样的优点。
+  该实验根据不同需求设计了对应的IIR\&FIR滤波器, 通过对fvtool的使用掌握了滤波器的设计方法, 并了解了两者的差异与优缺点。具体来说IIR滤波器具有较好的幅频特性且较容易设计, 但其相频一般是非线性的, 且若极点位置过于靠近单位原由于舍入误差有可能会出现系统不稳定的结果;FIR滤波器具有线性相位特性, 用于信号传输时不同频率分量可以以相同时延传输, 没有系统可能性, 但其设计参数较多, 且幅频特性相较于IIR滤波器一般更差。在实现方面由于FIR滤波器实现的是一卷积操作, 可以较快输出结果, 而IIR就没有这样的优点。
 \end{document}

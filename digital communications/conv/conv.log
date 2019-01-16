@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99999 (TeX Live 2018) (preloaded format=xelatex 2018.12.4)  10 DEC 2018 15:03
+This is XeTeX,  Version 3.14159265-2.6-0.99999 (TeX Live 2018) (preloaded format=xelatex 2018.12.4)  10 DEC 2018 15:03
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -358,7 +358,7 @@ Package fontspec Warning: Font 'FandolSong-Regular' does not contain script
 
 Package fontspec Info: Font family 'FandolSong-Regular(0)' created for font
 (fontspec)             'FandolSong-Regular' with options
-(fontspec)             [Script={CJK},Extension={.otf},BoldFont={FandolSong-Bold},ItalicFont={FandolKai-Regular}].
+(fontspec)             [Script={CJK}, Extension={.otf}, BoldFont={FandolSong-Bold}, ItalicFont={FandolKai-Regular}].
 (fontspec)              
 (fontspec)              This font family consists of the following NFSS
 (fontspec)             series/shapes:
@@ -376,12 +376,12 @@ Package fontspec Info: Font family 'FandolSong-Regular(0)' created for font
 )) (/usr/local/texlive/2018/texmf-dist/tex/latex/ctex/config/ctex.cfg
 File: ctex.cfg 2018/05/02 v2.4.14 Configuration file (CTEX)
 ) (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/graphicx.sty
-Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC, SPQR)
  (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
 ) (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC, SPQR)
  (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 ) (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
@@ -547,8 +547,8 @@ Here is how much of TeX's memory you used:
  375424 string characters out of 6133502
  708720 words of memory out of 5000000
  21023 multiletter control sequences out of 15000+600000
- 536280 words of font info for 60 fonts, out of 8000000 for 9000
+ 536280 words of font info for 60 fonts,  out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 52i,6n,74p,427b,2028s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 52i, 6n, 74p, 427b, 2028s stack positions out of 5000i, 500n, 10000p, 200000b, 80000s
 
 Output written on conv.pdf (9 pages).

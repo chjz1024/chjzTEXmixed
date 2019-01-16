@@ -1,21 +1,21 @@
 \documentclass[12px]{article}
-\usepackage{ctex,graphicx,float,listings}
+\usepackage{ctex, graphicx, float, listings}
 \setkeys{Gin}{width=\textwidth}
-\lstset{language=Matlab,%
-    %basicstyle=\color{red},
-    breaklines=true,%
-    morekeywords={matlab2tikz},
-    keywordstyle=\color{blue},%
-    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
-    identifierstyle=\color{black},%
-    stringstyle=\color{mylilas},
-    commentstyle=\color{mygreen},%
-    showstringspaces=false,%without this there will be a symbol in the places where there is a space
-    numbers=left,%
-    numberstyle={\tiny \color{black}},% size of the numbers
-    numbersep=9pt, % this defines how far the numbers are from the text
-    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
-    %emph=[2]{word1,word2}, emphstyle=[2]{style},
+\lstset{language=Matlab, %
+    %basicstyle=\color{red}, 
+    breaklines=true, %
+    morekeywords={matlab2tikz}, 
+    keywordstyle=\color{blue}, %
+    morekeywords=[2]{1},  keywordstyle=[2]{\color{black}}, 
+    identifierstyle=\color{black}, %
+    stringstyle=\color{mylilas}, 
+    commentstyle=\color{mygreen}, %
+    showstringspaces=false, %without this there will be a symbol in the places where there is a space
+    numbers=left, %
+    numberstyle={\tiny \color{black}}, % size of the numbers
+    numbersep=9pt,  % this defines how far the numbers are from the text
+    emph=[1]{for, end, break}, emphstyle=[1]\color{red},  %some words to emphasise
+    %emph=[2]{word1, word2},  emphstyle=[2]{style}, 
 }
 \begin{document}
   \title{信道编解码}
@@ -33,10 +33,10 @@
   \section{实验原理}
     \subsection{卷积码编码器}
       \subsubsection{连接表示}
-      卷积码由 3 个整数 n , k , N 描述。 k / n 也表示编码效率(每编码比特所含的信
-      息量) ;但 n 与线性分组码中的含义不同,不再表示分组或码子长度; N 称为约束长度,
+      卷积码由 3 个整数 n ,  k ,  N 描述。 k / n 也表示编码效率(每编码比特所含的信
+      息量) ;但 n 与线性分组码中的含义不同, 不再表示分组或码子长度; N 称为约束长度, 
       表示在编码移位寄存器中 k 元组的级数。卷积码不同于分组码的一个重要特征就是编码
-      器的记忆性,即卷积码编码过程中产生的 n 元组,不仅是当前输入 k 元组的函数,而且
-      还是前面 N  1 个输入 k 元组的函数。实际情况下, n 和 k 经常取较小的值,而通过 N
+      器的记忆性, 即卷积码编码过程中产生的 n 元组, 不仅是当前输入 k 元组的函数, 而且
+      还是前面 N  1 个输入 k 元组的函数。实际情况下,  n 和 k 经常取较小的值, 而通过 N
       的变化来控制编码的能力和复杂性
 \end{document}

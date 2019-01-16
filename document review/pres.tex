@@ -1,5 +1,5 @@
 \documentclass[12px]{article}
-\usepackage{graphicx,float,cite,amsmath,hyperref}
+\usepackage{graphicx, float, cite, amsmath, hyperref}
 
 \setkeys{Gin}{width=\textwidth}
 \begin{document}
@@ -9,18 +9,18 @@
   \maketitle
   
   \section{Introduction}
-    People design pruned neural networks mainly for 2 reasons: one for the deployment in resource constrained devices, \textit{e.g.}, mobile phones or embedded gadgets and the other to reduce the effect subjected to over-parameterization, thus this approach may even increase the inference accuracy in certain networks.
+    People design pruned neural networks mainly for 2 reasons: one for the deployment in resource constrained devices,  \textit{e.g.},  mobile phones or embedded gadgets and the other to reduce the effect subjected to over-parameterization,  thus this approach may even increase the inference accuracy in certain networks.
     
-    For the latter one, this process resembles the biological phenomena in mammalian brain, where the number of neuron synapses has reached the peak in early childhood, followed by gradual pruning during its development. However, we don't concern much about increasing the accuracy in this article. Having a new sparse network that functions not so strayed from the original one is our ultimate goal.
+    For the latter one,  this process resembles the biological phenomena in mammalian brain,  where the number of neuron synapses has reached the peak in early childhood,  followed by gradual pruning during its development. However,  we don't concern much about increasing the accuracy in this article. Having a new sparse network that functions not so strayed from the original one is our ultimate goal.
 
   \section{Related work}
-    The main problem is the principle to find the appropriate mask in the whole network. Different choices may make different trade-offs between computational resources and accuracy, \textit{e.g.}, weight-wise pruning may achieve better compression rate while layer-wise pruning is much easier to be performed. There are also some attempts to reconstruct a similar network but with fewer parameters or layers\cite{Li2018DeepRebirthAD}, which we'll examine later in \ref{DeepRebirth}.
+    The main problem is the principle to find the appropriate mask in the whole network. Different choices may make different trade-offs between computational resources and accuracy,  \textit{e.g.},  weight-wise pruning may achieve better compression rate while layer-wise pruning is much easier to be performed. There are also some attempts to reconstruct a similar network but with fewer parameters or layers\cite{Li2018DeepRebirthAD},  which we'll examine later in \ref{DeepRebirth}.
 
-    In summary, less significant compositions may be masked safely without affecting the network performance. Based on this principle, Han et al. \cite{Han2015LearningBW} proposed an iterative pruning method to remove the redundancy in deep models. Their main insight is that small-weight connectivity below a threshold should be discarded. In practice, this can be aided by applying $l_1$ or $l_2$ regularization to push connectivity values becoming smaller. The major weakness of this strategy is the loss of universality and flexibility, thus seems to be less practical in the real applications.
+    In summary,  less significant compositions may be masked safely without affecting the network performance. Based on this principle,  Han et al. \cite{Han2015LearningBW} proposed an iterative pruning method to remove the redundancy in deep models. Their main insight is that small-weight connectivity below a threshold should be discarded. In practice,  this can be aided by applying $l_1$ or $l_2$ regularization to push connectivity values becoming smaller. The major weakness of this strategy is the loss of universality and flexibility,  thus seems to be less practical in the real applications.
 
-    In order to avoid these weaknesses, some attention has been focused on the group-wise sparsity. Lebedev and Lempitsky \cite{Lebedev2016FastCU} explored group-sparse convolution by introducing the group-sparsity regularization to the loss function, then some entire groups of weights would shrink to zeros, thus can be removed. Similarly, Wen et al. \cite{Wen2016LearningSS} proposed the Structured Sparsity Learning (SSL) method to regularize filter, channel, filter shape and depth structures. In spite of their success, the original network structure has been destroyed. As a result, some dedicated libraries are needed for an efficient inference speed-up.
+    In order to avoid these weaknesses,  some attention has been focused on the group-wise sparsity. Lebedev and Lempitsky \cite{Lebedev2016FastCU} explored group-sparse convolution by introducing the group-sparsity regularization to the loss function,  then some entire groups of weights would shrink to zeros,  thus can be removed. Similarly,  Wen et al. \cite{Wen2016LearningSS} proposed the Structured Sparsity Learning (SSL) method to regularize filter,  channel,  filter shape and depth structures. In spite of their success,  the original network structure has been destroyed. As a result,  some dedicated libraries are needed for an efficient inference speed-up.
 
-    Some filter level pruning strategies have been explored too. The core is to evaluate neuron importance, which has been widely studied in the community \cite{Hu2016NetworkTA,Li2016PruningFF,Molchanov2016PruningCN,Selvaraju2017GradCAMVE,Zhou2016LearningDF}. A simplest possible method is based on the magnitude of weights. Li et al. \cite{Li2016PruningFF} measured the importance of each filter by calculating its absolute weight sum. Another practical criterion is to measure the sparsity of activations after the ReLU function. Hu et al. \cite{Hu2016NetworkTA} believed that if most outputs of some neurons are zero, these activations should be expected to be redundant. They compute the Average Percentage of Zeros (APoZ) of each filter as its importance score. These two criteria are simple and straightforward, but not directly related to the final loss. Inspired by this observation, Molchanov et al. \cite{Molchanov2016PruningCN} adopted Taylor expansion to approximate the influence to loss function induced by removing each filter.
+    Some filter level pruning strategies have been explored too. The core is to evaluate neuron importance,  which has been widely studied in the community \cite{Hu2016NetworkTA, Li2016PruningFF, Molchanov2016PruningCN, Selvaraju2017GradCAMVE, Zhou2016LearningDF}. A simplest possible method is based on the magnitude of weights. Li et al. \cite{Li2016PruningFF} measured the importance of each filter by calculating its absolute weight sum. Another practical criterion is to measure the sparsity of activations after the ReLU function. Hu et al. \cite{Hu2016NetworkTA} believed that if most outputs of some neurons are zero,  these activations should be expected to be redundant. They compute the Average Percentage of Zeros (APoZ) of each filter as its importance score. These two criteria are simple and straightforward,  but not directly related to the final loss. Inspired by this observation,  Molchanov et al. \cite{Molchanov2016PruningCN} adopted Taylor expansion to approximate the influence to loss function induced by removing each filter.
 
   \section{Different methodologies}
     \subsection{Neuron Pruning for Compressing Deep Networks using Maxout Architectures\cite{Rueda2017NeuronPF}}
@@ -33,7 +33,7 @@
     \input{subsection/DeepRebirth.tex}
 
   \section{Summary}
-    These articles all present some ways to accelerate or compress neural networks, or both. In general, we may derive the process for pruning an existing network as follows:
+    These articles all present some ways to accelerate or compress neural networks,  or both. In general,  we may derive the process for pruning an existing network as follows:
     \begin{enumerate}
       \item Get a trained network.
       \item Prune some components based on its importance. It's better to evaluate that based on its relation with output rather than on one layer exclusively.
@@ -41,7 +41,7 @@
       \item [*4] Reconstruct a new network for less model latency. 
     \end{enumerate}
 
-    In order for step 4 to be combined, there needs some extra efforts, or we could only focus on model speed or model size. Anyway, that's the main framework for network pruning. Also we could combine other methods like quantization and entropy coding to reduce the model size further.
+    In order for step 4 to be combined,  there needs some extra efforts,  or we could only focus on model speed or model size. Anyway,  that's the main framework for network pruning. Also we could combine other methods like quantization and entropy coding to reduce the model size further.
     
   \bibliographystyle{plain}
   \bibliography{ref}

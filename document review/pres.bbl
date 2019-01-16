@@ -1,76 +1,76 @@
 \begin{thebibliography}{10}
 
 \bibitem{Han2015LearningBW}
-Song Han, Jeff Pool, John Tran, and William~J. Dally.
+Song Han,  Jeff Pool,  John Tran,  and William~J. Dally.
 \newblock Learning both weights and connections for efficient neural networks.
-\newblock In {\em NIPS}, 2015.
+\newblock In {\em NIPS},  2015.
 
 \bibitem{Hu2016NetworkTA}
-Hengyuan Hu, Rui Peng, Yu-Wing Tai, and Chi-Keung Tang.
+Hengyuan Hu,  Rui Peng,  Yu-Wing Tai,  and Chi-Keung Tang.
 \newblock Network trimming: A data-driven neuron pruning approach towards
   efficient deep architectures.
-\newblock {\em CoRR}, abs/1607.03250, 2016.
+\newblock {\em CoRR},  abs/1607.03250,  2016.
 
 \bibitem{Lebedev2016FastCU}
 Vadim Lebedev and Victor~S. Lempitsky.
 \newblock Fast convnets using group-wise brain damage.
 \newblock {\em 2016 IEEE Conference on Computer Vision and Pattern Recognition
-  (CVPR)}, pages 2554--2564, 2016.
+  (CVPR)},  pages 2554--2564,  2016.
 
 \bibitem{Li2018DeepRebirthAD}
-Dawei Li, Xiaolong Wang, and Deguang Kong.
+Dawei Li,  Xiaolong Wang,  and Deguang Kong.
 \newblock Deeprebirth: Accelerating deep neural network execution on mobile
   devices.
-\newblock In {\em AAAI}, 2018.
+\newblock In {\em AAAI},  2018.
 
 \bibitem{Li2016PruningFF}
-Hao Li, Asim Kadav, Igor Durdanovic, Hanan Samet, and Hans~Peter Graf.
+Hao Li,  Asim Kadav,  Igor Durdanovic,  Hanan Samet,  and Hans~Peter Graf.
 \newblock Pruning filters for efficient convnets.
-\newblock {\em CoRR}, abs/1608.08710, 2016.
+\newblock {\em CoRR},  abs/1608.08710,  2016.
 
 \bibitem{Luo2017ThiNetAF}
-Jian-Hao Luo, Jianxin Wu, and Weiyao Lin.
+Jian-Hao Luo,  Jianxin Wu,  and Weiyao Lin.
 \newblock Thinet: A filter level pruning method for deep neural network
   compression.
-\newblock {\em 2017 IEEE International Conference on Computer Vision (ICCV)},
-  pages 5068--5076, 2017.
+\newblock {\em 2017 IEEE International Conference on Computer Vision (ICCV)}, 
+  pages 5068--5076,  2017.
 
 \bibitem{Molchanov2016PruningCN}
-Pavlo Molchanov, Stephen Tyree, Tero Karras, Timo Aila, and Jan Kautz.
+Pavlo Molchanov,  Stephen Tyree,  Tero Karras,  Timo Aila,  and Jan Kautz.
 \newblock Pruning convolutional neural networks for resource efficient transfer
   learning.
-\newblock {\em CoRR}, abs/1611.06440, 2016.
+\newblock {\em CoRR},  abs/1611.06440,  2016.
 
 \bibitem{Rueda2017NeuronPF}
-Fernando~Moya Rueda, Rene Grzeszick, and Gernot~A. Fink.
+Fernando~Moya Rueda,  Rene Grzeszick,  and Gernot~A. Fink.
 \newblock Neuron pruning for compressing deep networks using maxout
   architectures.
-\newblock In {\em GCPR}, 2017.
+\newblock In {\em GCPR},  2017.
 
 \bibitem{Selvaraju2017GradCAMVE}
-Ramprasaath~R. Selvaraju, Michael Cogswell, Abhishek Das, Ramakrishna Vedantam,
-  Devi Parikh, and Dhruv Batra.
+Ramprasaath~R. Selvaraju,  Michael Cogswell,  Abhishek Das,  Ramakrishna Vedantam, 
+  Devi Parikh,  and Dhruv Batra.
 \newblock Grad-cam: Visual explanations from deep networks via gradient-based
   localization.
-\newblock {\em 2017 IEEE International Conference on Computer Vision (ICCV)},
-  pages 618--626, 2017.
+\newblock {\em 2017 IEEE International Conference on Computer Vision (ICCV)}, 
+  pages 618--626,  2017.
 
 \bibitem{Sun2016SparsifyingNN}
-Yi~Sun, Xiaogang Wang, and Xiaoou Tang.
+Yi~Sun,  Xiaogang Wang,  and Xiaoou Tang.
 \newblock Sparsifying neural network connections for face recognition.
 \newblock {\em 2016 IEEE Conference on Computer Vision and Pattern Recognition
-  (CVPR)}, pages 4856--4864, 2016.
+  (CVPR)},  pages 4856--4864,  2016.
 
 \bibitem{Wen2016LearningSS}
-Wei Wen, Chunpeng Wu, Yandan Wang, Yiran Chen, and Hai Li.
+Wei Wen,  Chunpeng Wu,  Yandan Wang,  Yiran Chen,  and Hai Li.
 \newblock Learning structured sparsity in deep neural networks.
-\newblock In {\em NIPS}, 2016.
+\newblock In {\em NIPS},  2016.
 
 \bibitem{Zhou2016LearningDF}
-Bolei Zhou, Aditya Khosla, {\`A}gata Lapedriza, Aude Oliva, and Antonio
+Bolei Zhou,  Aditya Khosla,  {\`A}gata Lapedriza,  Aude Oliva,  and Antonio
   Torralba.
 \newblock Learning deep features for discriminative localization.
 \newblock {\em 2016 IEEE Conference on Computer Vision and Pattern Recognition
-  (CVPR)}, pages 2921--2929, 2016.
+  (CVPR)},  pages 2921--2929,  2016.
 
 \end{thebibliography}

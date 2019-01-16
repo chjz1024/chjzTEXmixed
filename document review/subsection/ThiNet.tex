@@ -1,8 +1,8 @@
-This paper proposed a filter level pruning framework, called ThiNet, to simultaneously accelerate and compress CNN models in both training and inference stages.
+This paper proposed a filter level pruning framework,  called ThiNet,  to simultaneously accelerate and compress CNN models in both training and inference stages.
 
-The idea is to establish filter pruning as an optimization problem, \textit{i.e.}, to find a subset of channels in layer (i+1)'s (not i's) input to approximate the output in layer i+1. Instead of considering which filter to discard, the author finds the most important filters to be preserved.
+The idea is to establish filter pruning as an optimization problem,  \textit{i.e.},  to find a subset of channels in layer (i+1)'s (not i's) input to approximate the output in layer i+1. Instead of considering which filter to discard,  the author finds the most important filters to be preserved.
 
-Given a pre-trained model, it would be pruned layer by layer with a predefined compression rate. The process is shown below:
+Given a pre-trained model,  it would be pruned layer by layer with a predefined compression rate. The process is shown below:
 \begin{figure}[H]
   \centering
   \includegraphics{subsection/ThiNet.png}
@@ -10,11 +10,11 @@ Given a pre-trained model, it would be pruned layer by layer with a predefined c
 
 \begin{enumerate}
   \item A training set is randomly sampled.
-  \item Using a greedy algorithm for channel selection, \textit{i.e.}, to minimize \[\arg\min_T \sum_{i=1}^M \left(\hat{y}_i-\sum_{j\in S}\hat{x}_{i,j} \right)^2\quad s.t.\quad |S|=C\times r, S\in \{1,2,\ldots,C\} \]
-  \item Minimize the reconstruction error by weighing the channels, which can be defined as $\hat{w}=\arg\min_w\sum_{i=1}^M(\hat{y}_i-w^T\hat{x}_i^*)^2$
+  \item Using a greedy algorithm for channel selection,  \textit{i.e.},  to minimize \[\arg\min_T \sum_{i=1}^M \left(\hat{y}_i-\sum_{j\in S}\hat{x}_{i, j} \right)^2\quad s.t.\quad |S|=C\times r,  S\in \{1, 2, \ldots, C\} \]
+  \item Minimize the reconstruction error by weighing the channels,  which can be defined as $\hat{w}=\arg\min_w\sum_{i=1}^M(\hat{y}_i-w^T\hat{x}_i^*)^2$
   \item Iterate to step 1 to prune the next layer.
 \end{enumerate}
 
-The performance of ThiNet on ILSVRC-12 benchmark. ThiNet achieves 3.31× FLOPs reduction and 16.63× compression on VGG-16, with only 0.52\% top-5 accuracy drop.
+The performance of ThiNet on ILSVRC-12 benchmark. ThiNet achieves 3.31× FLOPs reduction and 16.63× compression on VGG-, 6, with only 0.52\% top-5 accuracy drop.
 
-\textbf{The main insight is that the author establishes a well-defined optimization problem, which shows that whether a filter can be pruned depends on the outputs of its next layer, not its own layer. Also because this approach prunes the network in filter level, the computational cost is relatively low, compared with weight pruning.}
+\textbf{The main insight is that the author establishes a well-defined optimization problem,  which shows that whether a filter can be pruned depends on the outputs of its next layer,  not its own layer. Also because this approach prunes the network in filter level,  the computational cost is relatively low,  compared with weight pruning.}

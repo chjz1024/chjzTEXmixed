@@ -16,7 +16,7 @@ void NOTICE(){
 	printf("It was mostly a learning exercise and hasn't been optimized.\n");
 	printf("This Program Is Strictly Prohibited For Commercial Purposes.\n");
 	printf("[1]: http://www.hpl.hp.com/techreports/2004/HPL-2004-76.pdf\n");
-	printf("Said, A. \"Introduction to Arithmetic Coding - Theory and Practice.\"\n");
+	printf("Said,  A. \"Introduction to Arithmetic Coding - Theory and Practice.\"\n");
 	printf("Hewlett Packard Laboratories Report: 2004-2076.\n\n");
 
 	printf("//////////////////////////////////////////////////////////////////////\n");
@@ -37,7 +37,7 @@ u32 boundary[CODING + 1] = {0};
 void count(char * input)//completed
 {
 	u32 length;
-	FILE *fin = fopen(input, "rb");
+	FILE *fin = fopen(input,  "rb");
 	if(fin)
 		printf("input file opened successfully.\n");
 	else
@@ -52,36 +52,36 @@ void count(char * input)//completed
 	//model
 
 	char dicout[strlen(input) + 5];
-	strcpy(dicout, input);
-	strcat(dicout, ".dic");
-	FILE *dic = fopen(dicout, "wb");
+	strcpy(dicout,  input);
+	strcat(dicout,  ".dic");
+	FILE *dic = fopen(dicout,  "wb");
 	if(dic)
 		printf("dictionary created successfully.\n");
 	else
 		printf("you do not have enough permission to perform this operation.\nplease contact the administrator.\n");
 	for(int i = 0; i < CODING; i++)
-		fwrite(&cum[i], sizeof(u32), 1, dic);
+		fwrite(&cum[i],  sizeof(u32),  1,  dic);
 	fclose(dic);
 #if DEBUG
 	for(int i = 0; i < CODING; i++)
-		printf("%03x : %08x - %08x\n", i, cum[i], boundary[i]);
+		printf("%03x : %08x - %08x\n",  i,  cum[i],  boundary[i]);
 #endif
 
 }//completed
 
 
-void encode(char *input, char *output)
+void encode(char *input,  char *output)
 {
-	u64 low = 0, high = -1, range;
+	u64 low = 0,  high = -1,  range;
 
 	u8 temp;
 
-	clock_t start, finish;
+	clock_t start,  finish;
 
 	start = clock();
 
-	FILE *fin = fopen(input, "rb");
-	FILE *fout = fopen(output, "wb");
+	FILE *fin = fopen(input,  "rb");
+	FILE *fout = fopen(output,  "wb");
 
 	u32 sum = boundary[CODING];
 
@@ -95,7 +95,7 @@ void encode(char *input, char *output)
 		while((high ^ low) <= 0x00FFFFFFFFFFFFFF)
 		{
 			temp = high >> 56;
-			fwrite(&temp, 1, 1, fout);
+			fwrite(&temp,  1,  1,  fout);
 			high <<= ONE_BYTE;
 			low <<= ONE_BYTE;
 		}
@@ -103,21 +103,21 @@ void encode(char *input, char *output)
 	fclose(fin);
 
 	temp = high >> 56;
-	fwrite(&temp, 1, 1, fout);
+	fwrite(&temp,  1,  1,  fout);
 
-	printf("Encoded successfully.\nFile size is %ld Bytes.\n", ftell(fout));
-	printf("Compression rate is %lf.\n", (double)ftell(fout) / sum);
+	printf("Encoded successfully.\nFile size is %ld Bytes.\n",  ftell(fout));
+	printf("Compression rate is %lf.\n",  (double)ftell(fout) / sum);
 	finish = clock();
-	printf("Time consumed is %lf seconds.\n", (double)(finish - start) / CLOCKS_PER_SEC);
+	printf("Time consumed is %lf seconds.\n",  (double)(finish - start) / CLOCKS_PER_SEC);
 
 	fclose(fout);
 }
 
 
 
-int main(int argc, char *argv[])
+int main(int argc,  char *argv[])
 {
 	count(argv[1]);
-	encode(argv[1], argv[2]);
+	encode(argv[1],  argv[2]);
 	return 0;
 }

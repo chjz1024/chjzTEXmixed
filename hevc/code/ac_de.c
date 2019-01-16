@@ -15,7 +15,7 @@ void NOTICE()
 	printf("It was mostly a learning exercise and hasn't been optimized.\n");
 	printf("This Program Is Strictly Prohibited For Commercial Purposes.\n");
 	printf("[1]: http://www.hpl.hp.com/techreports/2004/HPL-2004-76.pdf\n");
-	printf("Said, A. \"Introduction to Arithmetic Coding - Theory and Practice.\"\n");
+	printf("Said,  A. \"Introduction to Arithmetic Coding - Theory and Practice.\"\n");
 	printf("Hewlett Packard Laboratories Report: 2004-2076.\n\n");
 
 	printf("//////////////////////////////////////////////////////////////////////\n");
@@ -31,48 +31,48 @@ u32 boundary[CODING + 1] = {0};
 
 void create_dict(char *dic)
 {
-	FILE *din = fopen(dic, "rb");
+	FILE *din = fopen(dic,  "rb");
 	if(din)
 		printf("dictionary opened successfully.\n");
 	else
 		printf("dictionary does not exist.\n"); // uncompleted
 	int i;
 	for(i = 0; i < CODING; i++)
-		fread(&cum[i], sizeof(u32), 1, din);
+		fread(&cum[i],  sizeof(u32),  1,  din);
 	fclose(din);
 	for(i = 0; i < CODING; i++)
 		boundary[i + 1] = boundary[i] + cum[i];
 #if DEBUG
 	for(int i = 0; i < CODING; i++)
-		printf("%03x : %08x - %08x\n", i, cum[i], boundary[i]);
+		printf("%03x : %08x - %08x\n",  i,  cum[i],  boundary[i]);
 #endif
 }
 
-void decode(char *encoded, char *out)
+void decode(char *encoded,  char *out)
 {
-	FILE *fin = fopen(encoded, "rb");
+	FILE *fin = fopen(encoded,  "rb");
 	if(!fin)
 		printf("encoded file does not exist\n");
 
-	clock_t start, finish;
+	clock_t start,  finish;
 	start = clock();
 
-	FILE *fout = fopen(out, "wb");
+	FILE *fout = fopen(out,  "wb");
 
-	u64 low = 0, high = -1, range;
+	u64 low = 0,  high = -1,  range;
 
 	u8 temp;
 	u64 ari = 0;
 
 	for (int i = 0; i < ONE_BYTE; i++)
 	{
-		if(fread(&temp, 1, 1, fin))
+		if(fread(&temp,  1,  1,  fin))
 			ari = (ari << ONE_BYTE) | temp;
 		else
 			ari <<= ONE_BYTE;
 	} //the first 64 bits
 
-	u8 bisec1, bisec2, mid;
+	u8 bisec1,  bisec2,  mid;
 	u32 sum = boundary[CODING];
 	for (u32 i = 0; i < sum; )
 	{
@@ -89,7 +89,7 @@ void decode(char *encoded, char *out)
 				bisec2 = mid - 1;
 			else
 			{
-				fwrite(&mid, 1, 1, fout);
+				fwrite(&mid,  1,  1,  fout);
 				i++;
 				high = low + range / sum * boundary[mid + 1];
 				low += range / sum * boundary[mid];
@@ -97,7 +97,7 @@ void decode(char *encoded, char *out)
 				{
 					high <<= ONE_BYTE;
 					low <<= ONE_BYTE;
-					if(fread(&temp, 1, 1, fin))
+					if(fread(&temp,  1,  1,  fin))
 						ari = (ari << ONE_BYTE) | temp;
 					else
 						ari <<= ONE_BYTE;
@@ -110,12 +110,12 @@ void decode(char *encoded, char *out)
 	fclose(fout);
 	printf("Decoded successfully.\n\n");
 	finish = clock();
-	printf("Time consumed is %lf seconds.\n\n", (double)(finish - start) / CLOCKS_PER_SEC);
+	printf("Time consumed is %lf seconds.\n\n",  (double)(finish - start) / CLOCKS_PER_SEC);
 }
 
-int main(int argc, char*argv[])
+int main(int argc,  char*argv[])
 {
 	create_dict(argv[1]);
-	decode(argv[2], argv[3]);
+	decode(argv[2],  argv[3]);
 	return 0;
 }

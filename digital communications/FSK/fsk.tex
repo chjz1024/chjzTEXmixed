@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-\usepackage{ctex,graphicx,float,amsmath,hyperref}
+\usepackage{ctex, graphicx, float, amsmath, hyperref}
 \usepackage{subfig}
 \setkeys{Gin}{width=\textwidth}
 \begin{document}
@@ -18,7 +18,7 @@
 
   \section{实验原理}
     \subsection{调制}
-      在二进制频移键控中,幅度恒定不变的载波信号的频率随着输入码流的变化而切换 (称为高音和低音,代表二进制的 1 和 0)。通常,FSK 信号的 表达式为:
+      在二进制频移键控中, 幅度恒定不变的载波信号的频率随着输入码流的变化而切换 (称为高音和低音, 代表二进制的 1 和 0)。通常, FSK 信号的 表达式为:
       \begin{displaymath}
         \begin{array}{cc}
           S_{FSK}=\sqrt{\frac{2E_b}{T_b}}cos(2\pi f_c+2\pi \Delta f)& 0\le t\le T_b \qquad \textrm{(二进制1)}\\
@@ -27,7 +27,7 @@
       \end{displaymath}
       其中$2\pi \Delta f$代表信号载波的恒定偏移。
 
-      产生 FSK 信号最简单的方法是根据输入的数据比特是 0 还是 1,在两个独立的振荡器 中切换。采用这种方法产生的波形在切换的时刻相位是不连续的,因此这种 FSK 信号称为 不连续 FSK 信号。不连续的 FSK 信号表达式为:
+      产生 FSK 信号最简单的方法是根据输入的数据比特是 0 还是 1, 在两个独立的振荡器 中切换。采用这种方法产生的波形在切换的时刻相位是不连续的, 因此这种 FSK 信号称为 不连续 FSK 信号。不连续的 FSK 信号表达式为:
       \begin{displaymath}
         \begin{array}{cc}
           S_{FSK}=\sqrt{\frac{2E_b}{T_b}}cos(2\pi f_Ht+\theta_1)\quad &0\le t\le T_b \qquad \textrm{(二进制1)}\\
@@ -42,9 +42,9 @@
         \label{modulation1}
       \end{figure}
 
-      由于相位的不连续会造频谱扩展,这种 FSK 的调制方式在传统的通信设备中采用较 多。随着数字处理技术的不断发展,越来越多地采用连续相位 FSK 调制技术。
+      由于相位的不连续会造频谱扩展, 这种 FSK 的调制方式在传统的通信设备中采用较 多。随着数字处理技术的不断发展, 越来越多地采用连续相位 FSK 调制技术。
 
-      目前较常用产生 FSK 信号的方法是,首先产生 FSK 基带信号,利用基带信号对单一 载波振荡器进行频率调制。因此,FSK 可表示如下:
+      目前较常用产生 FSK 信号的方法是, 首先产生 FSK 基带信号, 利用基带信号对单一 载波振荡器进行频率调制。因此, FSK 可表示如下:
       \begin{displaymath}
         \begin{array}{rl}
           S_{FSK}(t)&=\sqrt{\frac{2E_b}{T_b}}cos[2\pi f_Ct+\theta(t)]\\
@@ -52,7 +52,7 @@
         \end{array}
       \end{displaymath}
 
-      应当注意,尽管调制波形 m(t)在比特转换时不连续,但相位函数$\theta(t)$是与 m(t) 的积分成比例的,因而是连续的,其相应波形如图\ref{modulation2}所示:
+      应当注意, 尽管调制波形 m(t)在比特转换时不连续, 但相位函数$\theta(t)$是与 m(t) 的积分成比例的, 因而是连续的, 其相应波形如图\ref{modulation2}所示:
       \begin{figure}[H]
         \centering
         \includegraphics{pict/调制/连续相位FSK的调制信号.png}
@@ -60,7 +60,7 @@
         \label{modulation2}
       \end{figure}
 
-      由于 FSK 信号的复包络是调制信号 m(t)的非线性函数,确定一个 FSK 信号的频谱 通常是相当困难的,经常采用实时平均测量的方法。二进制 FSK 信号的功谱密度由离散频 率分量 $f_c、f_c+n\Delta f、f_c-n\Delta f$ 组成,其中 n 为整数。相位连续的 FSK 信号的功率谱密度函 数最终按照频率偏移的负四次幂衰减。如果相位不连续,功率谱密度函数按照频率偏移的 负二次幂衰减。
+      由于 FSK 信号的复包络是调制信号 m(t)的非线性函数, 确定一个 FSK 信号的频谱 通常是相当困难的, 经常采用实时平均测量的方法。二进制 FSK 信号的功谱密度由离散频 率分量 $f_c、f_c+n\Delta f、f_c-n\Delta f$ 组成, 其中 n 为整数。相位连续的 FSK 信号的功率谱密度函 数最终按照频率偏移的负四次幂衰减。如果相位不连续, 功率谱密度函数按照频率偏移的 负二次幂衰减。
 
       FSK 的信号频谱如图\ref{modulation3} 所示。
       \begin{figure}[H]
@@ -69,16 +69,16 @@
         \caption{FSK 的信号频谱}
         \label{modulation3}
       \end{figure}
-      FSK 信号的传输带宽 Br,由 Carson 公式给出:
+      FSK 信号的传输带宽 Br, 由 Carson 公式给出:
       \[Br=2\Delta f+2B\]
-      其中 B 为数字基带信号的带宽。假设信号带宽限制在主瓣范围,矩形脉冲信号的带宽 B=R。因此,FSK 的传输带宽变为:
+      其中 B 为数字基带信号的带宽。假设信号带宽限制在主瓣范围, 矩形脉冲信号的带宽 B=R。因此, FSK 的传输带宽变为:
       \[Br=2(\Delta f+R)\]
-      如果采用升余弦脉冲滤波器,传输带宽减为:
+      如果采用升余弦脉冲滤波器, 传输带宽减为:
       \[Br=2\Delta f+(1+\alpha)R\]
 
       其中$\alpha$为滤波器的滚降因子。
 
-      在通信原理综合实验系统中,FSK 的调制方案如下:
+      在通信原理综合实验系统中, FSK 的调制方案如下:
 
       FSK 信号:
       \[s(t)=cos(\omega_0t+2\pi f_it)\]
@@ -102,7 +102,7 @@
       其中:
       \[\theta(t)=2\pi f_ct+2\pi K\int_{-\infty}^tm(t)dt\]
 
-      如果进行量化处理,采样速率为 $f_s$,周期为 $T_s$,有下式成立:
+      如果进行量化处理, 采样速率为 $f_s$, 周期为 $T_s$, 有下式成立:
       \begin{displaymath}
         \begin{array}{rl}
           \theta(n)&=\theta(n-1)+2\pi f_cT_s+2\pi Km(n)T_s\\
@@ -111,7 +111,7 @@
         \end{array}
       \end{displaymath}
 
-      按照上述原理,FSK 正交调制器的实现为如图\ref{modulation4}结构:
+      按照上述原理, FSK 正交调制器的实现为如图\ref{modulation4}结构:
       \begin{figure}[H]
         \centering
         \includegraphics{pict/调制/FSK正交调制器结构图.png}
@@ -119,15 +119,15 @@
         \label{modulation4}
       \end{figure}
 
-      如果发送 0 码,则相位累加器在前一码元结束时相位 $\theta(n)$ 基础上,在每个抽样到达时刻相位累加$2\pi f_1T_s$,直到该信号码元结束;如发送1码,则相位累加器在前一码元结束时 的相位 $\theta(n)$ 基础上,在每个抽样到达时刻相位累加$2\pi f_2T_s$,直到该码元结束。
+      如果发送 0 码, 则相位累加器在前一码元结束时相位 $\theta(n)$ 基础上, 在每个抽样到达时刻相位累加$2\pi f_1T_s$, 直到该信号码元结束;如发送1码, 则相位累加器在前一码元结束时 的相位 $\theta(n)$ 基础上, 在每个抽样到达时刻相位累加$2\pi f_2T_s$, 直到该码元结束。
 
-      在通信信道 FSK 模式的基带信号中传号采用 $f_H$ 频率,空号采用 $f_L$ 频率。在 FSK 模式 下,不采用汉明纠错编译码技术。调制器提供的数据源有:
+      在通信信道 FSK 模式的基带信号中传号采用 $f_H$ 频率, 空号采用 $f_L$ 频率。在 FSK 模式 下, 不采用汉明纠错编译码技术。调制器提供的数据源有:
       \begin{enumerate}
         \item 外部数据输入:可来自同步数据接口、异步数据接口和 m 序列;
         \item 全 1 码:可测试传号时的发送频率(高);
         \item 全 0 码:可测试空号时的发送频率(低);
-        \item 0/1 码:0101...交替码型,用作一般测试;
-        \item 特殊码序列:周期为 7 的码序列,以便于常规示波器进行观察;
+        \item 0/1 码:0101...交替码型, 用作一般测试;
+        \item 特殊码序列:周期为 7 的码序列, 以便于常规示波器进行观察;
         \item m 序列:用于对通道性能进行测试;
       \end{enumerate}
 
@@ -142,7 +142,7 @@
     \subsection{解调}
       对于 FSK 信号的解调方式很多:相干解调、滤波非相干解调、正交相乘非相干解调。
       \subsubsection{FSK 相干解调}
-        FSK 相干解调要求恢复出传号频率$( f_H )$与空号频率$( f_L )$ ,恢复出的载波信号分别 与接收的 FSK 中频信号相乘,然后分别在一个码元内积分,将积分之后的结果进行相减, 如果差值大于 0 则当前接收信号判为 1,否则判为 0。相干 FSK 解调框图如图\ref{demodulation1}所示:
+        FSK 相干解调要求恢复出传号频率$( f_H )$与空号频率$( f_L )$ , 恢复出的载波信号分别 与接收的 FSK 中频信号相乘, 然后分别在一个码元内积分, 将积分之后的结果进行相减,  如果差值大于 0 则当前接收信号判为 1, 否则判为 0。相干 FSK 解调框图如图\ref{demodulation1}所示:
         \begin{figure}[H]
           \centering
           \includegraphics{pict/解调/相干FSK的解调框图.png}
@@ -150,9 +150,9 @@
           \label{demodulation1}
         \end{figure}
 
-        相干 FSK 解调器是在加性高斯白噪声信道下的最佳接收,其误码率为:
+        相干 FSK 解调器是在加性高斯白噪声信道下的最佳接收, 其误码率为:
         \[P_e=Q(\sqrt{\frac{E_b}{N_0}}\]
-        相干 FSK 解调在加性高斯白噪声下具有较好的性能,但在其它信道特性下情况则不完全相同,例如在无线衰落信道下,其性能较差,一般采用非相干解调方案。
+        相干 FSK 解调在加性高斯白噪声下具有较好的性能, 但在其它信道特性下情况则不完全相同, 例如在无线衰落信道下, 其性能较差, 一般采用非相干解调方案。
       \subsubsection{FSK 滤波非相干解调}
         \begin{figure}[H]
           \centering
@@ -160,14 +160,14 @@
           \caption{非相干FSK接收机的方框图}
           \label{demodulation2}
         \end{figure}
-        对于 FSK 的非相干解调一般采用滤波非相干解调,如图\ref{demodulation2}所示。输入的 FSK 中频 信号分别经过中心频率为 $f_H 、 f_L$ 的带通滤波器,然后分别经过包络检波,包络检波的输出在 $t=kT_b$ 时抽样(其中 k 为整数),并且将这些值进行比较。根据包络检波器输出的大小, 比较器判决数据比特是 1 还是 0。
+        对于 FSK 的非相干解调一般采用滤波非相干解调, 如图\ref{demodulation2}所示。输入的 FSK 中频 信号分别经过中心频率为 $f_H 、 f_L$ 的带通滤波器, 然后分别经过包络检波, 包络检波的输出在 $t=kT_b$ 时抽样(其中 k 为整数), 并且将这些值进行比较。根据包络检波器输出的大小,  比较器判决数据比特是 1 还是 0。
 
         使用非相干检测时 FSK 系统的平均误码率为:
         \[P_e=\frac{1}{2}exp(-\frac{E_b}{2N_0})\]
 
-        在高斯白噪声信道环境下 FSK 滤波非相干解调性能较相干 FSK 的性能要差,但在无 线衰落环境下,FSK 滤波非相干解调却表现出较好的稳健性。
+        在高斯白噪声信道环境下 FSK 滤波非相干解调性能较相干 FSK 的性能要差, 但在无 线衰落环境下, FSK 滤波非相干解调却表现出较好的稳健性。
 
-        FSK 滤波非相干解调方法一般采用模拟方法来实现,该方法不太适合对 FSK 的数字 化解调。对于 FSK 的数字化实现方法一般采用正交相乘方法加以实现。
+        FSK 滤波非相干解调方法一般采用模拟方法来实现, 该方法不太适合对 FSK 的数字 化解调。对于 FSK 的数字化实现方法一般采用正交相乘方法加以实现。
       \subsubsection{FSK 的正交相乘非相干解调}
         FSK 的正交相乘非相干解调框图如图\ref{demodulation3}所示:
         \begin{figure}[H]
@@ -183,7 +183,7 @@
 
         空号频率为: $\omega_c-\Delta\omega$
 
-        在上图中,延时信号为:
+        在上图中, 延时信号为:
         \[R'(t)=cos[(\omega_c\pm\Delta\omega)\cdot(t-\tau)]\]
 
         其中$\tau$为延时量。
@@ -197,10 +197,10 @@
           \end{array}
         \end{displaymath}
 
-        在上式中,第一项经过低通滤波器之后可以滤除。当$\omega_c\cdot\tau=\pi/2$时,上式可简化为:
+        在上式中, 第一项经过低通滤波器之后可以滤除。当$\omega_c\cdot\tau=\pi/2$时, 上式可简化为:
         \[2R(t)\cdot R'(t)\approx sin(\pm\Delta\omega)\cdot\tau=\pm sin\Delta\omega\tau\]
 
-        因而经过积分器(低通滤波器)之后,输出信号大小为:$\pm T_bsin\Delta\omega\tau$,从而实现了 FSK 的正交相乘非相干解调。
+        因而经过积分器(低通滤波器)之后, 输出信号大小为:$\pm T_bsin\Delta\omega\tau$, 从而实现了 FSK 的正交相乘非相干解调。
 
         AB 两点的波形如图\ref{demodulation4}所示:
         \begin{figure}[H]
@@ -212,11 +212,11 @@
 
         在 FSK 中位定时的恢复见 BPSK 解调方式。
 
-        通信原理实验的 FSK 模式中,采样速率为 96KHz 的采样速率(每一个比特采 16 个样 点) ,FSK 基带信号的载频为 24KHz,因而在 DSP 处理过程中,延时取 1 个样值。
+        通信原理实验的 FSK 模式中, 采样速率为 96KHz 的采样速率(每一个比特采 16 个样 点) , FSK 基带信号的载频为 24KHz, 因而在 DSP 处理过程中, 延时取 1 个样值。
 
         FSK 的解调框图如图\ref{demodulation5}所示:
 
-        注意:FSK 信号首先要和接收端的两个本地正交载波相乘,然后分别通过低通滤波器 到达 TPJ05 和 TPJ06。图 \ref{demodulation5} 中仅画出低通后的电路。
+        注意:FSK 信号首先要和接收端的两个本地正交载波相乘, 然后分别通过低通滤波器 到达 TPJ05 和 TPJ06。图 \ref{demodulation5} 中仅画出低通后的电路。
         \begin{figure}[H]
           \centering
           \includegraphics[width=.7\textwidth]{pict/解调/FSK的解调方框图.png}
@@ -239,7 +239,7 @@
             \caption{全1码}
           \end{minipage}
         \end{figure}
-        如图,全1码频率为全0码的两倍
+        如图, 全1码频率为全0码的两倍
       \subsubsection{发端同相支路和正交支路信号时域波形观测}
         \begin{figure}[H]
           \centering
@@ -259,16 +259,16 @@
           \includegraphics[width=.49\textwidth]{pict/photo_2018-12-19_18-42-59.jpg}
           \caption{m序列}
         \end{figure}
-        如图,由其时域波形及李萨如图形,可见对于所有序列,TPi03与TPi04均正交
+        如图, 由其时域波形及李萨如图形, 可见对于所有序列, TPi03与TPi04均正交
 
-        当产生两路正交信号进行调制时可有效避免01切换时的相位不连续现象,FSK功率谱旁瓣较弱,占用带宽减少
+        当产生两路正交信号进行调制时可有效避免01切换时的相位不连续现象, FSK功率谱旁瓣较弱, 占用带宽减少
       \subsubsection{连续相位 FSK 调制基带信号观测}
         \begin{figure}[H]
           \centering
           \includegraphics{pict/photo_2018-12-19_18-43-27.jpg}
           \caption{码元切换点}
         \end{figure}
-        如图,在连续相位调制时码元切换点处相位连续。若是非连续相位FSK调制的话在切换点处会有180度的相差
+        如图, 在连续相位调制时码元切换点处相位连续。若是非连续相位FSK调制的话在切换点处会有180度的相差
     \subsection{FSK 解调}
       \subsubsection{解调基带 FSK 信号观测}
         \begin{figure}[H]
@@ -286,7 +286,7 @@
             \caption{01码}
           \end{minipage}
         \end{figure}
-        如图,波形因为有噪声的干扰有所变化,但大致上仍为正交且有特定频率的两路正弦波
+        如图, 波形因为有噪声的干扰有所变化, 但大致上仍为正交且有特定频率的两路正弦波
       \subsubsection{接收位同步信号相位抖动观测}
         \begin{figure}[H]
           \centering
@@ -301,7 +301,7 @@
             \caption{全0码}
           \end{minipage}
         \end{figure}
-        实际测试过程中全0码或全1码获得的尖峰脉冲在不断变化,其理由为不像01码在输入跳变时有同步信息的出现,全0或全1码并不存在可以调整接收时钟的信号,因此无法正确同步
+        实际测试过程中全0码或全1码获得的尖峰脉冲在不断变化, 其理由为不像01码在输入跳变时有同步信息的出现, 全0或全1码并不存在可以调整接收时钟的信号, 因此无法正确同步
       \subsubsection{解调器位定时恢复与最佳抽样判决点波形观测}
         \begin{figure}[H]
           \centering
@@ -322,8 +322,8 @@
             \caption{全0序列}
           \end{minipage}
         \end{figure}
-        如图,仅当输入信号为m序列时恢复时钟才会稳定,且当断开JL02后无论输入信号为什么均不能使得接收时钟稳定,理由为全0或全1序列与无接受信号一样,无法提取出同步信息,便没有可能获得反馈来调整相位
+        如图, 仅当输入信号为m序列时恢复时钟才会稳定, 且当断开JL02后无论输入信号为什么均不能使得接收时钟稳定, 理由为全0或全1序列与无接受信号一样, 无法提取出同步信息, 便没有可能获得反馈来调整相位
   \section{结论}
-    FSK正交调制产生两路信号用于调制,相较与一般FSK调制,其具有相位连续特性,可有效地减少带宽
+    FSK正交调制产生两路信号用于调制, 相较与一般FSK调制, 其具有相位连续特性, 可有效地减少带宽
 \end{document}
   

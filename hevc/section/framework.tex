@@ -1,7 +1,7 @@
-在基于块的视频混合编码架构中,每一张图像都被分解为不同的像素块,不同的像素块组合构成了不同的片(Slice)作为独立的解码单元。HEVC标准也继承了这一点。但在图像与块的划分上HEVC创新性地提出了基于四叉树的递归划分方式,能更灵活、高效地表示视频场景中的不同纹理细节、运动变化的视频内容或者视频对象。实验证实相较于上一代编码标准H.264 | MPEG-4 AVC,HEVC一半以上性能提升都归功于这种灵活的划分方式。
+在基于块的视频混合编码架构中, 每一张图像都被分解为不同的像素块, 不同的像素块组合构成了不同的片(Slice)作为独立的解码单元。HEVC标准也继承了这一点。但在图像与块的划分上HEVC创新性地提出了基于四叉树的递归划分方式, 能更灵活、高效地表示视频场景中的不同纹理细节、运动变化的视频内容或者视频对象。实验证实相较于上一代编码标准H.264 | MPEG-4 AVC, HEVC一半以上性能提升都归功于这种灵活的划分方式。
 
 \subsection{HEVC编码结构简介}
-HEVC标准以在以往获得很大成功的混合编码架构为基础。在该架构中,首先一帧的图像被分解成不同的块,而后每一块采用预测编码来消除其空间或者时间上的冗余。其中帧内预测以同一帧中已解码的像素块作为参考、帧间预测以已解码的其他帧作为参考。帧内预测利用了同一图像中临近块间的空间冗余进行压缩,帧间预测利用了大量的块运动信息来消除视频的时间冗余。无论是哪种方式,最终预测的误差,即预测像素与原始像素的残差经变换编码与标量量化被去相关,最终经过熵编码传输。图\ref{FW:pic1}以框图形式表示了整个编码流程。
+HEVC标准以在以往获得很大成功的混合编码架构为基础。在该架构中, 首先一帧的图像被分解成不同的块, 而后每一块采用预测编码来消除其空间或者时间上的冗余。其中帧内预测以同一帧中已解码的像素块作为参考、帧间预测以已解码的其他帧作为参考。帧内预测利用了同一图像中临近块间的空间冗余进行压缩, 帧间预测利用了大量的块运动信息来消除视频的时间冗余。无论是哪种方式, 最终预测的误差, 即预测像素与原始像素的残差经变换编码与标量量化被去相关, 最终经过熵编码传输。图\ref{FW:pic1}以框图形式表示了整个编码流程。
 \begin{figure}[H]
   \centering
   \includegraphics{pict/FW/Block_diagram.png}
@@ -10,37 +10,37 @@ HEVC标准以在以往获得很大成功的混合编码架构为基础。在该�
 \end{figure}
 
 %宏块对比?
-该图同时展示了HEVC特有的编码结构,这些将在后面的部分分别叙述。
-首先我们看一下这个分块结构:HEVC中每一帧都被分解为同样大小不相交的方块,又称树形编码块(Coding Tree Block,CTB),每一个CTB作为四叉树编码结构的根节点,其大小由编码器指定。
-CTB还可被进一步细分为编码块(Coding Block,CB),CB是编码器决定帧内预测与帧间预测进行编码的基本单元。每一帧划分为CTB与CTB划分为CB的方式将在章节\ref{FW:partSec1}与\ref{FW:partSec2}里描述。
-为了进行预测而划分CB方式在很大程度上与与CTB无关,具体实现将在章节\ref{FW:partSec3}里介绍。
-变换编码依赖于CB的预测残差,但可在CB的基础上被进一步细分为变换编码块(Transform Block,TB)，具体方式将在章节\ref{FW:partSec4}里介绍。
-最后,章节\ref{FW:partEnd}提供了一些HEVC的实验数据,并将其与以前的编码标准做对比。
+该图同时展示了HEVC特有的编码结构, 这些将在后面的部分分别叙述。
+首先我们看一下这个分块结构:HEVC中每一帧都被分解为同样大小不相交的方块, 又称树形编码块(Coding Tree Block, CTB), 每一个CTB作为四叉树编码结构的根节点, 其大小由编码器指定。
+CTB还可被进一步细分为编码块(Coding Block, CB), CB是编码器决定帧内预测与帧间预测进行编码的基本单元。每一帧划分为CTB与CTB划分为CB的方式将在章节\ref{FW:partSec1}与\ref{FW:partSec2}里描述。
+为了进行预测而划分CB方式在很大程度上与与CTB无关, 具体实现将在章节\ref{FW:partSec3}里介绍。
+变换编码依赖于CB的预测残差, 但可在CB的基础上被进一步细分为变换编码块(Transform Block, TB),   具体方式将在章节\ref{FW:partSec4}里介绍。
+最后, 章节\ref{FW:partEnd}提供了一些HEVC的实验数据, 并将其与以前的编码标准做对比。
 
-Slice层面的分割为并行处理提供了方便,将在并行处理部分讲解。
+Slice层面的分割为并行处理提供了方便, 将在并行处理部分讲解。
 %分片<-并行处理
 
 \subsection{块分割}
-自H.261以来,所有ITU-T与 ISO/IEC视频编码标准都使用混合编码架构,而不同标准间的区别则主要体现在对同一块样本块不同标准可供选择的编码模式集的不同。一方面,所选编码模式决定了该样本块是使用帧内预测还是帧间预测;另一方面,解码器需要知道一样本块是怎么被分解为帧内/帧间预测块的。通常来说被预测的块还需要传递其参数,对于帧内预测需要传递预测模式,帧间预测则需要传递运动矢量信息。
+自H.261以来, 所有ITU-T与 ISO/IEC视频编码标准都使用混合编码架构, 而不同标准间的区别则主要体现在对同一块样本块不同标准可供选择的编码模式集的不同。一方面, 所选编码模式决定了该样本块是使用帧内预测还是帧间预测;另一方面, 解码器需要知道一样本块是怎么被分解为帧内/帧间预测块的。通常来说被预测的块还需要传递其参数, 对于帧内预测需要传递预测模式, 帧间预测则需要传递运动矢量信息。
 
-为了给编码器与解码器的开发者足够的自由,同时保证不同厂家生产的设备的互操作性,视频编码标准仅规定了编码码流的语法语义与解码过程,具体编码过程则未作要求。因此,编码效率在很大程度上依赖于决定编码语义元素的算法,其中包括编码模式的选择、预测参数、量化参数与已量化变换矩阵索引等。一个简单且行之有效的方法是拉格朗日率失真优化(Rate–distortion optimization,RDO)。在这种方式中,参数$p^*$的选择由在可选参数集$\mathscr{A}$中最小化损失函数$D$与编码比特数$R$的加权和来决定,
+为了给编码器与解码器的开发者足够的自由, 同时保证不同厂家生产的设备的互操作性, 视频编码标准仅规定了编码码流的语法语义与解码过程, 具体编码过程则未作要求。因此, 编码效率在很大程度上依赖于决定编码语义元素的算法, 其中包括编码模式的选择、预测参数、量化参数与已量化变换矩阵索引等。一个简单且行之有效的方法是拉格朗日率失真优化(Rate–distortion optimization, RDO)。在这种方式中, 参数$p^*$的选择由在可选参数集$\mathscr{A}$中最小化损失函数$D$与编码比特数$R$的加权和来决定, 
 \begin{equation}
   p^*=\arg\min_{\forall p \in \mathscr{A}}D(p)+\lambda \cdot R(p)
 \end{equation}
-其中拉格朗日参数$\lambda$为一常数,用来权衡失真$D$与比特数$R$,因此视频质量与码率被兼顾。
+其中拉格朗日参数$\lambda$为一常数, 用来权衡失真$D$与比特数$R$, 因此视频质量与码率被兼顾。
 
-一个混合编码可达到的编码效率取决于很多设计准则,像是内插滤波器的设计,熵编码的效率,以及环路滤波方法,然而两代编码标准的性能提升最关键在于可供选择的块编码方式的增加,这体现在帧间预测时更高精度的运动矢量、更灵活的帧编码顺序、更多的参考帧的获取,帧内预测时更多的预测模式,以及更多的运动矢量预测器(?),更多的变换块大小以及运动补偿块大小等。
+一个混合编码可达到的编码效率取决于很多设计准则, 像是内插滤波器的设计, 熵编码的效率, 以及环路滤波方法, 然而两代编码标准的性能提升最关键在于可供选择的块编码方式的增加, 这体现在帧间预测时更高精度的运动矢量、更灵活的帧编码顺序、更多的参考帧的获取, 帧内预测时更多的预测模式, 以及更多的运动矢量预测器(?), 更多的变换块大小以及运动补偿块大小等。
 
-然而也不是分块与预测方式越多越好。考虑一给定的样本块,我们可以把它分为更小的子块选取更佳的预测参数来获得更小的误差,代价则是更高的的码率;同样若不再细分,则随码率的下降误差也会增加,具体哪种更好取决于待编码块。当可供选择的分块方式增加时,大体上我们需要更多的比特数来表示所选的模式,同时编解码复杂对也会相应增加。因此,标准的设计需要综合考虑这些方面。
+然而也不是分块与预测方式越多越好。考虑一给定的样本块, 我们可以把它分为更小的子块选取更佳的预测参数来获得更小的误差, 代价则是更高的的码率;同样若不再细分, 则随码率的下降误差也会增加, 具体哪种更好取决于待编码块。当可供选择的分块方式增加时, 大体上我们需要更多的比特数来表示所选的模式, 同时编解码复杂对也会相应增加。因此, 标准的设计需要综合考虑这些方面。
 
-由于个人电脑计算能力的提升,新的视频编码标准大体上会支持更多的编码选项。在HEVC标准设计时,考虑到高清(High Definition,HD)与超高请(Ultra High Definition,UHD)视频的需求,HEVC支持了更大的编码块用以进行预测与变换;同时为了不遗漏细节,小的编码块也是十分重要的。这两种截然相反的目标被HEVC以一种开创性的,同时简单而有效的递归四叉树划分法解决了。除此之外,这种四叉树划分方式也支持一种快速最优化算法\cite{Chou1989OptimalPW}来计算拉格朗日率失真代价。
+由于个人电脑计算能力的提升, 新的视频编码标准大体上会支持更多的编码选项。在HEVC标准设计时, 考虑到高清(High Definition, HD)与超高请(Ultra High Definition, UHD)视频的需求, HEVC支持了更大的编码块用以进行预测与变换;同时为了不遗漏细节, 小的编码块也是十分重要的。这两种截然相反的目标被HEVC以一种开创性的, 同时简单而有效的递归四叉树划分法解决了。除此之外, 这种四叉树划分方式也支持一种快速最优化算法\cite{Chou1989OptimalPW}来计算拉格朗日率失真代价。
 
 \subsubsection{CTU与CTB}\label{FW:partSec1}
-  以往ITU-T与 ISO/IEC提出的编码标准中,每一帧都被分解为宏块,每个宏块包含大小为$16\times 16$的亮度采样块。色度采样块由视频采样率决定,对于4:2:0采样率的视频其包含两块$8\times 8$的色度采样块。宏块为编解码处理的基本单元,对每一个宏块均需要确定其预测方式。
+  以往ITU-T与 ISO/IEC提出的编码标准中, 每一帧都被分解为宏块, 每个宏块包含大小为$16\times 16$的亮度采样块。色度采样块由视频采样率决定, 对于4:2:0采样率的视频其包含两块$8\times 8$的色度采样块。宏块为编解码处理的基本单元, 对每一个宏块均需要确定其预测方式。
 
-  尽管目前为止H.262 | MPEG-2与H.264 | MPEG-4 AVC标准也被用于保存与传输高清(HD)视频内容,其最初设计目标是分辨率在QCIF($176\times 144$)到标清($720\times 480,720\times 576$)的视频。由于分辨率可高达$3840\times 2016$与$7680\times 4320$的HD与UHD视频的兴起,HEVC最初设计时就考虑到了高分辨率视频。在如此高的分辨率下视频中会有大块平坦区域与大块运动矢量一致的区块,因此采用更大的分块大小能明显减少视频容量。同时HEVC标准也被设计用于为所有现有视频内容提供优于上一代视频编码标准H.264 | MPEG-4 AVC的压缩效率,因此也必须设计出小尺寸的编码块。基于此,HEVC提供了灵活的基于四叉树的分块方式。
+  尽管目前为止H.262 | MPEG-2与H.264 | MPEG-4 AVC标准也被用于保存与传输高清(HD)视频内容, 其最初设计目标是分辨率在QCIF($176\times 144$)到标清($720\times 480, 720\times 576$)的视频。由于分辨率可高达$3840\times 2016$与$7680\times 4320$的HD与UHD视频的兴起, HEVC最初设计时就考虑到了高分辨率视频。在如此高的分辨率下视频中会有大块平坦区域与大块运动矢量一致的区块, 因此采用更大的分块大小能明显减少视频容量。同时HEVC标准也被设计用于为所有现有视频内容提供优于上一代视频编码标准H.264 | MPEG-4 AVC的压缩效率, 因此也必须设计出小尺寸的编码块。基于此, HEVC提供了灵活的基于四叉树的分块方式。
 
-  在HEVC中,为使图像总体整体CTB数目一致,每一分块均包含一个亮度CTB与两个色度CTB。每一亮度采样块与其对应的色度采样块,加上其语法元素构成了一个树形编码单元(Coding Tree Unit,CTU),作为HEVC的基本处理单元,概念上与宏块相似。亮度CTB大小为$2^N\times 2^N$,对于4:2:0采样率视频来说每一色度CTB大小为$2^{N-1}\times 2^{N-1}$。N可取值4,5或6,分别代表的CTU大小为$16\times 16,32\times 32\textrm{与}64\times 64$,并于一开始在序列参数集(Sequence Parameter Set,SPS)中传输。图\ref{FW:pic2}表示将一分辨率为$1280\times 720$的视频分解为$16\times 16$宏块与$64\times 64$的CTU的结果。
+  在HEVC中, 为使图像总体整体CTB数目一致, 每一分块均包含一个亮度CTB与两个色度CTB。每一亮度采样块与其对应的色度采样块, 加上其语法元素构成了一个树形编码单元(Coding Tree Unit, CTU), 作为HEVC的基本处理单元, 概念上与宏块相似。亮度CTB大小为$2^N\times 2^N$, 对于4:2:0采样率视频来说每一色度CTB大小为$2^{N-1}\times 2^{N-1}$。N可取值4, 5或6, 分别代表的CTU大小为$16\times 16, 32\times 32\textrm{与}64\times 64$, 并于一开始在序列参数集(Sequence Parameter Set, SPS)中传输。图\ref{FW:pic2}表示将一分辨率为$1280\times 720$的视频分解为$16\times 16$宏块与$64\times 64$的CTU的结果。
   \begin{figure}[H]
     \centering
     \includegraphics{pict/FW/Partition.png}
@@ -48,93 +48,93 @@ Slice层面的分割为并行处理提供了方便,将在并行处理部分讲�
     \label{FW:pic2}
   \end{figure}
   
-  编码器可自主选择大的CTU用以适应更高分辨率视频或者更高的编码效率,或者选择更小的CTU用于适应低分辨率视频或者更好的保真度。
+  编码器可自主选择大的CTU用以适应更高分辨率视频或者更高的编码效率, 或者选择更小的CTU用于适应低分辨率视频或者更好的保真度。
 
 \subsubsection{CTU与CU}\label{FW:partSec2}
-  在以往的ITU-T与 ISO/IEC视频编码标准中,宏块为预测的基本单元,每一宏块均需确定其预测方式为帧内预测还是帧间预测,在不同的预测方式中,宏块需再分解为更小的子块来分别进行预测。
+  在以往的ITU-T与 ISO/IEC视频编码标准中, 宏块为预测的基本单元, 每一宏块均需确定其预测方式为帧内预测还是帧间预测, 在不同的预测方式中, 宏块需再分解为更小的子块来分别进行预测。
 
-  在上一代视频编码标准H.264 | MPEG-4 AVC中,帧内预测有三种分块方式,分别为$Intra-4\times 4$,$Intra-8\times 8$与$Intra-16\times 16$;帧间预测有四种分块方式,分别为$Inter-16\times 16$,$Inter-16\times 8$,$Inter-8\times 16$与$Inter-8\times 8$,图\ref{FW:pic3}表示了这些方式。
+  在上一代视频编码标准H.264 | MPEG-4 AVC中, 帧内预测有三种分块方式, 分别为$Intra-4\times 4$, $Intra-8\times 8$与$Intra-16\times 16$;帧间预测有四种分块方式, 分别为$Inter-16\times 16$, $Inter-16\times 8$, $Inter-8\times 16$与$Inter-8\times 8$, 图\ref{FW:pic3}表示了这些方式。
   \begin{figure}
     \centering
     \includegraphics{pict/FW/Macro.png}
-    \caption{Macroblock partitioning modes supported in the High profile of H.264 | MPEG-4 AVC for inter-picture coding (top line) and intra-picture coding (bottom line). If the $Inter-8\times 8$ is chosen, the $8 \times 8$ sub-macroblocks can be further partitioned into $8\times 4$, $4\times 8$, or $4\times 4$ blocks}
+    \caption{Macroblock partitioning modes supported in the High profile of H.264 | MPEG-4 AVC for inter-picture coding (top line) and intra-picture coding (bottom line). If the $Inter-8\times 8$ is chosen,  the $8 \times 8$ sub-macroblocks can be further partitioned into $8\times 4$,  $4\times 8$,  or $4\times 4$ blocks}
     \label{FW:pic3}
   \end{figure}
   每种预测方式中一块的预测参数由其相邻块的已解码信息判断。
 
-  在HEVC中,CTU的大小可以达到$64\times 64$,因此宏块的方式明显不可取。一方面基于CTU的预测方式选择过于粗糙,难以很好地重构原图像;另一方面如果要支持如H.264 | MPEG-4 AVC宏块形式的块分割方法的话语法会变的很复杂,无法改变的块大小也很不适合于视频压缩中。
+  在HEVC中, CTU的大小可以达到$64\times 64$, 因此宏块的方式明显不可取。一方面基于CTU的预测方式选择过于粗糙, 难以很好地重构原图像;另一方面如果要支持如H.264 | MPEG-4 AVC宏块形式的块分割方法的话语法会变的很复杂, 无法改变的块大小也很不适合于视频压缩中。
 
-  为了解决这些问题,HEVC将每一个CTU以四叉树的方式进一步分解为编码单元(Coding Unit,CU),如图\ref{FW:pic4}所示。
+  为了解决这些问题, HEVC将每一个CTU以四叉树的方式进一步分解为编码单元(Coding Unit, CU), 如图\ref{FW:pic4}所示。
   \begin{figure}
     \centering
     \includegraphics{pict/FW/CTU.png}
-    \caption{Example for the partitioning of a $64\times 64$ coding tree unit (CTU) into coding units (CUs) of $8 \times 8$ to $32 \times 32$ luma samples. The partitioning can be described by a quadtree, also referred to as coding tree, which is shown on the right. The numbers indicate the coding order of the CUs}
+    \caption{Example for the partitioning of a $64\times 64$ coding tree unit (CTU) into coding units (CUs) of $8 \times 8$ to $32 \times 32$ luma samples. The partitioning can be described by a quadtree,  also referred to as coding tree,  which is shown on the right. The numbers indicate the coding order of the CUs}
     \label{FW:pic4}
   \end{figure}
-  与CTU类似,每个CU包含一个亮度采样块与两个色度采样块与其语法元素,作为决定预测方式的基本单元,而在预测编码与变换编码中一个CU还可进一步被分解为更小的预测单元(Prediction Unit,PU)与变换单元(Transform Unit,TU)。
+  与CTU类似, 每个CU包含一个亮度采样块与两个色度采样块与其语法元素, 作为决定预测方式的基本单元, 而在预测编码与变换编码中一个CU还可进一步被分解为更小的预测单元(Prediction Unit, PU)与变换单元(Transform Unit, TU)。
 
-  在CTU层面上,一个CTU是否被分解由标志位\texttt{split\_cu\_flag}决定,而其分解后的每一块是否被分解由另一标志位\texttt{split\_cu\_flag}决定。当无待分解块时,分解结束。CU的最小大小在序列参数集(Sequence Parameter Set,SPS)中指定,其大小在$8 \times 8$与CTU大小之间。一般编码配置充分利用了CU大小的可变性,其尺寸在$8 \times 8$与$64 \times 64$之间。
+  在CTU层面上, 一个CTU是否被分解由标志位\texttt{split\_cu\_flag}决定, 而其分解后的每一块是否被分解由另一标志位\texttt{split\_cu\_flag}决定。当无待分解块时, 分解结束。CU的最小大小在序列参数集(Sequence Parameter Set, SPS)中指定, 其大小在$8 \times 8$与CTU大小之间。一般编码配置充分利用了CU大小的可变性, 其尺寸在$8 \times 8$与$64 \times 64$之间。
 
-  CU编码采用深度优先顺序,或者称为Z型扫描顺序。使用这种编码方法可以保证除了在左上边缘处的CU,其余CU编码时其左侧或上侧的CU已经编码,则其样值与预测参数可以拿来预测当前CU的编码参数。
+  CU编码采用深度优先顺序, 或者称为Z型扫描顺序。使用这种编码方法可以保证除了在左上边缘处的CU, 其余CU编码时其左侧或上侧的CU已经编码, 则其样值与预测参数可以拿来预测当前CU的编码参数。
 
-  整体上来说,CU与以前编码标准中的宏块很相似,但是CU大小可变,这就给予了HEVC更高的灵活性。
+  整体上来说, CU与以前编码标准中的宏块很相似, 但是CU大小可变, 这就给予了HEVC更高的灵活性。
 
 \subsubsection{PB与PU}\label{FW:partSec3}
-  对每一CU,需要决定其预测方式;而一旦其预测方式确定了,其编码参数也要相应地确定下来。
+  对每一CU, 需要决定其预测方式;而一旦其预测方式确定了, 其编码参数也要相应地确定下来。
   
-  对于帧内预测来说,共有35种空域预测模式。如果CU尺寸与SPS中规定的最小CU尺寸一致,亮度CB可进一步被分解为四个同样大小的子块,需要分别传输其预测模式。而色度CB与其对应CU尺寸无关,两色度CB采用同种预测方式。色度CB可选五种预测方式,其中一种与亮度CB一致或在亮度CB传输四个预测模式时为其第一个。
+  对于帧内预测来说, 共有35种空域预测模式。如果CU尺寸与SPS中规定的最小CU尺寸一致, 亮度CB可进一步被分解为四个同样大小的子块, 需要分别传输其预测模式。而色度CB与其对应CU尺寸无关, 两色度CB采用同种预测方式。色度CB可选五种预测方式, 其中一种与亮度CB一致或在亮度CB传输四个预测模式时为其第一个。
   %最小CU再分原因
-  实际的帧内预测并不一定以已确定预测模式的编码块为单位进行。实际上每一编码块有可能被分解为更多的变换块(Transform Block,TB),而残差的计算基于已重建的像素块进行,如图\ref{FW:pic5}所示,
+  实际的帧内预测并不一定以已确定预测模式的编码块为单位进行。实际上每一编码块有可能被分解为更多的变换块(Transform Block, TB), 而残差的计算基于已重建的像素块进行, 如图\ref{FW:pic5}所示, 
   \begin{figure}
     \centering
     \includegraphics{pict/FW/Prediction1.png}
-    \caption{Illustration of the horizontal intra prediction of a selected sample inside an $8 \times 8$ coding block with $4 \times 4$ transform blocks, if the intra prediction is applied on the basis of coding blocks (a) or transform blocks (b)}
+    \caption{Illustration of the horizontal intra prediction of a selected sample inside an $8 \times 8$ coding block with $4 \times 4$ transform blocks,  if the intra prediction is applied on the basis of coding blocks (a) or transform blocks (b)}
     \label{FW:pic5}
   \end{figure}
-  当变换块增大时,由于预测点距离增大误差一般会更大,但对应的比特率也会减少,因此这种可选特性提供了一种权衡质量与比特率的手段。
+  当变换块增大时, 由于预测点距离增大误差一般会更大, 但对应的比特率也会减少, 因此这种可选特性提供了一种权衡质量与比特率的手段。
   
-  如果一CU采用帧间预测方式,其亮度与色度CB可被进一步分解为预测块(Prediction Block,PB),每一预测块共享同一运动参数。运动参数包括运动候选(1或2)、参考图像索引以及每种运动候选的运动矢量。某一CU的亮度CB与其两色度CB采用同种划分方式。亮度PB,其对应的两色度PB,与其语法元素构成了预测单元(Prediction Unit,PU),实际传输PU的预测参数。
+  如果一CU采用帧间预测方式, 其亮度与色度CB可被进一步分解为预测块(Prediction Block, PB), 每一预测块共享同一运动参数。运动参数包括运动候选(1或2)、参考图像索引以及每种运动候选的运动矢量。某一CU的亮度CB与其两色度CB采用同种划分方式。亮度PB, 其对应的两色度PB, 与其语法元素构成了预测单元(Prediction Unit, PU), 实际传输PU的预测参数。
 
-  HEVC支持8种PU划分方法,如图\ref{FW:pic6}所示,
+  HEVC支持8种PU划分方法, 如图\ref{FW:pic6}所示, 
   \begin{figure}
     \centering
     \includegraphics{pict/FW/Prediction2.png}
-    \caption{Supported partitioning modes for splitting a coding unit (CU) into one, two, or four prediction units (PU). The $(M/2)\times(M/2)$ mode and the modes shown in the bottom row are not supported for all CU sizes}
+    \caption{Supported partitioning modes for splitting a coding unit (CU) into one,  two,  or four prediction units (PU). The $(M/2)\times(M/2)$ mode and the modes shown in the bottom row are not supported for all CU sizes}
   \end{figure}
-  一个CU可以整体作为一个PU来进行预测,也可划分为子块来进行,其中$(M/2)\times(M/2)$方式仅当最小CU尺寸大于$8\times 8$时可用,非对称形式仅对$8\times 8$尺寸以上的CU可用,因此帧间预测的最小尺寸为$8\times 4$与$4\times 8$。
+  一个CU可以整体作为一个PU来进行预测, 也可划分为子块来进行, 其中$(M/2)\times(M/2)$方式仅当最小CU尺寸大于$8\times 8$时可用, 非对称形式仅对$8\times 8$尺寸以上的CU可用, 因此帧间预测的最小尺寸为$8\times 4$与$4\times 8$。
 
-  如此多的区块划分方式为提高编码效率提供了可能,但是编码器需要遍历所有方式,运算复杂度很高。同时为表示这么多种预测方式所对应的语法元素最终甚至可能降低编码效率。为此,可在SPS中指定可选的分块模式集来权衡质量与码率。
+  如此多的区块划分方式为提高编码效率提供了可能, 但是编码器需要遍历所有方式, 运算复杂度很高。同时为表示这么多种预测方式所对应的语法元素最终甚至可能降低编码效率。为此, 可在SPS中指定可选的分块模式集来权衡质量与码率。
 
-\subsubsection{残差四叉树(RQT),TB与TU}\label{FW:partSec4}
-  如上一章节所述,在预测残差的变换编码中,一个CB可被分解为多个变换块(Transform block,TB),这种分解基于一种叫残差四叉树(Residual Quadtree,RQT)的结构递归进行。在每个RQT中,CB为该树的根节点,每个TB为位于该树的叶子节点上,图\ref{FW:pic6}为将一$64\times 64$亮度CTB分解为亮度CB与亮度TB的过程。
+\subsubsection{残差四叉树(RQT), TB与TU}\label{FW:partSec4}
+  如上一章节所述, 在预测残差的变换编码中, 一个CB可被分解为多个变换块(Transform block, TB), 这种分解基于一种叫残差四叉树(Residual Quadtree, RQT)的结构递归进行。在每个RQT中, CB为该树的根节点, 每个TB为位于该树的叶子节点上, 图\ref{FW:pic6}为将一$64\times 64$亮度CTB分解为亮度CB与亮度TB的过程。
   \begin{figure}
     \centering
     \includegraphics{pict/FW/TB.png}
-    \caption{Example for the partitioning of a $64 \times 64$ luma coding tree block (black) into coding blocks (blue) and transform blocks (red). In the illustration on the right, the blue lines show the corresponding coding tree with the coding tree block (black square) at its root and the coding blocks (blue circles) at its leaf nodes; the red lines show the non-degenerated residual quadtrees with the transform blocks (red circles) as leaf nodes. Note that the transform blocks chosen identical to the corresponding coding blocks are not explicitly marked in this figure. The numbers indicate the coding order of the transform blocks}
+    \caption{Example for the partitioning of a $64 \times 64$ luma coding tree block (black) into coding blocks (blue) and transform blocks (red). In the illustration on the right,  the blue lines show the corresponding coding tree with the coding tree block (black square) at its root and the coding blocks (blue circles) at its leaf nodes; the red lines show the non-degenerated residual quadtrees with the transform blocks (red circles) as leaf nodes. Note that the transform blocks chosen identical to the corresponding coding blocks are not explicitly marked in this figure. The numbers indicate the coding order of the transform blocks}
     \label{FW:pic6}
   \end{figure}
-  色度CB基于同样的结构被分解为色度TB,但有一个例外,我们将在后面提到。
+  色度CB基于同样的结构被分解为色度TB, 但有一个例外, 我们将在后面提到。
   
-  允许不同大小的变换块给我们以不同尺度分析空频特性的可能:更大的变换块有更高的频率分辨率,然而更小的变换块有更高的空间分辨率,这两者的权衡可在编码器层面控制。
+  允许不同大小的变换块给我们以不同尺度分析空频特性的可能:更大的变换块有更高的频率分辨率, 然而更小的变换块有更高的空间分辨率, 这两者的权衡可在编码器层面控制。
 
-  每个RQT有三个参数:最大深度$d_{max}$、最小变换块尺寸$n_{min}$与最大变换块尺寸$n_{max}$,并与SPS中传输。后两者可取值2到5,代表的变换块尺寸为$4\times 4$到$32\times 32$。最大深度$d_{max}$限制了该RQT的深度,如$d_{max}=1$时,一个亮度CB可作为一个亮度TB或被分解为4个亮度TB,但不可再分。需要注意的是有时变换块尺寸被隐含在参数中,如即使$d_{max}=0,n_{max}=5$,对于一$64\times 64$的亮度CB,仍必须将其分为四个$32\times 32$的亮度TB。
+  每个RQT有三个参数:最大深度$d_{max}$、最小变换块尺寸$n_{min}$与最大变换块尺寸$n_{max}$, 并与SPS中传输。后两者可取值2到5, 代表的变换块尺寸为$4\times 4$到$32\times 32$。最大深度$d_{max}$限制了该RQT的深度, 如$d_{max}=1$时, 一个亮度CB可作为一个亮度TB或被分解为4个亮度TB, 但不可再分。需要注意的是有时变换块尺寸被隐含在参数中, 如即使$d_{max}=0, n_{max}=5$, 对于一$64\times 64$的亮度CB, 仍必须将其分为四个$32\times 32$的亮度TB。
 
-  若去相干变换作用于多个预测块,变换残差经常包含预测边界,这会导致高频分量能量增加从而降低编码效率。由于这个原因,在$d_{max}=0$时HEVC也包含了一个隐式分割的条件。若$d_{max}=0$,且一个CU采用帧间预测方式,同时一个CU被分解为多个PU,此时亮度CB总是被分解为四个亮度TB。当$d_{max}>0$且CU采用帧间预测方式时,RQT分割与PU分割无关,因此一个TB可能包含多个PB。虽然这样可能会降低该CB的编码效率,但是同时别的CB的编码效率会增加。研究表明\cite{23}当采用这种方式时其Bjøntegaard Delta bit rate (BD rate)会增加$0.4-0.7\%$。帧内预测则不同,一个TB不可跨越多个预测区块,则当一个亮度CB尺寸等于最小CB尺寸,且其被分解为四个预测块传输不同的预测参数时,该CB必被分解为四个TB。同时分解得到的四个TB可能再次被分解。
+  若去相干变换作用于多个预测块, 变换残差经常包含预测边界, 这会导致高频分量能量增加从而降低编码效率。由于这个原因, 在$d_{max}=0$时HEVC也包含了一个隐式分割的条件。若$d_{max}=0$, 且一个CU采用帧间预测方式, 同时一个CU被分解为多个PU, 此时亮度CB总是被分解为四个亮度TB。当$d_{max}>0$且CU采用帧间预测方式时, RQT分割与PU分割无关, 因此一个TB可能包含多个PB。虽然这样可能会降低该CB的编码效率, 但是同时别的CB的编码效率会增加。研究表明\cite{23}当采用这种方式时其Bjøntegaard Delta bit rate (BD rate)会增加$0.4-0.7\%$。帧内预测则不同, 一个TB不可跨越多个预测区块, 则当一个亮度CB尺寸等于最小CB尺寸, 且其被分解为四个预测块传输不同的预测参数时, 该CB必被分解为四个TB。同时分解得到的四个TB可能再次被分解。
 
-  对每个CU,至多一个RQT语法元素被同时传输,该RQT同时决定了所有颜色分量的划分方式。但有一个例外,对于4:2:0采样率的视频来说,若亮度TB尺寸为$4\times 4$时,色度TB不被再分。一个尺寸大于$4\times 4$的亮度TB,或者四个尺寸为$4\times 4$的亮度TB,与其伴随的两色度TB加上其他语法元素组成了一个变换单元(Transform Unit,TU)。
+  对每个CU, 至多一个RQT语法元素被同时传输, 该RQT同时决定了所有颜色分量的划分方式。但有一个例外, 对于4:2:0采样率的视频来说, 若亮度TB尺寸为$4\times 4$时, 色度TB不被再分。一个尺寸大于$4\times 4$的亮度TB, 或者四个尺寸为$4\times 4$的亮度TB, 与其伴随的两色度TB加上其他语法元素组成了一个变换单元(Transform Unit, TU)。
 
-  由于RQT位于CU中,必须对每个CU传输其语法元素。例如当CU传递完其预测模式,PU分块以及PU相关语法元素后,若其变换系数等级不为0,语法元素\texttt{split\_transform\_flag}会被传输来表示其是否为叶子节点。当隐式推测发生时,则由译码器推测其具体数值。
+  由于RQT位于CU中, 必须对每个CU传输其语法元素。例如当CU传递完其预测模式, PU分块以及PU相关语法元素后, 若其变换系数等级不为0, 语法元素\texttt{split\_transform\_flag}会被传输来表示其是否为叶子节点。当隐式推测发生时, 则由译码器推测其具体数值。
 
-  除了RQT的具体结构外,也需要知道对于一TB或者整个CU来说变换系数等级是否为0。对采用帧间预测的CU来说,标志位\texttt{rqt\_root\_cbf}用来表示是否至少有一个TB的等级不为0。当其为1时如上所述传输,否则不再传输残差矩阵,其数值被视作0。该语法元素对于低码率编码以及可精确预测的区域有十分重要的意义。对skip模式的CU来说,标志位\texttt{cu\_skip\_flag}被置为1,此时没有残差需要传输,对应的也没有RQT语法元素需要传输。然而对于帧内预测的CU来说,\texttt{rqt\_root\_cbf}总被视为1,因此总可以认为至少一个TB的等级不为0。
+  除了RQT的具体结构外, 也需要知道对于一TB或者整个CU来说变换系数等级是否为0。对采用帧间预测的CU来说, 标志位\texttt{rqt\_root\_cbf}用来表示是否至少有一个TB的等级不为0。当其为1时如上所述传输, 否则不再传输残差矩阵, 其数值被视作0。该语法元素对于低码率编码以及可精确预测的区域有十分重要的意义。对skip模式的CU来说, 标志位\texttt{cu\_skip\_flag}被置为1, 此时没有残差需要传输, 对应的也没有RQT语法元素需要传输。然而对于帧内预测的CU来说, \texttt{rqt\_root\_cbf}总被视为1, 因此总可以认为至少一个TB的等级不为0。
 
-  更进一步说,当\texttt{rqt\_root\_cbf=1}时,对每个亮度TB与其对应的两个色度TB也需要传输另一个cbf为。亮度由\texttt{cbf\_luma}表示,色度标志位\texttt{cbf\_cb}与\texttt{cbf\_cr}与\texttt{split\_transform\_flag}被交错编码。这种编码方式在有一个或所有色度TB残差均为0,而亮度TB残差不为0时编码效率进一步增加。Details\cite{24,30}。
+  更进一步说, 当\texttt{rqt\_root\_cbf=1}时, 对每个亮度TB与其对应的两个色度TB也需要传输另一个cbf为。亮度由\texttt{cbf\_luma}表示, 色度标志位\texttt{cbf\_cb}与\texttt{cbf\_cr}与\texttt{split\_transform\_flag}被交错编码。这种编码方式在有一个或所有色度TB残差均为0, 而亮度TB残差不为0时编码效率进一步增加。Details\cite{24, 30}。
 
-  随RQT与其他编码树分解深度的增加,可供选择的分解方式也呈双指数速率$2^{4^{d-1}}$增加。然而,文章\cite{25}指出,通过采用通用BFOS算法\cite{5},率失真下的最优分块方法并不一定需要穷举才能得到。实际上不采用early termination strategy的话,运算复杂度与$(4^d-1)/3$成正比,为了进一步降低运算复杂度,还可使用heuristic early-pruning techniques\cite{25,38}。
+  随RQT与其他编码树分解深度的增加, 可供选择的分解方式也呈双指数速率$2^{4^{d-1}}$增加。然而, 文章\cite{25}指出, 通过采用通用BFOS算法\cite{5}, 率失真下的最优分块方法并不一定需要穷举才能得到。实际上不采用early termination strategy的话, 运算复杂度与$(4^d-1)/3$成正比, 为了进一步降低运算复杂度, 还可使用heuristic early-pruning techniques\cite{25, 38}。
   
-  文章\cite{38}针对RQT分块结构提出了一种算法,思想是当所有未量化变换系数低于合理选取的量化器步长阈值时,进一步细分可被终止。采用这种策略,编码器运行时间可减少$5-15\%$,而编码器效率仅有很少损失。当RQT更深时,耗时会减少更多。Details\cite{38}。
+  文章\cite{38}针对RQT分块结构提出了一种算法, 思想是当所有未量化变换系数低于合理选取的量化器步长阈值时, 进一步细分可被终止。采用这种策略, 编码器运行时间可减少$5-15\%$, 而编码器效率仅有很少损失。当RQT更深时, 耗时会减少更多。Details\cite{38}。
 
 \subsubsection{HEVC官方编/解码器HM工作流程}
-  图\label{FW:enc}与\label{FW:dec}分别为HM中的HEVC视频编码器与解码器的函数调用关系,以供参考。
+  图\label{FW:enc}与\label{FW:dec}分别为HM中的HEVC视频编码器与解码器的函数调用关系, 以供参考。
   \begin{figure}
     \centering
     \includegraphics{pict/FW/Encoder.png}

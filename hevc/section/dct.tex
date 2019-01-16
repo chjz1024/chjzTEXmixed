@@ -1,20 +1,20 @@
 \subsection{变换编码}
 \subsubsection{变换编码的起因和基本概念}
-就经验而言，绝大多数图像都有一个共同特征：平坦和缓变区域占据大部分，而细节和突变区域则占小部分。这样，空间域的图像变换到频域或其它变换域，会产生相关性很小的一些变换系数，并可对其进行压缩编码，即所谓的变换编码。
+就经验而言,   绝大多数图像都有一个共同特征：平坦和缓变区域占据大部分,   而细节和突变区域则占小部分。这样,   空间域的图像变换到频域或其它变换域,   会产生相关性很小的一些变换系数,   并可对其进行压缩编码,   即所谓的变换编码。
 
-变换中有一类叫做正交变换，可用于图像编码。自1968年利用快速傅立叶变换（FFT）进行图像编码以来，出现了多种正交变换编码方法，如 K-L变换(Karhunen-Loève Transform)、离散余弦变换（Discrete Cosine Transform，DCT）等。其中，编码性能以 K-L 变换最理想，但缺乏快速算法，且变换矩阵随图像而异。当信号具有接近马尔可夫过程的统计特性时，离散余弦变换的去相关性接近于K-L变换的性能，并且具有快速算法，因此广泛应用于图像视频编码。
+变换中有一类叫做正交变换,   可用于图像编码。自1968年利用快速傅立叶变换（FFT）进行图像编码以来,   出现了多种正交变换编码方法,   如 K-L变换(Karhunen-Loève Transform)、离散余弦变换（Discrete Cosine Transform,   DCT）等。其中,   编码性能以 K-L 变换最理想,   但缺乏快速算法,   且变换矩阵随图像而异。当信号具有接近马尔可夫过程的统计特性时,   离散余弦变换的去相关性接近于K-L变换的性能,   并且具有快速算法,   因此广泛应用于图像视频编码。
 
 \subsubsection{K-L变换编码及其实现}
-出于压缩的需要，我们希望对于输入进行一个变换，使得变换后的输出特征数较之前更少，且各特征之间几乎正交，在考虑均方误差最小的情况下，就产生了K-L变换。
+出于压缩的需要,   我们希望对于输入进行一个变换,   使得变换后的输出特征数较之前更少,   且各特征之间几乎正交,   在考虑均方误差最小的情况下,   就产生了K-L变换。
 
-将图像阵列用向量形式表示，也即$x=(x_0,x_1,\cdots,x_{N-1})^T$，我们的目标是找到一种变换矩阵U，使得输出：$y=U^Tx$。并且由于输出向量Y各分量之间是相互独立的，因此有$E(y_iy_j)=0,\forall i\neq j$成立。若令分别为向量$x,y$的自相关矩阵$R_x=E(xx^T),R_y=E(yy^T)$。
+将图像阵列用向量形式表示,   也即$x=(x_0, x_1, \cdots, x_{N-1})^T$,   我们的目标是找到一种变换矩阵U,   使得输出：$y=U^Tx$。并且由于输出向量Y各分量之间是相互独立的,   因此有$E(y_iy_j)=0, \forall i\neq j$成立。若令分别为向量$x, y$的自相关矩阵$R_x=E(xx^T), R_y=E(yy^T)$。
 
-考虑到的特征向量正交，所以如果将U的列向量取为$R_x$的行向量，这时$R_y=diag(\lambda_1,\cdots,\lambda_N)$,$\lambda_1,\cdots,\lambda_N$为$R_x$特征值。这说明经过K-L变换后，消除了列向量Y的相关性，能量只集中在这从大到小排列的N个特征值$\lambda_i$上，因此编码只需要传送这N个特征值，就可以大大降低码率。
+考虑到的特征向量正交,   所以如果将U的列向量取为$R_x$的行向量,   这时$R_y=diag(\lambda_1, \cdots, \lambda_N)$, $\lambda_1, \cdots, \lambda_N$为$R_x$特征值。这说明经过K-L变换后,   消除了列向量Y的相关性,   能量只集中在这从大到小排列的N个特征值$\lambda_i$上,   因此编码只需要传送这N个特征值,   就可以大大降低码率。
 
-对于在均方误差最小准则下，K-L变换是失真最小的变换，是一种理想的变换。
+对于在均方误差最小准则下,   K-L变换是失真最小的变换,   是一种理想的变换。
 
 \subsubsection{K-L变换效果分析}
-由于矩阵运算在matlab等数学软件上较为简单快捷，故采用matlab作为实验软件，采用K-L变换对20.9KB的401*150PNG灰度图像进行K-L变换压缩，分别进行压缩率为48.44\%、73.44\%和85.94\%的图像压缩。实验结果如图\ref{TQ:KL}。
+由于矩阵运算在matlab等数学软件上较为简单快捷,   故采用matlab作为实验软件,   采用K-L变换对20.9KB的401*150PNG灰度图像进行K-L变换压缩,   分别进行压缩率为48.44\%、73.44\%和85.94\%的图像压缩。实验结果如图\ref{TQ:KL}。
 \begin{figure}
   \centering
   \subfloat[原图]{\includegraphics{pict/TQ/K-Luncompressed.png}}\\
@@ -24,86 +24,85 @@
   \caption{K-L变换效果图}
   \label{TQ:KL}
 \end{figure}
-可以看到，随着压缩率的提升，图像质量也逐渐下降。并且K-L在实际运用中没有较为便利的算法，且时间消耗消耗大。在实际变换编码中主要还是采用DCT变换编码为主。
+可以看到,   随着压缩率的提升,   图像质量也逐渐下降。并且K-L在实际运用中没有较为便利的算法,   且时间消耗消耗大。在实际变换编码中主要还是采用DCT变换编码为主。
 
 \subsubsection{DCT变换编码及其实现}
-傅里叶变换表明，任何信号能够便是为多个不同振幅和频率的正弦波或余弦信号的叠加。如果采用的是原函数，且输入是离散的，则称之为离散余弦变换（Discrete Cosine Transform，DCT）。采用DCT可以使信号能量集中于少数几个系数中，便于信源压缩，如量化、熵编码等。
+傅里叶变换表明,   任何信号能够便是为多个不同振幅和频率的正弦波或余弦信号的叠加。如果采用的是原函数,   且输入是离散的,   则称之为离散余弦变换（Discrete Cosine Transform,   DCT）。采用DCT可以使信号能量集中于少数几个系数中,   便于信源压缩,   如量化、熵编码等。
 
-数学上共存在8种类型的DCT，在图像处理中常用形式如下，对应偶数阶的实偶DFT:
+数学上共存在8种类型的DCT,   在图像处理中常用形式如下,   对应偶数阶的实偶DFT:
 \begin{align}
-  X(k)&=\sqrt{\frac{2}{N}}\epsilon_k\sum_{n=0}^{N-1}x(n)\cos{\left[\frac{(2n+1)k\pi}{2N}\right]},k=0,1\cdots,N-1\label{TQ:typeI}\\
-  X(k)&=\sqrt{\frac{2}{N}}\epsilon_n\sum_{n=0}^{N-1}x(n)\cos{\left[\frac{(2k+1)n\pi}{2N}\right]},k=0,1\cdots,N-1\label{TQ:typeII}\\
+  X(k)&=\sqrt{\frac{2}{N}}\epsilon_k\sum_{n=0}^{N-1}x(n)\cos{\left[\frac{(2n+1)k\pi}{2N}\right]}, k=0, 1\cdots, N-1\label{TQ:typeI}\\
+  X(k)&=\sqrt{\frac{2}{N}}\epsilon_n\sum_{n=0}^{N-1}x(n)\cos{\left[\frac{(2k+1)n\pi}{2N}\right]}, k=0, 1\cdots, N-1\label{TQ:typeII}\\
   \epsilon_p&=\begin{cases}
-    \frac{1}{\sqrt{2}}, \qquad p=0\\
-    1, \qquad otherwise
+    \frac{1}{\sqrt{2}},  \qquad p=0\\
+    1,  \qquad otherwise
   \end{cases}
 \end{align}
-其中\ref{TQ:typeI}对应一维正变换，\ref{TQ:typeII}对应一维反变换。
+其中\ref{TQ:typeI}对应一维正变换,   \ref{TQ:typeII}对应一维反变换。
 
-图像、视频编码主要使用二维DCT,形式如下:
+图像、视频编码主要使用二维DCT, 形式如下:
 \begin{equation}
   \begin{array}{c}
-    X(k,l)=C(k)C(l)\sum_{m=0}^{N-1}\sum_{n=0}^{N-1}x(m,n)\cos{\left[\frac{(2m+1)k\pi}{2N}\right]}\cos{\left[\frac{(2n+1)l\pi}{2N}\right]}\\
-    k,l=0,1\cdots,N-1
+    X(k, l)=C(k)C(l)\sum_{m=0}^{N-1}\sum_{n=0}^{N-1}x(m, n)\cos{\left[\frac{(2m+1)k\pi}{2N}\right]}\cos{\left[\frac{(2n+1)l\pi}{2N}\right]}\\
+    k, l=0, 1\cdots, N-1
   \end{array}
 \end{equation}
 其中
 \begin{equation}
   C(k)=C(l)=\begin{cases}
-    \sqrt{\frac{1}{N}},\qquad k,l=0\\
-    \sqrt{\frac{2}{N}},\qquad otherwise
+    \sqrt{\frac{1}{N}}, \qquad k, l=0\\
+    \sqrt{\frac{2}{N}}, \qquad otherwise
   \end{cases}
 \end{equation}
 其逆变换如下:
 \begin{equation}
   \begin{array}{c}
-    X(m,n)=\sum_{m=0}^{N-1}\sum_{n=0}^{N-1}C(k)C(l)x(k,l)\cos{\left[\frac{(2m+1)k\pi}{2N}\right]}\cos{\left[\frac{(2n+1)l\pi}{2N}\right]}\\
-    m,n=0,1\cdots,N-1
+    X(m, n)=\sum_{m=0}^{N-1}\sum_{n=0}^{N-1}C(k)C(l)x(k, l)\cos{\left[\frac{(2m+1)k\pi}{2N}\right]}\cos{\left[\frac{(2n+1)l\pi}{2N}\right]}\\
+    m, n=0, 1\cdots, N-1
   \end{array}
 \end{equation}
 
-二维DCT可视为对列进行一次DCT后再对行进行一次DCT,以矩阵形式表达为$Y=AXA^T$,其中A为一维DCT变换矩阵,反变换为$X=A^TYA$。
+二维DCT可视为对列进行一次DCT后再对行进行一次DCT, 以矩阵形式表达为$Y=AXA^T$, 其中A为一维DCT变换矩阵, 反变换为$X=A^TYA$。
 
-如图\ref{TQ:JPEG}为二维$8\times 8$DCT基图像，二维DCT将图像变换为64个块的加权和，其中权重即为DCT系数。
+如图\ref{TQ:JPEG}为二维$8\times 8$DCT基图像,   二维DCT将图像变换为64个块的加权和,   其中权重即为DCT系数。
 \begin{figure}
   \centering
   \includegraphics[width=.5\textwidth]{pict/TQ/DCT-8x8.png}
   \caption{Two-dimensional DCT frequencies from the \href{https://en.wikipedia.org/wiki/JPEG\#Discrete_cosine_transform}{JPEG DCT}}
   \label{TQ:JPEG}
 \end{figure}
-对于灰度值缓慢变化的像素块来说,经过DCT后绝大部分能量都集中在左上角的低频系数中;相反，如果像素块包含较多细节纹理信息,则较多能量分散在高频区域。实际上大多数图像包含更多的低频分量，并且人眼对高频细节相对不敏感,因此可以对高能量的低频系数进行较为惊喜的量化与处理,这样可以较好地压缩图像而不会造成明显的主观质量下降。
+对于灰度值缓慢变化的像素块来说, 经过DCT后绝大部分能量都集中在左上角的低频系数中;相反,   如果像素块包含较多细节纹理信息, 则较多能量分散在高频区域。实际上大多数图像包含更多的低频分量,   并且人眼对高频细节相对不敏感, 因此可以对高能量的低频系数进行较为精细的量化与处理, 这样可以较好地压缩图像而不会造成明显的主观质量下降。
 
-如图\ref{TQ:astronaut},可见该图像大多数变换系数都集中在0附近,且主要分布在左上角区域。
+如图\ref{TQ:astronaut}, 可见该图像大多数变换系数都集中在0附近, 且主要分布在低频区域。
 \begin{figure}
   \centering
-  \subfloat[原图]{\includegraphics[width=.3\textwidth]{pict/TQ/ori.png}}
-  \subfloat[变换系数分布]{\includegraphics[width=.3\textwidth]{pict/TQ/hist.png}}
-  \subfloat[大系数空间分布]{\includegraphics[width=.3\textwidth]{pict/TQ/spatialDist.png}}
+  \subfloat[原图]{\includegraphics[width=.4\textwidth]{pict/TQ/ori.png}}\\
+  \subfloat[变换系数空间分布]{\includegraphics[width=.8\textwidth]{pict/TQ/dist2.png}}
   \caption{$512\times 512$图像astronaut DCT系数分布图}
   \label{TQ:astronaut}
 \end{figure}
 图\ref{TQ:rec}表示了使用部分大系数对该图像重建结果:
 \begin{figure}
   \centering
-  \subfloat[原图]{\includegraphics[width=.45\textwidth]{pict/TQ/astronaut.png}}\hspace*{\fill}\subfloat[51.5\%系数重建结果,PSNR=42.63dB]{\includegraphics[width=.45\textwidth]{pict/TQ/rec_42_63_515.png}}\\
-  \subfloat[28.0\%系数重建结果,PSNR=36.25dB]{\includegraphics[width=.45\textwidth]{pict/TQ/rec_36_25_280.png}}\hspace*{\fill}\subfloat[5.27\%系数重建结果,PSNR=28.10dB]{\includegraphics[width=.45\textwidth]{pict/TQ/rec_28_10_0527.png}}
+  \subfloat[原图]{\includegraphics[width=.45\textwidth]{pict/TQ/astronaut.png}}\hspace*{\fill}\subfloat[51.5\%系数重建结果, PSNR=42.63dB]{\includegraphics[width=.45\textwidth]{pict/TQ/rec_42_63_515.png}}\\
+  \subfloat[28.0\%系数重建结果, PSNR=36.25dB]{\includegraphics[width=.45\textwidth]{pict/TQ/rec_36_25_280.png}}\hspace*{\fill}\subfloat[5.27\%系数重建结果, PSNR=28.10dB]{\includegraphics[width=.45\textwidth]{pict/TQ/rec_28_10_0527.png}}
   \caption{$512\times 512$图像astronaut重建结果}
   \label{TQ:rec}
 \end{figure}
-可见,仅采用部分变换系数便可很好地还原原图像,因此使用DCT变换可以对图像进行明显的压缩。
+可见, 仅采用部分变换系数便可很好地还原原图像, 因此使用DCT变换可以对图像进行明显的压缩。
 \subsubsection{整数DCT}
-在实际应用DCT时由于计算机精度有限不可避免地会带来舍入误差以及编/解码端正反变换失配的问题。针对这个问题,H.264/AVC与H.265/HEVC均采用了整数DCT变换来解决舍入误差以及编解码失配问题,同时整数的使用提高了DCT的运算速度。
+在实际应用DCT时由于计算机精度有限不可避免地会带来舍入误差以及编/解码端正反变换失配的问题。针对这个问题, H.264/AVC与H.265/HEVC均采用了整数DCT变换来解决舍入误差以及编解码失配问题, 同时整数的使用提高了DCT的运算速度。
 
-这里我们并不讨论HEVC中整数DCT的设计准则,具体设计准则可以参考\cite{hevc},仅给出结果如图\ref{TQ:mat}。
+这里我们并不讨论HEVC中整数DCT的设计准则, 具体设计准则可以参考\cite{hevc}, 仅给出结果如图\ref{TQ:mat}。
 \begin{figure}
   \centering
   \includegraphics[width=.8\textwidth]{pict/TQ/mat.png}
-  \caption{$32\times 32$变换矩阵左半元素,阴影处分别代表$16\times 16,8\times 8,4\times 4$变换矩阵矩阵}
+  \caption{$32\times 32$变换矩阵左半元素, 阴影处分别代表$16\times 16, 8\times 8, 4\times 4$变换矩阵矩阵}
   \label{TQ:mat}
 \end{figure}
-实际应用中在正逆变换处有对应的缩放因子,并且要与量化结合使用。
+实际应用中在正逆变换处有对应的缩放因子, 并且要与量化结合使用。
 
-在HEVC中帧内预测$4\times 4$模式亮度残差编码中使用$4\times 4$整数DST(Discrete Sine Transform),式\ref{TQ:DST}给出了最终变换矩阵。
+在HEVC中帧内预测$4\times 4$模式亮度残差编码中使用$4\times 4$整数DST(Discrete Sine Transform), 式\ref{TQ:DST}给出了最终变换矩阵。
 \begin{equation}
   H=\left[
   \begin{array}{cccc}
@@ -117,35 +116,35 @@
 \end{equation}
 
 \subsection{量化}
-量化（Qualification）是指将信号的连续取值（大量可能的离散取值）映射为有限个离散幅值的过程，实现多对一的映射。在视频编码种，残差信号经过离散余弦变换（DCT）后，通过量化变换系数可以有效地压缩信息。然而量化不可避免地会引入失真，这也是视频编码中产生失真的根本原因，因此它是视频编码中一个重要的环节。
+量化（Qualification）是指将信号的连续取值（大量可能的离散取值）映射为有限个离散幅值的过程,   实现多对一的映射。在视频编码中,   残差信号经过离散余弦变换（DCT）后,   通过量化变换系数可以有效地压缩信息。然而量化不可避免地会引入失真,   这也是视频编码中产生失真的根本原因,   因此它是视频编码中一个重要的环节。
 
 \subsubsection{标量量化}
-一个量化器可以由其输入端的范围划分方式以及对应的输出值唯一确定。根据输入输出数据的类型，分为标量量化器和矢量量化器。其中标量量化器因其复杂度低、易实现的特性而广泛应用在各种图像、视频编码中。
+一个量化器可以由其输入端的范围划分方式以及对应的输出值唯一确定。根据输入输出数据的类型,   分为标量量化器和矢量量化器。其中标量量化器因其复杂度低、易实现的特性而广泛应用在各种图像、视频编码中。
 
-一般标量量化器的原理是将一个幅度连续的信号映射成若干个离散的信号，而这样做不可避免地会带来量化失真。主流衡量量化失真主要有三种准则：均方误差（MSE）、信噪比（SNR）和峰值信噪比（PSNR），计算公式分别为：
+一般标量量化器的原理是将一个幅度连续的信号映射成若干个离散的信号,   而这样做不可避免地会带来量化失真。主流衡量量化失真主要有三种准则：均方误差（MSE）、信噪比（SNR）和峰值信噪比（PSNR）,   计算公式分别为：
 \begin{align}
   MSE & = \frac{1}{M}\sum_{k=1}^M(x_k-\hat{x}^k)^2\\
   SNR & = 10lg\frac{\sigma_x^2}{MSE}\\
   PSNR & = 10lg\frac{x_{peak}^2}{MSE}
 \end{align}
 
-在图像和视频编码中，常利用Lloyd-Max量化器和熵编码量化器进行量化，并且认为DCT系数服从0均值的Laplace分布（其0值附近的系数概率较大），因此常常加宽0值附近的区间，从而带来率失真性能的提高。
+在图像和视频编码中,   常利用Lloyd-Max量化器和熵编码量化器进行量化,   并且认为DCT系数服从0均值的Laplace分布（其0值附近的系数概率较大）,   因此常常加宽0值附近的区间,   从而带来率失真性能的提高。
 
 \subsubsection{量化在H.265/HEVC中的应用}
 \paragraph{量化}
-H.265/HEVC标准仅规定了反量化过程的实现方法，而将量化方法留给编码器决定，这就留下了充足的优化量化方法的余地，例如自适应量化（Adaptive Qualification）和率失真优化量化（RDOQ）等。
+H.265/HEVC标准仅规定了反量化过程的实现方法,   而将量化方法留给编码器决定,   这就留下了充足的优化量化方法的余地,   例如自适应量化（Adaptive Qualification）和率失真优化量化（RDOQ）等。
 传统标量量化方法可以表示如下：
 \begin{equation}
   l_i=floor(\frac{c_i}{Q_{step}}+f)
 \end{equation}
-其中，$c_i$表示DCT系数，$Q_{step}$表示量化步长，$l_i$为量化后的值，$floor$为向下取整函数，而通过$f$来控制舍入关系。H.265/HEVC标准规定了52个量化步长，对应于相同数量的量化参数（Qualification Parameter，QP）（0~51）。两者关系近似由下式给出：
+其中,   $c_i$表示DCT系数,   $Q_{step}$表示量化步长,   $l_i$为量化后的值,   $floor$为向下取整函数,   而通过$f$来控制舍入关系。H.265/HEVC标准规定了52个量化步长,   对应于相同数量的量化参数（Qualification Parameter,   QP）（0--51）。两者关系近似由下式给出：
 \begin{equation}
   Q_{step}\approx 2^{(QP-4)/6}
 \end{equation}
 
-从上式可以看出，QP每增加6，$Q_{step}$大约增大1倍。因此量化步长的变化范围相当宽，可以根据不同的需求灵活选择。
+从上式可以看出,   QP每增加6,   $Q_{step}$大约增大1倍。因此量化步长的变化范围相当宽,   可以根据不同的需求灵活选择。
 
-需要注意的是，对于色差信号若使用较大的量化步长会出现颜色漂移现象。为了应对这一问题，H.265/HEVC标准将色差信号的量化参数限制在跟小的范围内（0~45），具体对应关系见表\ref{TQ:Qstep}。
+需要注意的是,   对于色差信号若使用较大的量化步长会出现颜色漂移现象。为了应对这一问题,   H.265/HEVC标准将色差信号的量化参数限制在跟小的范围内（0--45）,   具体对应关系见表\ref{TQ:Qstep}。
 \begin{table}
   \caption{QP--$Q_{step}$对应关系}
   \label{TQ:Qstep}
@@ -167,7 +166,7 @@ H.265/HEVC标准仅规定了反量化过程的实现方法，而将量化方法�
   \end{center}
 \end{table}
 
-H.265/HEVC的量化过程还将完成整数DCT中的比例缩放运算，并且为了避免浮点数的运算，量化器通过先放大后取整的方法进行变换。考虑到QP和之间的关系，可以将QP表示为：
+H.265/HEVC的量化过程还将完成整数DCT中的比例缩放运算,   并且为了避免浮点数的运算,   量化器通过先放大后取整的方法进行变换。考虑到QP和之间的关系,   可以将QP表示为：
 \begin{equation}
   QP=floor(QP/6)+QP\%6
 \end{equation}
@@ -184,26 +183,26 @@ H.265/HEVC的量化过程还将完成整数DCT中的比例缩放运算，并且�
   \end{cases}
 \end{align}
 
-其中\%表示取余运算。又考虑到整数DCT中的缩放因子通常为2的整数次幂$2^{T_shift}$，则上式可以写为：
+其中\%表示取余运算。又考虑到整数DCT中的缩放因子通常为2的整数次幂$2^{T_{shift}}$,   则上式可以写为：
 \begin{equation}
-  l_{ij}=floor(\frac{d_{ij}MF}{2^{qbits+T_shift}}+f)=(d_{ij}MF+f')>>(qbits+T_shift)
+  l_{ij}=floor(\frac{d_{ij}MF}{2^{qbits+T_{shift}}}+f)=(d_{ij}MF+f')>>(qbits+T_{shift})
 \end{equation}
-其中，$>>$表示右移运算，$d_{ij}$表示缩放前的DCT系数，舍入偏移则由$f'=f<<(qbits+T_{shift})$代表。
+其中,   $>>$表示右移运算,   $d_{ij}$表示缩放前的DCT系数,   舍入偏移则由$f'=f<<(qbits+T_{shift})$代表。
 
-综上所述，H.265/HEVC的量化公式为：
+综上所述,   H.265/HEVC的量化公式为：
 \begin{align}
-  |l_{ij}|&=(|d_{ij}|MF+f')>>(qbits+T_shift)\\
+  |l_{ij}|&=(|d_{ij}|MF+f')>>(qbits+T_{shift})\\
   sign(l_{ij})&=sign(d_{ij})
 \end{align}
 
 \paragraph{反量化}
-对应于上述的量化公式，容易得出标量量化的反量化公式为：
+对应于上述的量化公式,   容易得出标量量化的反量化公式为：
 \begin{equation}
   \hat{c}_i=l_i Q_{step}
 \end{equation}
-其中$\hat{c}_i$表示反量化后得到的重构DCT系数。由于量化是一个有损过程，因此通常情况下$\hat{c}_i\neq c_i$。
+其中$\hat{c}_i$表示反量化后得到的重构DCT系数。由于量化是一个有损过程,   因此通常情况下$\hat{c}_i\neq c_i$。
 
-和量化类似的是，反量化过程也全部使用整数进行，同时亦融合了IDCT中的比例伸缩运算。引入变量shift和scale如下所示：
+和量化类似的是,   反量化过程也全部使用整数进行,   同时亦融合了IDCT中的比例伸缩运算。引入变量shift和scale如下所示：
 \begin{align}
   shift &= 6 + floor(QP/6)-IT_{shift}\\
   scale &=26\cdot Q_{step}=2floor(QP/6)\cdot\begin{cases}
@@ -215,69 +214,69 @@ H.265/HEVC的量化过程还将完成整数DCT中的比例缩放运算，并且�
     72 \qquad QP\%6=5\\
   \end{cases}
 \end{align}
-其中$IT_{shift}$表示IDCT中的比例伸缩。综上，H.265/HEVC的反量化公式为：
+其中$IT_{shift}$表示IDCT中的比例伸缩。综上,   H.265/HEVC的反量化公式为：
 \begin{equation}
   \hat{c}_{ij}=(l_{ij}\cdot scale+(1<<(shift-1)))>>shift
 \end{equation}
 
 \paragraph{率失真优化量化（RDOQ）}
-传统的标量量化器是以失真最小为目的进行设计的，而正如前文所述，在视频编码中，编码比特率和失真是需要权衡的。率失真优化量化（RDOQ）就是这样一种量化器。其主要思想为将量化过程同率失真优化相结合，在多个可选量化值中选择一个最优的：
+传统的标量量化器是以失真最小为目的进行设计的,   而正如前文所述,   在视频编码中,   编码比特率和失真是需要权衡的。率失真优化量化（RDOQ）就是这样一种量化器。其主要思想为将量化过程同率失真优化相结合,   在多个可选量化值中选择一个最优的：
 \begin{equation}
-  l_i^*=\arg\min_{k=1,\cdots,m}\{D(c_i,l_{i,k})+\lambda\cdot R(l_{i,k})\}
+  l_i^*=\arg\min_{k=1, \cdots, m}\{D(c_i, l_{i, k})+\lambda\cdot R(l_{i, k})\}
 \end{equation}
-其中，$D(c_i,l_{i,k})$为$c_i$量化为$l_{i,k}$时的失真，$R(l_{i,k})$表示$c_i$量化为$l_{i,k}$时的编码比特数，$\lambda$为拉格朗日因子，$l_i^*$即为最优量化值。
+其中,   $D(c_i, l_{i, k})$为$c_i$量化为$l_{i, k}$时的失真,   $R(l_{i, k})$表示$c_i$量化为$l_{i, k}$时的编码比特数,   $\lambda$为拉格朗日因子,   $l_i^*$即为最优量化值。
 
-依照上述原则，在H.265/HEVC中实现方法具体如下：
+依照上述原则,   在H.265/HEVC中实现方法具体如下：
 \begin{enumerate}
   \item 确定当前TU每个系数的可选量化值。用下式对当前TU所有系数进行预量化$|l_i|=round(\frac{|c_i|}{Q_{step}})$
-  \item 利用RDO准则确定当前TU所有系数的最优量化值。按扫描顺序便利当前TU所有系数，对于每一个系数，遍历其可选量化值，并利用RDO确定最优量化值。
-  \item 用RDO准则确定当前TU所有系数块组（CG）是否优化为全零组。由于在熵编码（CABAC）的过程中，全零CG只需要编码全零标识，省去了许多步骤，如果当前CG仅含有极少个数且幅值较小的系数时，优化为全零CG可能会获得更好的率失真性能。
-  \item 利用RDO准则确定当前TU“最后一个非零系数”的位置，这样可以省去CABAC中TU编码拖尾零系数的比特数。因此其位置对失真和编码比特数有着严重的影响。
+  \item 利用RDO准则确定当前TU所有系数的最优量化值。按扫描顺序遍历当前TU所有系数,   对于每一个系数,   遍历其可选量化值,   并利用RDO确定最优量化值。
+  \item 用RDO准则确定当前TU所有系数块组（CG）是否优化为全零组。由于在熵编码（CABAC）的过程中,   全零CG只需要编码全零标识,   省去了许多步骤,   如果当前CG仅含有极少个数且幅值较小的系数时,   优化为全零CG可能会获得更好的率失真性能。
+  \item 利用RDO准则确定当前TU“最后一个非零系数”的位置,   这样可以省去CABAC中TU编码拖尾零系数的比特数。因此其位置对失真和编码比特数有着严重的影响。
 \end{enumerate}
 
-和标量量化相比，RDOQ提高了编码器的性能，但由于需要遍历多个可选量化值并计算率失真代价，其编码复杂度也有一定增加。实验结果表明，RDOQ能使编码性能提高3\%--6\%，但总编码时间大约增加10\%--15\%。
+和标量量化相比,   RDOQ提高了编码器的性能,   但由于需要遍历多个可选量化值并计算率失真代价,   其编码复杂度也有一定增加。实验结果表明,   RDOQ能使编码性能提高3\%--6\%,   但总编码时间大约增加10\%--15\%。
 
 \paragraph{量化参数}
-在视频编码中，QP式相当重要的参数，直接影响着视频的编码比特率。对于某些应用场合，尤其是传输速率受限时，灵活地控制量化参数使得编码速率满足要求显得尤为重要。为此H.265/HEVC制定了十分灵活的QP控制机制——量化组（Qualification Group，QG）。规定一个CTB可以拥有一个或多个固定的QG，同一个QG内的所有含有非零系数的CU共享一个QP，而不同的QG可以使用不同的QP。这样便通过增加QP解析算法的复杂度来进行更灵活的速率控制。
+在视频编码中,   QP是相当重要的参数,   直接影响着视频的编码比特率。对于某些应用场合,   尤其是传输速率受限时,   灵活地控制量化参数使得编码速率满足要求显得尤为重要。为此H.265/HEVC制定了十分灵活的QP控制机制——量化组（Qualification Group,   QG）。规定一个CTB可以拥有一个或多个固定的QG,   同一个QG内的所有含有非零系数的CU共享一个QP,   而不同的QG可以使用不同的QP。这样便通过增加QP解析算法的复杂度来进行更灵活的速率控制。
 
 \subparagraph{QG概念}
-QG是指将一幅图像分成固定大小的$N\times N$的正方形像素块，具体由图像参数集指定，其必须处于最大CU和最小CU之间（同时包含两者），图\ref{TQ:DCT4}给出了一个$32\times 32$的QG示意图。从图中可以明白，CU和QG并无固定大小关系，因为QG为固定大小，而CU是根据视频内容自适应划分的。
+QG是指将一幅图像分成固定大小的$N\times N$的正方形像素块,   具体由图像参数集指定,   其必须处于最大CU和最小CU之间（同时包含两者）,   图\ref{TQ:DCT4}给出了一个$32\times 32$的QG示意图。从图中可以明白,   CU和QG并无固定大小关系,   因为QG为固定大小,   而CU是根据视频内容自适应划分的。
 \begin{figure}
   \centering
-  \includegraphics{pict/TQ/DCT4.png}
+  \includegraphics[width=.4\textwidth]{pict/TQ/DCT4.png}
   \caption{QG边界与CU划分}
   \label{TQ:DCT4}
 \end{figure}
 
 \subparagraph{QP的预测编码}
-H.265/HEVC进一步发展了H.264/AVC中对量化参数QP进行预测编码的思想，他使用相邻已编码QG的信息来预测当前QG的QP，增加了QP预测的准确度。下图\ref{TQ:DCT5}给出了H.265/HEVC中QP的预测示例，其中A和B分别为当前QG左侧和上方的已编码QG，则当前QG的预测QP应为：
+H.265/HEVC进一步发展了H.264/AVC中对量化参数QP进行预测编码的思想,   它使用相邻已编码QG的信息来预测当前QG的QP,   增加了QP预测的准确度。下图\ref{TQ:DCT5}给出了H.265/HEVC中QP的预测示例,   其中A和B分别为当前QG左侧和上方的已编码QG,   则当前QG的预测QP应为：
 \begin{equation}
   predQP=(QP_A+QP_B+1)>>1
 \end{equation}
-需要注意的是，在实际QP预测过程中，在某些情况下A和B可能不存在，这时就应根据解码器的设置来将A和B进行替换。
+需要注意的是,   在实际QP预测过程中,   在某些情况下A和B可能不存在,   这时就应根据解码器的设置来将A和B进行替换。
 \begin{figure}
   \centering
-  \includegraphics{pict/TQ/DCT5.png}
+  \includegraphics[width=.3\textwidth]{pict/TQ/DCT5.png}
   \caption{QP的预测模板}
   \label{TQ:DCT5}
 \end{figure}
 
 \subparagraph{CU层QP的解析}
-由于H.265/HEVC是以CU为单元进行解码，因此QP的解析也依赖于CU。考虑到色度分量QP的计算使用了亮度的QP，因此下文以CU亮度QP为例展示QP的解析过程。
+由于H.265/HEVC是以CU为单元进行解码,   因此QP的解析也依赖于CU。考虑到色度分量QP的计算使用了亮度的QP,   因此下文以CU亮度QP为例展示QP的解析过程。
 
-由于H.265/HEVC对QP进行了预测编码，因此QP的解析也即QP的预测值（predQP）和预测误差（deltaQP）的解析。
+由于H.265/HEVC对QP进行了预测编码,   因此QP的解析也即QP的预测值（predQP）和预测误差（deltaQP）的解析。
 
-对于预测QP的获取，一般分情况考虑。由于CU和QG没有固定的大小关系，当一个QG包含一个及以上CU时，所有CU使用同一个预测QP，也就是当前QG的预测QP。反之，则采用CU内的第一个预测QP作为当前CU的预测QP。
+对于预测QP的获取,   一般分情况考虑。由于CU和QG没有固定的大小关系,   当一个QG包含一个及以上CU时,   所有CU使用同一个预测QP,   也就是当前QG的预测QP。反之,   则采用CU内的第一个预测QP作为当前CU的预测QP。
 
-deltaQP的获取更为复杂，但情况大致相同。当一个QG包含一个及以上CU时，deltaQP会在解码顺序上的第一个含有非零系数的CU中传递。当前QG内在此之前所有CU的deltaQP都为0，之后的所有CU都使用同一个QG。
+deltaQP的获取更为复杂,   但情况大致相同。当一个QG包含一个及以上CU时,   deltaQP会在解码顺序上的第一个含有非零系数的CU中传递。当前QG内在此之前所有CU的deltaQP都为0,   之后的所有CU都使用同一个QG。
 
-反之，则采用第一个含有非零系数的QG所携带的deltaQP。若所有的QG系数均为0，那么该CU的deltaQP亦为0。
+反之,   则采用第一个含有非零系数的QG所携带的deltaQP。若所有的QG系数均为0,   那么该CU的deltaQP亦为0。
 
 \subsubsection{量化矩阵}
-H.265/HEVC使用了量化矩阵，其原理是对不同的系数采用不同的量化步长。例如，可以利用人眼对图像视频中高频细节不敏感的特征，对高频系数采用较大的量化步长，而对低频系数采用较小的量化步长，这样做能够保证在保证一定压缩率的同时提高图像或视频的主观质量。
+H.265/HEVC使用了量化矩阵,   其原理是对不同的系数采用不同的量化步长。例如,   可以利用人眼对图像视频中高频细节不敏感的特征,   对高频系数采用较大的量化步长,   而对低频系数采用较小的量化步长,   这样做能够保证在保证一定压缩率的同时提高图像或视频的主观质量。
 
-H.265/HEVC的变换量化过程依次为残差变换、比例缩放以及量化。其中量化矩阵主要作用于比例缩放部分，其大小和TU相同，从$4\times 4$到$32\times 32$不等，变换后的DCT系数将和量化矩阵中对应位置的系数相除，所得结果将作为量化模块的输入。
+H.265/HEVC的变换量化过程依次为残差变换、比例缩放以及量化。其中量化矩阵主要作用于比例缩放部分,   其大小和TU相同,   从$4\times 4$到$32\times 32$不等,   变换后的DCT系数将和量化矩阵中对应位置的系数相除,   所得结果将作为量化模块的输入。
 
-H.265/HEVC标准允许采用默认量化矩阵或用户自定义量化矩阵。对于默认量化矩阵，由$4\times 4$和$8\times 8$两种大小，更高阶的量化矩阵由88量化矩阵通过上采样得到。在默认量化矩阵中，越靠近右下角的元素值一般越大，说明高频系数会使用较大的量化步长，这样能够符合人眼的特性，提高编码视频的主观质量。
+H.265/HEVC标准允许采用默认量化矩阵或用户自定义量化矩阵。对于默认量化矩阵,   由$4\times 4$和$8\times 8$两种大小,   更高阶的量化矩阵由$8\times 8$量化矩阵通过上采样得到。在默认量化矩阵中,   越靠近右下角的元素值一般越大,   说明高频系数会使用较大的量化步长,   这样能够符合人眼的特性,   提高编码视频的主观质量。
 
-对于自定义矩阵，H.265/HEVC允许编码器根据不同的应用场合自行决定量化矩阵各元素的值。此时，量化矩阵需要被写入码流传送到解码器。为了节省资源，一般使用差分编码完成。
+对于自定义矩阵,   H.265/HEVC允许编码器根据不同的应用场合自行决定量化矩阵各元素的值。此时,   量化矩阵需要被写入码流传送到解码器。为了节省资源,   一般使用差分编码完成。

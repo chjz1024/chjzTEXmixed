@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99999 (TeX Live 2018) (preloaded format=xelatex 2018.12.4)  7 DEC 2018 18:40
+This is XeTeX,  Version 3.14159265-2.6-0.99999 (TeX Live 2018) (preloaded format=xelatex 2018.12.4)  7 DEC 2018 18:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -356,7 +356,7 @@ Package fontspec Warning: Font 'FandolSong-Regular' does not contain script
 
 Package fontspec Info: Font family 'FandolSong-Regular(0)' created for font
 (fontspec)             'FandolSong-Regular' with options
-(fontspec)             [Script={CJK},Extension={.otf},BoldFont={FandolSong-Bold},ItalicFont={FandolKai-Regular}].
+(fontspec)             [Script={CJK}, Extension={.otf}, BoldFont={FandolSong-Bold}, ItalicFont={FandolKai-Regular}].
 (fontspec)              
 (fontspec)              This font family consists of the following NFSS
 (fontspec)             series/shapes:
@@ -399,9 +399,9 @@ File: listings.cfg 2018/09/02 1.7 listings configuration
 ))
 Package: listings 2018/09/02 1.7 (Carsten Heinz)
  (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/graphicx.sty
-Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC, SPQR)
  (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC, SPQR)
  (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 ) (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
@@ -416,9 +416,9 @@ File: xetex.def 2017/06/24 v5.0h Graphics/color driver for xetex
 ) (/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2018/11/30 v6.88e Hypertext links for LaTeX
  (/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
-Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
+Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek,  subset hyperref (HO)
  (/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
-Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
+Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek,  subset generic (HO)
 Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
 Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
 Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
@@ -432,7 +432,7 @@ Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
 Package etexcmds Info: Could not find \expanded.
 (etexcmds)             That can mean that you are not using pdfTeX 1.50 or
 (etexcmds)             that some package has redefined \expanded.
-(etexcmds)             In the latter case, load this package earlier.
+(etexcmds)             In the latter case,  load this package earlier.
 Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
 Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
 Package: pdftexcmds 2018/09/10 v0.29 Utility functions of pdfTeX for LuaTeX (HO)
@@ -487,7 +487,7 @@ Package hyperref Info: Bookmarks ON on input line 4772.
 \c@Hy@tempcnt=\count276
  (/usr/local/texlive/2018/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip17
-Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+Package: url 2013/09/16  ver 3.4  Verb mode for urls,  etc.
 )
 LaTeX Info: Redefining \url on input line 5125.
 \XeTeXLinkMargin=\dimen183
@@ -680,8 +680,8 @@ Here is how much of TeX's memory you used:
  475385 string characters out of 6133502
  806280 words of memory out of 5000000
  28025 multiletter control sequences out of 15000+600000
- 536605 words of font info for 57 fonts, out of 8000000 for 9000
+ 536605 words of font info for 57 fonts,  out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 52i,7n,74p,428b,2214s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 52i, 7n, 74p, 428b, 2214s stack positions out of 5000i, 500n, 10000p, 200000b, 80000s
 
 Output written on digital communications.pdf (9 pages).

@@ -1,53 +1,53 @@
-上下文参考自适应二进制算术编码(Context-Based Adaptive Binary Arithmetic Coding,CABAC)是HEVC使用的熵编码方法。尽管它最早在H.264/AVC标准中提出并拥有高于绝大多数熵编码的压缩率,其数据依存性使得它难以并行处理,因此仅在Main Profile以及更高档次下可以使用。对应地在HEVC熵编码标准化过程中,编码效率以及吞吐量两方面被细致地研究了。本章节先介绍熵编码的一些概念,再给出CABAC的实现方式以及其压缩效率,HEVC中CABAC的设计准则见文献\cite{HEVC},本文并不讨论。
+上下文参考自适应二进制算术编码(Context-Based Adaptive Binary Arithmetic Coding, CABAC)是HEVC使用的熵编码方法。尽管它最早在H.264/AVC标准中提出并拥有高于绝大多数熵编码的压缩率, 其数据依存性使得它难以并行处理, 因此仅在Main Profile以及更高档次下可以使用。对应地在HEVC熵编码标准化过程中, 编码效率以及吞吐量两方面被细致地研究了。本章节先介绍熵编码的一些概念, 再给出CABAC的实现方式以及其压缩效率, HEVC中CABAC的设计准则见文献\cite{HEVC}, 本文并不讨论。
 
 \subsection{熵编码概述}
-由Shannon的信息论,一个离散信源X的信源熵为$H(X)=E\left[log\frac{1}{P(x_i)}\right]$,这也代表了对该信源进行可正确解码的编码后表示每个码字平均需要的最短码长,而原信源平均码长等于信源熵的充要条件是其编码后的序列服从等概率分布\cite{Shannon}。
+由Shannon的信息论, 一个离散信源X的信源熵为$H(X)=E\left[log\frac{1}{P(x_i)}\right]$, 这也代表了对该信源进行可正确解码的编码后表示每个码字平均需要的最短码长, 而原信源平均码长等于信源熵的充要条件是其编码后的序列服从等概率分布\cite{Shannon}。
 
 这告诉了我们两件事:
 \begin{enumerate}
-  \item 我们必须以不小于原信源信源熵的空间来储存信息,额外需消耗的空间叫做这种表达方式的冗余。冗余的存在是能对信源进行压缩的前提与基础。
-  \item 熵编码的实质是对离散信源进行适当的变换,使变换后新的符号序列信源尽可能为等概率分布,从而使新信源的每个码符号平均所含的信息量达到最大。这一点和密码学的表述十分相近,只不过密码学是要用少量信息来让源信源看似多了很多信息。
+  \item 我们必须以不小于原信源信源熵的空间来储存信息, 额外需消耗的空间叫做这种表达方式的冗余。冗余的存在是能对信源进行压缩的前提与基础。
+  \item 熵编码的实质是对离散信源进行适当的变换, 使变换后新的符号序列信源尽可能为等概率分布, 从而使新信源的每个码符号平均所含的信息量达到最大。这一点和密码学的表述十分相近, 只不过密码学是要用少量信息来让源信源看似多了很多信息。
 \end{enumerate}
 
-实际通信中,信源通常输出的是符号序列,而符号间彼此有一定相关性,其联合熵可用来表征信源输出一个序列所提供的平均信息量,定义为$H_N(X)=H(X_1X_2\cdots X_N)$,则当信源足够长时每个符号平均信息量可表示为$h(\mathcal{X})=\lim_{N\rightarrow\infty}\frac{H_N(X)}{N}$,称为该信源的熵率。进一步来说,对于平稳Markov信源(给定当前信源符号,未来符号与过去无关)若将整个随机过程视为一整体来编码,可以证明\cite{Information_Theory}条件熵$H(X_N|X_1X_2\cdots X_{N-1})$是$N$的非增函数,则有不等式:
+实际通信中, 信源通常输出的是符号序列, 而符号间彼此有一定相关性, 其联合熵可用来表征信源输出一个序列所提供的平均信息量, 定义为$H_N(X)=H(X_1X_2\cdots X_N)$, 则当信源足够长时每个符号平均信息量可表示为$h(\mathcal{X})=\lim_{N\rightarrow\infty}\frac{H_N(X)}{N}$, 称为该信源的熵率。进一步来说, 对于平稳Markov信源(给定当前信源符号, 未来符号与过去无关)若将整个随机过程视为一整体来编码, 可以证明\cite{Information_Theory}条件熵$H(X_N|X_1X_2\cdots X_{N-1})$是$N$的非增函数, 则有不等式:
 \begin{equation}
   h(\mathcal{X}) = \lim_{N\rightarrow\infty}\frac{H_N(X)}{N} \leq H(X_N|X_1X_2\cdots X_{N-1}) \leq H(X_i)
 \end{equation}
 因此自适应编码一般来说压缩率总是比非自适应算法要高。
 
-Huffman于1952年提出了一种针对已知信源构造最优变长码的方法,被称作Huffman编码,其基本思想是为出现频率高的码字分配较短的码长,因此能够实现压缩,且有平均码长满足$H(X)\leq \bar{l} <H(X)+1$。
+Huffman于1952年提出了一种针对已知信源构造最优变长码的方法, 被称作Huffman编码, 其基本思想是为出现频率高的码字分配较短的码长, 因此能够实现压缩, 且有平均码长满足$H(X)\leq \bar{l} <H(X)+1$。
 
 \subsection{算术编码} \label{EC:secAC}
-算术编码也为一种熵编码方法,但由于它把整个信源当成一个符号处理,可以为单个码字分配小于1的码长,因此压缩效率更高。
+算术编码也为一种熵编码方法, 但由于它把整个信源当成一个符号处理, 可以为单个码字分配小于1的码长, 因此压缩效率更高。
 
-算术编码原理是:根据信源概率将$[0,1)$区间划分为互不重叠的子区间,子区间宽度为各符号序列概率,这样信源符号就和各子区间一一对应。每输入一个符号就将选择的区间进一步划分,则最终该区间就对应于输入码字,实际输出的是该区间下长度最短的码字,具体编码过程见图\ref{EC:AC},其中I,K,W概率分别为0.5,0.25,0.25。
+算术编码原理是:根据信源概率将$[0, 1)$区间划分为互不重叠的子区间, 子区间宽度为各符号序列概率, 这样信源符号就和各子区间一一对应。每输入一个符号就将选择的区间进一步划分, 则最终该区间就对应于输入码字, 实际输出的是该区间下长度最短的码字, 具体编码过程见图\ref{EC:AC}, 其中I, K, W概率分别为0.5, 0.25, 0.25。
 \begin{figure}
   \centering
   \includegraphics{pict/EC/Arithmetic_coding_visualisation_circle.png}
-  \caption{The above example visualised as a circle, the values in red encoding "WIKI" and "KIWI" \url{https://en.wikipedia.org/wiki/Arithmetic_coding}}
+  \caption{The above example visualised as a circle,  the values in red encoding "WIKI" and "KIWI" \url{https://en.wikipedia.org/wiki/Arithmetic_coding}}
   \label{EC:AC}
 \end{figure}
-解码过程就是根据所传输数据判断它所对应的编码区间,从而得到传输符号。
+解码过程就是根据所传输数据判断它所对应的编码区间, 从而得到传输符号。
 
-算数编码平均码长满足$H(X)\leq \bar{l} < H(x)+\frac{2}{N}$,其中$N$为序列长度。
+算数编码平均码长满足$H(X)\leq \bar{l} < H(x)+\frac{2}{N}$, 其中$N$为序列长度。
 
 普通的算术编码在实现上有几个问题:
 \begin{enumerate}
-  \item 实际计算机精度不可能无限长,因此运算过程中可能导致溢出,这点可以通过比例缩放解决。
-  \item 编解码过程中需要不断进行查表并进行浮点数运算,当符号个数大的时候开销很大。\label{EC:prob}
-  \item 传输过程中有一个bit出现问题则代表整个解码序列出差错,且在接收到所有序列前无法解码。
+  \item 实际计算机精度不可能无限长, 因此运算过程中可能导致溢出, 这点可以通过比例缩放解决。
+  \item 编解码过程中需要不断进行查表并进行浮点数运算, 当符号个数大的时候开销很大。\label{EC:prob}
+  \item 传输过程中有一个bit出现问题则代表整个解码序列出差错, 且在接收到所有序列前无法解码。
 \end{enumerate}
-其中针对\ref{EC:prob},本章节作者写了一个算数编/解码程序\url{github},信源符号视为1字节ASCII码256个字符,在使用了如Hash索引,二分查找等快速算法的情况下平均编码速度36MB/s,解码速度12MB/s(i7-6700单核,g++环境),效率不高。
+其中针对\ref{EC:prob}, 本章节作者写了一个算数编/解码程序\url{github}, 信源符号视为1字节ASCII码256个字符, 在使用了如Hash索引, 二分查找等快速算法的情况下平均编码速度36MB/s, 解码速度12MB/s(i7-6700单核, g++环境), 效率不高。
 
-相对来说,CABAC以二进制信源作为编码元素,并采用自适应方法编码,总体上有以下优点:
+相对来说, CABAC以二进制信源作为编码元素, 并采用自适应方法编码, 总体上有以下优点:
 \begin{enumerate}
-  \item 只编码二进制元素,因此运算复杂度较低,并且可以针对最大概率符号(Most Probable Symbol,MPS)进行概率建模。
-  \item 概率模型由当前上下文自适应选择,因此可以建模的很好。
-  \item 通过量化过的区间与概率状态在区间划分时不使用除法,提高了运行效率。
+  \item 只编码二进制元素, 因此运算复杂度较低, 并且可以针对最大概率符号(Most Probable Symbol, MPS)进行概率建模。
+  \item 概率模型由当前上下文自适应选择, 因此可以建模的很好。
+  \item 通过量化过的区间与概率状态在区间划分时不使用除法, 提高了运行效率。
 \end{enumerate}
 
 \subsection{CABAC}
-CABAC在编码的最后一步进行,此时视频已经变成了一系列语法元素。语法元素描述了该视频信号要怎么在解码器处重建,包括了CTU、PU、TU的结构语法,预测方式(帧内还是帧间),预测参数以及预测残差,SAO偏移等。在HEVC中也有一些语法元素并不经过CABAC编码,其他的高级语法元素采用零阶指数Golomb码或定长码来编码,具体哪些需要编码见\cite{hevc}。
+CABAC在编码的最后一步进行, 此时视频已经变成了一系列语法元素。语法元素描述了该视频信号要怎么在解码器处重建, 包括了CTU、PU、TU的结构语法, 预测方式(帧内还是帧间), 预测参数以及预测残差, SAO偏移等。在HEVC中也有一些语法元素并不经过CABAC编码, 其他的高级语法元素采用零阶指数Golomb码或定长码来编码, 具体哪些需要编码见\cite{hevc}。
 
 \subsubsection{CABAC概览}
   CABAC编码主要包括三个基本步骤:
@@ -60,15 +60,15 @@ CABAC在编码的最后一步进行,此时视频已经变成了一系列语法�
   \begin{figure}
     \centering
     \includegraphics{pict/EC/Block_Diagram.png}
-    \caption{CABAC block diagram (from the encoder perspective): Binarization, context modeling (including probability estimation and assignment), and binary arithmetic coding. In red: Potential throughput bottlenecks, as further discussed from the decoder perspective in Sect. 8.3.2}
+    \caption{CABAC block diagram (from the encoder perspective): Binarization,  context modeling (including probability estimation and assignment),  and binary arithmetic coding. In red: Potential throughput bottlenecks,  as further discussed from the decoder perspective in Sect. 8.3.2}
     \label{EC:Block_diagram}
   \end{figure}
-  二进制化指将语法元素映射为二进制符号,上下文建模预测每个常规编码符号概率,二进制算数编码将符号编码为二进制比特流。
+  二进制化指将语法元素映射为二进制符号, 上下文建模预测每个常规编码符号概率, 二进制算数编码将符号编码为二进制比特流。
 
 \subsubsection{二进制化}
-  CABAC编码策略是找到一种对非二进制语法元素有效的编码方案,像是运动矢量差与变换系数等可以根据先验知识设计出很有效的编码方案来预处理,之后的上下文建模与算数编码基于这个来进行。H.264/AVC与HEVC的二值化手段都是基于一些基础的可快速实现的概率模型设计的。
+  CABAC编码策略是找到一种对非二进制语法元素有效的编码方案, 像是运动矢量差与变换系数等可以根据先验知识设计出很有效的编码方案来预处理, 之后的上下文建模与算数编码基于这个来进行。H.264/AVC与HEVC的二值化手段都是基于一些基础的可快速实现的概率模型设计的。
 
-  HEVC二值化手段包括k阶截断Rice编码(k-th order truncated Rice,TRk),k阶指数Golomb编码(k-th order Exp-Golomb,EGk),定长二进制化(fixed-length,FL)方法,其中部分方法也备用在了H.264/AVC上。表\ref{EC:binarization}表示了用这些方法编码N的结果。
+  HEVC二值化手段包括k阶截断Rice编码(k-th order truncated Rice, TRk), k阶指数Golomb编码(k-th order Exp-Golomb, EGk), 定长二进制化(fixed-length, FL)方法, 其中部分方法也备用在了H.264/AVC上。表\ref{EC:binarization}表示了用这些方法编码N的结果。
     \begin{table}
       \caption{Examples of different binarizations}
       \begin{center}
@@ -90,20 +90,20 @@ CABAC在编码的最后一步进行,此时视频已经变成了一系列语法�
     \label{EC:binarization}
     \end{table}
   \begin{itemize}
-    \item 一元码编码后前N个符号为1,最后一个符号为0。当遇到0时代表编码结束。对TrU(Truncated Unary),当数值大于cMax则截断该码字。
-    \item k阶截断Rice码由前缀与后缀组成:前缀为N<<k,最大值为cMax;后缀为N的最后k个符号。
-    \item k阶Golomb码对于参数未知或可变的几何分布有接近最优的编码性能。每个码字由一个长为$l_N+1$的一元码字与长为$l_N+k$的后缀组成,其中$l_N=\left \lfloor{log_2((N>>k)+1)}\right \rfloor$
+    \item 一元码编码后前N个符号为1, 最后一个符号为0。当遇到0时代表编码结束。对TrU(Truncated Unary), 当数值大于cMax则截断该码字。
+    \item k阶截断Rice码由前缀与后缀组成:前缀为N<<k, 最大值为cMax;后缀为N的最后k个符号。
+    \item k阶Golomb码对于参数未知或可变的几何分布有接近最优的编码性能。每个码字由一个长为$l_N+1$的一元码字与长为$l_N+k$的后缀组成, 其中$l_N=\left \lfloor{log_2((N>>k)+1)}\right \rfloor$
     \item 定长码使用长度为$\left \lceil{log_2(cMax+1)}\right \rceil $的码字表示。
   \end{itemize}
 
-  不同的语法元素使用不同的二进制化方案,有些还与以前编码过的元素以及参数有关。大多数语法元素均采用上述方案或者其中几种的组合,还有些语法元素使用自定义的二进制化方案,具体内容参见\cite{98}。
+  不同的语法元素使用不同的二进制化方案, 有些还与以前编码过的元素以及参数有关。大多数语法元素均采用上述方案或者其中几种的组合, 还有些语法元素使用自定义的二进制化方案, 具体内容参见\cite{98}。
 
 \subsubsection{上下文建模}
-  语法元素二进制化完成后,其上下文建模方法依赖于编码模式。这包括两种模式:常规编码模式与旁路编码模式。旁路编码模式不对概率模型进行自适应更新,而是假设每个符号服从均匀分布。在常规编码模式中,概率模型或根据语法元素种类,其符号索引(binIdx)等固定选择,或根据其相邻块的编码信息自适应选择。这种概率模型的选择被称为上下文建模。
+  语法元素二进制化完成后, 其上下文建模方法依赖于编码模式。这包括两种模式:常规编码模式与旁路编码模式。旁路编码模式不对概率模型进行自适应更新, 而是假设每个符号服从均匀分布。在常规编码模式中, 概率模型或根据语法元素种类, 其符号索引(binIdx)等固定选择, 或根据其相邻块的编码信息自适应选择。这种概率模型的选择被称为上下文建模。
 
-  作为一项重要的设计决策,第二种情况通常只在最常见到的符号上使用,而第一种则一般来说会使用联合零阶概率模型来处理。通过这种方式,CABAC使得次符号等级的自适应概率建模变成了可能,因此也能更好地利用起符号间冗余而不需很费力地为其建模。需要注意的是,原则上由一种模型转换到另一种模型可发生在任何两个连续编码的符号中间。大体上CABAC中上下文模型的设计目的就是在避免没必要的建模消耗与充分利用符号间依赖关系中作出很好的权衡。
+  作为一项重要的设计决策, 第二种情况通常只在最常见到的符号上使用, 而第一种则一般来说会使用联合零阶概率模型来处理。通过这种方式, CABAC使得次符号等级的自适应概率建模变成了可能, 因此也能更好地利用起符号间冗余而不需很费力地为其建模。需要注意的是, 原则上由一种模型转换到另一种模型可发生在任何两个连续编码的符号中间。大体上CABAC中上下文模型的设计目的就是在避免没必要的建模消耗与充分利用符号间依赖关系中作出很好的权衡。
 
-  CABAC中概率模型的参数也是自适应的,即是说它以输入比特为单位自适应更新其模型参数,这一过程被称为概率估计。为了这个目的,CABAC中的每个概率模型都可取126种不同的状态,其概率位于区间$[0.01875,0.98125]$。每个概率模型有两个参数,被储存为7-bit的条目(entry): 6bits用来存储63种概率状态,代表最小概率符号(LPS)的模型概率$p_{LPS}$; 1bit用来存储$v_{MPS}$,代表当前最大概率符号(MPS)。CABAC中概率估计依赖于被称为``指数退化''的模型,在$t$时刻编码完一个符号$b$后概率更新如下:
+  CABAC中概率模型的参数也是自适应的, 即是说它以输入比特为单位自适应更新其模型参数, 这一过程被称为概率估计。为了这个目的, CABAC中的每个概率模型都可取126种不同的状态, 其概率位于区间$[0.01875, 0.98125]$。每个概率模型有两个参数, 被储存为7-bit的条目(entry): 6bits用来存储63种概率状态, 代表最小概率符号(LPS)的模型概率$p_{LPS}$; 1bit用来存储$v_{MPS}$, 代表当前最大概率符号(MPS)。CABAC中概率估计依赖于被称为``指数退化''的模型, 在$t$时刻编码完一个符号$b$后概率更新如下:
   \begin{equation}
     p_{LPS}^{(t+1)}=\begin{cases}
       \alpha*p_{LPS}^{(t)} & if ~ b = v_{MPS}\\
@@ -111,58 +111,58 @@ CABAC在编码的最后一步进行,此时视频已经变成了一系列语法�
     \end{cases}
     \label{EC:eq1}
   \end{equation}
-  该式中,因子$\alpha$决定了适应速度,当$\alpha\rightarrow 1$时代表最慢的适应速度,$\alpha$越小适应速度越快。%这种方法与采用华东窗口得到的结果一致,见\cite{4,65}
-  在CABAC设计中,等式\ref{EC:eq1}使用的因子$\alpha$如下:
+  该式中, 因子$\alpha$决定了适应速度, 当$\alpha\rightarrow 1$时代表最慢的适应速度, $\alpha$越小适应速度越快。%这种方法与采用华东窗口得到的结果一致, 见\cite{4, 65}
+  在CABAC设计中, 等式\ref{EC:eq1}使用的因子$\alpha$如下:
   \begin{equation}
     \alpha = \left(\frac{0.01875}{0.5}\right)^{\frac{1}{63}} with \min_t p_{LPS}^{(t)}=0.01875
   \end{equation}
-  且使用合理的量化将其分为63种状态,来得到一有限状态机(Finite-state Machine,FSM),对应一转移概率表。在HEVC中这一方式不变,尽管有其他的提案\cite{1,78}指出可以在跟高的运算复杂度下使平均比特率降低$0.8-0.9\%$。
+  且使用合理的量化将其分为63种状态, 来得到一有限状态机(Finite-state Machine, FSM), 对应一转移概率表。在HEVC中这一方式不变, 尽管有其他的提案\cite{1, 78}指出可以在跟高的运算复杂度下使平均比特率降低$0.8-0.9\%$。
 
-  CABAC中每一个概率模型都使用唯一的上下文索引(ctxIdx)指代,其中该索引或由固定分配产生,或由对应上下文逻辑计算得出。在HEVC标准化过程中花费了大量精力来在吞吐量与编码效率方面改进模型分配与上下文导出逻辑。
+  CABAC中每一个概率模型都使用唯一的上下文索引(ctxIdx)指代, 其中该索引或由固定分配产生, 或由对应上下文逻辑计算得出。在HEVC标准化过程中花费了大量精力来在吞吐量与编码效率方面改进模型分配与上下文导出逻辑。
 
 \subsubsection{无乘法二进制算术编码}
-  二进制算术编码,或者算数编码笼统来说都基于递归区间划分原理。最初给定区间由其下界(base)$L$与其宽度(range)$R$表示,接下来它被分为两个不相交子区间:一个宽度为
+  二进制算术编码, 或者算数编码笼统来说都基于递归区间划分原理。最初给定区间由其下界(base)$L$与其宽度(range)$R$表示, 接下来它被分为两个不相交子区间:一个宽度为
   \begin{equation}
     R_{LPS}=p_{LPS}*R
     \label{EC:eq2}
   \end{equation}
-  的LPS区间,与其对偶的长为$R_{MPS}=R-R_{LPS}$的MPS区间。根据要编码的为LPS还是MPS,对应的子区间被选为新的编码区间,通过这样的递归划分,编码器最终输出区间$[L^{(N)},L^{(N)}+R^{(N)})$中最短的一个值作为编码结果。为了保证以有限精度表示$R^{(j)}$与$L^{(j)}$,在区间划分时需要进行重归一化操作。每当$R^{(j)}$低于一阈值就进行归一化操作,同时输出其起始无歧义比特。
+  的LPS区间, 与其对偶的长为$R_{MPS}=R-R_{LPS}$的MPS区间。根据要编码的为LPS还是MPS, 对应的子区间被选为新的编码区间, 通过这样的递归划分, 编码器最终输出区间$[L^{(N)}, L^{(N)}+R^{(N)})$中最短的一个值作为编码结果。为了保证以有限精度表示$R^{(j)}$与$L^{(j)}$, 在区间划分时需要进行重归一化操作。每当$R^{(j)}$低于一阈值就进行归一化操作, 同时输出其起始无歧义比特。
 
-  解码器处可以通过追踪区间来很快地恢复编码比特。因为CABAC只有两个符号,根据式\ref{EC:eq2}仅需比较一次编码值与边界值就可判断输入比特为0还是1。
+  解码器处可以通过追踪区间来很快地恢复编码比特。因为CABAC只有两个符号, 根据式\ref{EC:eq2}仅需比较一次编码值与边界值就可判断输入比特为0还是1。
 
-  从具体实现角度来说,CABAC中最耗时的操作是式\ref{EC:eq2}中的乘法,如果概率预测基于缩放累积频率计数方法的话,运算过程中还会包含整数除法,这会进一步降低性能,实际上\ref{EC:secAC}中作者写的代码就是使用的这种方法。因此为了解决这个问题,实际上在H.264/AVC标准化过程中已经提出了一族无乘法二进制算数编码方法,这在之后被称为\textit{modulo coder}(M coder)\cite{43,45}。这种方法主要的特性是将基于查表的子区间划分法与上述 的FSM概率预测法结合,以及快速的旁路编码模式。
+  从具体实现角度来说, CABAC中最耗时的操作是式\ref{EC:eq2}中的乘法, 如果概率预测基于缩放累积频率计数方法的话, 运算过程中还会包含整数除法, 这会进一步降低性能, 实际上\ref{EC:secAC}中作者写的代码就是使用的这种方法。因此为了解决这个问题, 实际上在H.264/AVC标准化过程中已经提出了一族无乘法二进制算数编码方法, 这在之后被称为\textit{modulo coder}(M coder)\cite{43, 45}。这种方法主要的特性是将基于查表的子区间划分法与上述 的FSM概率预测法结合, 以及快速的旁路编码模式。
   
   \paragraph{常规编码模式}\mbox{}
 
-  M-coder中区间划分的基本思想是将重归一化后的区间长度的可能区间长度量化为少量的K个单元。为了简化运算,一般采用均匀量化,其中$K=2^\kappa$,最终可得到集合$\textbf{W}={W_0,W_1,\cdots,W_{K-1}}$代表区间宽度。将其与LPS概率集$\textbf{P}={p_0,p_1,\cdots,p_{N-1}}$分别相乘可以得到一大小为$K\times N$的列表$\{W_k*p_n|0\leq k < K; 0 \leq n < N\}$,则可以通过选定精度来逼近式\ref{EC:eq2}所得结果。二维查找表\textit{TabRangeLPS}中的条目以概率状态索引\textit{n}与量化块索引\textit{k(R)}表示。\textit{k(R)}的计算可以采用移位运算与位掩码来进行,而掩码可被解释为取模运算,这也是M-coder名称的由来。
+  M-coder中区间划分的基本思想是将重归一化后的区间长度的可能区间长度量化为少量的K个单元。为了简化运算, 一般采用均匀量化, 其中$K=2^\kappa$, 最终可得到集合$\textbf{W}={W_0, W_1, \cdots, W_{K-1}}$代表区间宽度。将其与LPS概率集$\textbf{P}={p_0, p_1, \cdots, p_{N-1}}$分别相乘可以得到一大小为$K\times N$的列表$\{W_k*p_n|0\leq k < K; 0 \leq n < N\}$, 则可以通过选定精度来逼近式\ref{EC:eq2}所得结果。二维查找表\textit{TabRangeLPS}中的条目以概率状态索引\textit{n}与量化块索引\textit{k(R)}表示。\textit{k(R)}的计算可以采用移位运算与位掩码来进行, 而掩码可被解释为取模运算, 这也是M-coder名称的由来。
 
-  在H.264/AVC中选择$\kappa=2$与$N=64$,为了使表格最大大小$2^\kappa*N\leq 256$,HEVC也采用了这种设计。若选定$\kappa=0$,二维表\textit{TabRangeLPS}退化为一维表,等价于区间长度不变。这与JBIG中的Q coder,JPEG中的QM coder,JPEG2000中的MQ coder中的做法一致,因此可以将M-coder视为更一般化的Q-coder。相比于QM/MQ coder,H.264/AVC中的M-coder的吞吐量增加了$18\%$,同时比特率降低了$2-4\%$。有趣的是吞吐量的上升主要归功与它的旁路编码模式,因为虽然查找表大小的增加可以提高编码效率,同时它也会带来吞吐量的降低。
+  在H.264/AVC中选择$\kappa=2$与$N=64$, 为了使表格最大大小$2^\kappa*N\leq 256$, HEVC也采用了这种设计。若选定$\kappa=0$, 二维表\textit{TabRangeLPS}退化为一维表, 等价于区间长度不变。这与JBIG中的Q coder, JPEG中的QM coder, JPEG2000中的MQ coder中的做法一致, 因此可以将M-coder视为更一般化的Q-coder。相比于QM/MQ coder, H.264/AVC中的M-coder的吞吐量增加了$18\%$, 同时比特率降低了$2-4\%$。有趣的是吞吐量的上升主要归功与它的旁路编码模式, 因为虽然查找表大小的增加可以提高编码效率, 同时它也会带来吞吐量的降低。
 
   \paragraph{旁路编码模式}\mbox{}
 
-  旁路编码模式中每个符号概率都被视为0.5,因此每次区间划分只需要一次比特移位,比较,以及可能有的减法便可实现。在H.264/AVC中旁路编码模式主要用在符号以及量化系数的最低有效位上,然而在HEVC中绝大多数的二进制符号都采用旁路编码模式。如前文所述,这也在很大程度上是HEVC为各个语法元素精心设计的二进制化方案的功劳,在这种情况下二进制化后的语法元素已经接近了最优前缀码。
+  旁路编码模式中每个符号概率都被视为0.5, 因此每次区间划分只需要一次比特移位, 比较, 以及可能有的减法便可实现。在H.264/AVC中旁路编码模式主要用在符号以及量化系数的最低有效位上, 然而在HEVC中绝大多数的二进制符号都采用旁路编码模式。如前文所述, 这也在很大程度上是HEVC为各个语法元素精心设计的二进制化方案的功劳, 在这种情况下二进制化后的语法元素已经接近了最优前缀码。
 
   \paragraph{快速重归一化}\mbox{}
 
-  任何算术编/解码吞吐量的主要瓶颈之一是重归一化过程。H.264/AVC与HEVC中该过程需要以位为单位比较判断是否需要进一步归一化,同时把结果输出到比特流,也因此降低了吞吐量。文献\cite{48}指出可以通过字节或字为单位来提高吞吐量,具体细节见\cite{47,48}。
+  任何算术编/解码吞吐量的主要瓶颈之一是重归一化过程。H.264/AVC与HEVC中该过程需要以位为单位比较判断是否需要进一步归一化, 同时把结果输出到比特流, 也因此降低了吞吐量。文献\cite{48}指出可以通过字节或字为单位来提高吞吐量, 具体细节见\cite{47, 48}。
 
   \paragraph{结束标识}\mbox{}
 
-  在解码时区间细分会不断进行下去,因此为了表示解码结束需要有对应标识。在M-coder中有一个保留概率状态,对应索引为$n=63$,此时$R_{LPS}=2$。其结果是对\texttt{end\_of\_slice\_segment\_flag}, \texttt{end\_of\_sub\_stream\_one\_bit}和\texttt{pcm\_flag}等终止标识,在重归一化过程中生成7bits输出,然后再输出2bits来终止该码字。在编码器处最后写入的比特必为1,代表\texttt{rbsp\_stop\_one\_bit}。在对比特流进行封装前,二进制码字以零值填充以按字节对齐。
+  在解码时区间细分会不断进行下去, 因此为了表示解码结束需要有对应标识。在M-coder中有一个保留概率状态, 对应索引为$n=63$, 此时$R_{LPS}=2$。其结果是对\texttt{end\_of\_slice\_segment\_flag},  \texttt{end\_of\_sub\_stream\_one\_bit}和\texttt{pcm\_flag}等终止标识, 在重归一化过程中生成7bits输出, 然后再输出2bits来终止该码字。在编码器处最后写入的比特必为1, 代表\texttt{rbsp\_stop\_one\_bit}。在对比特流进行封装前, 二进制码字以零值填充以按字节对齐。
 
 \subsubsection{CABAC流程}
-  以下为HEVC中CABAC常规编码具体实现流程:对每一上下文索引均分配了一个初始值$initValue$,根据下式计算其状态$ucState$,包括其概率状态索引$n$与其$MPS$,$ucState=n<<1+MPS$:
+  以下为HEVC中CABAC常规编码具体实现流程:对每一上下文索引均分配了一个初始值$initValue$, 根据下式计算其状态$ucState$, 包括其概率状态索引$n$与其$MPS$, $ucState=n<<1+MPS$:
   \begin{align*}
-    qp & = clip3(0,51,qp)\\
+    qp & = clip3(0, 51, qp)\\
     slope & = (initValue>>4)*5-45\\
     offset & = ((initValue\&15)<<3)-16\\
-    initState & = clip3(1,126,(((slope * qp) >> 4) + offset))\\
+    initState & = clip3(1, 126, (((slope * qp) >> 4) + offset))\\
     mpState & = initState>=64\\
     ucState & = ((mpState ? (initState - 64) : (63 - initState)) << 1) + mpState
   \end{align*}
-  其中qp为片层量化参数,\texttt{clip3}为动态限幅函数,原型为\texttt{clip3(min,max,v)},仅当\texttt{v}在\texttt{min}与\texttt{max}间时输出\texttt{v},其余时刻输出边界值。
+  其中qp为片层量化参数, \texttt{clip3}为动态限幅函数, 原型为\texttt{clip3(min, max, v)}, 仅当\texttt{v}在\texttt{min}与\texttt{max}间时输出\texttt{v}, 其余时刻输出边界值。
 
-  概率模型自适应更新发生在每个二进制符号编码后,其更新方法为:
+  概率模型自适应更新发生在每个二进制符号编码后, 其更新方法为:
   \begin{verbatim}
     if( binVal = = valMps )
       pStateIdx = transIdxMps( pStateIdx )
@@ -199,16 +199,16 @@ CABAC在编码的最后一步进行,此时视频已经变成了一系列语法�
   \begin{enumerate}
     \item LPS区间ivlLpsRange更新如下:
     \begin{itemize}
-      \item 由当前区间ivlCurrRange,得量化块索引qRangeIdx如下:
+      \item 由当前区间ivlCurrRange, 得量化块索引qRangeIdx如下:
       
       \texttt{qRangeIdx =( ivlCurrRange >> 6 ) \& 3}
       \item 根据pStateIdx和qRangeIdx更新下界ivlLpsRange如下:
       
       \texttt{ivlLpsRange = rangeTabLps[ pStateIdx ][ qRangeIdx ]}
     \end{itemize}
-    \item 首先将ivlCurrRange置为ivlCurrRange-ivlLpsRange,而后进行下一步:
+    \item 首先将ivlCurrRange置为ivlCurrRange-ivlLpsRange, 而后进行下一步:
     \begin{itemize}
-      \item 若ivlOffset不小于ivlCurrRange,binVal置为1-valMps,ivlOffset自减ivlCurrange,ivlCurrRange置为ivlLpsRange
+      \item 若ivlOffset不小于ivlCurrRange, binVal置为1-valMps, ivlOffset自减ivlCurrange, ivlCurrRange置为ivlLpsRange
       \item 否则binVal置为valMps
     \end{itemize}
   \end{enumerate}
@@ -256,4 +256,4 @@ CABAC在编码的最后一步进行,此时视频已经变成了一系列语法�
     \end{center}
   \end{table}
 \subsubsection{运行效率}
-  为了验证CABAC算法执行效率,本章作者以HM源代码为基础实现了常规编码模式下的熵编码器,托管于\url{github}。因为要体现压缩效率的话需要对应语法元素支持,这里只列出算法执行速度为8.7MB/s。而旁路编码模式只会更快,且还可以通过并行计算来实现,因此实际效率会高于该值。
+  为了验证CABAC算法执行效率, 本章作者以HM源代码为基础实现了常规编码模式下的熵编码器, 托管于\url{github}。因为要体现压缩效率的话需要对应语法元素支持, 这里只列出算法执行速度为8.7MB/s。而旁路编码模式只会更快, 且还可以通过并行计算来实现, 因此实际效率会高于该值。
