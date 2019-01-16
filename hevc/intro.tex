@@ -10,7 +10,7 @@
 \usepackage{subfig} % subfigure
 \usepackage{inputenc} % accent
 \usepackage{fancyhdr} % fancey heading
-\usepackage[cm]{fullpage}
+\usepackage[headings]{fullpage}
 \usepackage{multirow}
 \usepackage{hyperref}
 
@@ -85,16 +85,19 @@
             经各路编码后的变换系数、运动矢量、参数集等仍有压缩空间。实际存储或传输的数据为经过熵编码后的二进制流。
         \end{enumerate}
 
-        除此之外,为了适应不同的网络环境与视频应用,H.265/HEVC也采用了视频编码层(Video Coding Layer, VCL)和网络适配层(Network Abstract Layer, NAL)的双层架构;随着处理器多核架构的发展,多核并行处理成为提高编解码能力的有效手段,H.265/HEVC在设计时充分考虑到了并行处理的必要性,在数据单元划分与语法结构上均为其做了准备;为了在满足信道带宽和传输时延限制的情况下有效传输视频数据,速率控制是实际编码器的很重要的组成成分。H.265/HEVC的官方编码器HM也提出了一些速率控制算法等。这些在本文最后会简要介绍。
+        除此之外,为了适应不同的网络环境与视频应用,H.265/HEVC也采用了视频编码层(Video Coding Layer, VCL)和网络适配层(Network Abstract Layer, NAL)的双层架构;随着处理器多核架构的发展,多核并行处理成为提高编解码能力的有效手段,H.265/HEVC在设计时充分考虑到了并行处理的必要性,在数据单元划分与语法结构上均为其做了准备;为了在满足信道带宽和传输时延限制的情况下有效传输视频数据,速率控制是实际编码器的很重要的组成成分。H.265/HEVC的官方编码器HM也提出了一些速率控制算法等,本文中并不介绍,具体可以参考\cite{hevc}。
 
       \section{编码结构}
         \input{section/framework.tex}
       \section{预测编码}
+        \input{section/prediction/intra.tex}
+        \input{section/prediction/inter.tex}
       \section{变换编码与量化}
+        \input{section/dct.tex}
       \section{环路滤波}
+        \input{section/loopFilter.tex}
       \section{熵编码}
         \input{section/entropyEncoding.tex}
-      \section{其他}
 %bib
       \bibliographystyle{plain}
       \bibliography{ref}

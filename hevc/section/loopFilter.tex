@@ -1,0 +1,330 @@
+通常在进行了量化和变换编码的过程之后，原有视频会产生一些失真：例如方块效应、振铃效应、颜色偏差以及图像模糊等。为了降低失真的影响，提高处理后的视频质量，一般通过环路后处理修正。本文主要介绍并实现用以消除方块效应的“去方块滤波”和改善振铃效应的“样点自适应补偿”模块。两个模块在编码环路的位置如图所示，可以看到，去方块滤波模块和样点自适应补偿模块都处于编码环路中。也就是说经过滤波后的重构像素才能作为后续编码使用。而经过环路滤波处理后的重建像素更有利于参考，进一步减小后续编码像素的预测残差，有效提高图像质量。图\ref{LF:pic1}以框图形式表示了整个去方块滤波流程。
+\begin{figure}[H]
+  \centering
+  \includegraphics{pict/LF/DEBLOCK0.PNG}
+  \label{LF:pic1}
+\end{figure}
+\subsection{去方块滤波}
+\subsubsection{方块效应和去方块滤波原理}
+在编解码器反变换量化后图像会出现方块效应。其产生的原因有两个。最重要的一个原因是基于块的帧内和帧间预测残差的 DCT 变换。变换系数的量化过程相对粗糙，因而反量化过程恢复的变换系数带有误差，会造成在图像块边界上的视觉不连续。第二个原因来自于运动补偿预测。运动补偿块可能是从不是同一帧的不同位置上的内插样点数据复制而来。因为运动补偿块的匹配不可能是绝对准确的，所以就会在复制块的边界上产生数据不连续。
+
+尽管采用较小的变换尺寸可以降低这种不连续现象，但仍需要一个去方块滤波器以最大程度提高编码性能。
+
+去方块滤波器的作用是去除编解码算法带来的方块效应。但是，如果在DCT边界上，正好是图像的边界，若不加以判断而误认为是方块效应，则可能造成新的误差。为此，在滤波方块效应时，应该先判断该边界是图像真实边界还是方块效应所形成的边界（假边界）。对真实边界不进行滤波处理，而对假边界则要根据周围图像块的性质和编码方法采用不同强度的滤波。
+\subsubsection{去方块滤波算法构成}
+	\paragraph{边界分析}
+
+自适应边界滤波：
+
+当对残差用DCT变换进行编码时，方块边界比内部的编码误差大。对这个现象的合理解释是内部点的重建是对周围点进行加权平均得到。而边界点所用到的加权平均点较少，所以重建效果较差。该误差分布不均匀的导致需要方块边界滤波以提高图像客观质量。
+
+边界强度（Bs）决定去方块滤波器选择滤波参数，控制去除方块效应的程度，它与边界的性质有关。一般根据Bs与相邻图像块的模式及编码条件的关系，给Bs相应赋值。
+
+在实际滤波算法中，Bs决定对边界的滤波强度，包括对两个主要滤波模式的选择。Bs值的下降趋势说明最强的方块效应主要来自于帧内预测模式及对预测残差编码，而在较小程度上与图像的运动补偿有关。色度块边界滤波的Bs值不另外单独计算，而是从相应亮度块边界的Bs值复制而来。
+
+在帧场自适应宏块中，条件相对复杂些，因为相邻两图像块中的一个可能来自帧编码宏块或来自场编码宏块。滤波强度变化的原则不变。为了避免将图像过度模糊化，对于来自场编码宏块的水平边界需要特别考虑以避免过强的滤波强度，这是因为这种宏块的垂直滤波的空间扩展范围是其它情况的两倍。
+
+自适应样点滤波(Sample Adaptive Offset,SAO)：
+
+在去方块滤波中，非常重要的是要区分图像中的真实边界和由 DCT 变换系数量化而造成的假边界。为了保持图像的逼真度，应该尽量滤除假边界以不致被看出的同时保持图像真实边界不被滤波。
+为了区分这两种情况，要分析每个需要被滤波的边界两边的样点值。本文为方便起见，以4×4 变换块为例。定义两个相邻4×4块中一条直线上的样点为 $p_3、p_2、p_1、p_0、q_0、q_1、q_2、q_3$，实际的图像边界在p0和q0之间，如下图\ref{LF:pic2}所示。
+\begin{figure}[H]
+  \centering
+  \includegraphics{pict/LF/DEBLOCK1.png}
+  \label{LF:pic2}
+\end{figure}
+如上所述，当Bs值为0时，滤波器对边界不起作用。对于Bs值为非 0的边界，为区分上述真假两种边界，定义一对与量化有关的参数，为 $\alpha$和$\beta$，用来检查图像内容，以决定每个样本点集是否要被滤波。只有下述三个条件同时满足，直线上的样点才被滤波：
+\begin{equation}
+| p_0-q_0 | <\alpha(Index_A),| p_1-p_0 | <\beta(Index_B),| q_1-q_0 | <\beta(Index_B)
+\end{equation}
+ $\alpha$和$\beta$值根据边界两边的平均量化参数查表得到， $\alpha$和$\beta$的查表指数根据下式计算：
+
+\begin{equation}
+Index_A =
+\begin{cases}
+0,  & if\qquad  QP+Offset_A\leq 0 \\
+QP+Offset_A, & if\qquad  0<QP+Offset_A<51 \\
+51,  & if\qquad  QP+Offset_A \geq 51
+\end{cases}
+\end{equation}
+
+\begin{equation}
+Index_B =
+\begin{cases}
+0,  & if\qquad  QP+Offset_B\leq 0 \\
+QP+Offset_B, & if\qquad  0<QP+Offset_B<51 \\
+51,  & if\qquad  QP+Offset_B\geq 51
+\end{cases}
+\end{equation}
+其中，0到51为QP的范围。$Offset_A$和$Offset_B$为在编码器中选择的偏移值，以在片级上控制去方块滤波的性能。$\alpha$和$\beta$值满足下面近似经验关系：
+\begin{equation}
+	\alpha(x)=0.8(2^{6/x}-1),\beta(x)=0.5x-7
+\end{equation}
+这个关系式中的变量是根据测试进行选择的，让不同的内容得到满意的视觉效果。一般来说$\beta$比$\alpha$小。为了节省计算量，$\alpha$和$|beta$值通过查表得到。特别地，在表格低端，两者取值被限为0，这样对$Index_A$＜16或$Index_B$＜16，$\alpha$和$\beta$中的一个或两个全部为0，相应地不进行滤波。
+
+\begin{table}[!htbp]
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\multicolumn{21}{|c|}{$Index_A$(对应$\alpha$)或者$Index_B$(对应$\beta)$}\\ % 用\multicolumn{3}表示横向合并三列 
+                        % |c|表示居中并且单元格两侧添加竖线 最后是文本
+\hline
+ &<16&16&17&18&19&20&21&22&23&24&25&26&27&28&29&30&31&32&33&34\\
+\hline
+
+$\alpha$&0&4&4&5&6&7&8&9&10&12&13&15&17&20&22&25&28&32&36&40\\
+\hline
+$\beta$&0&2&2&2&3&3&3&3&4&4&4&6&6&7&7&8&8&9&9&10\\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\multicolumn{18}{|c|}{$Index_A$(对应$\alpha$)或者$Index_B$(对应$\beta)$}\\ % 用\multicolumn{3}表示横向合并三列 
+                        % |c|表示居中并且单元格两侧添加竖线 最后是文本
+\hline
+ &35&36&37&38&39&40&41&42&43&44&45&46&47&48&49&50&51\\
+\hline
+
+$\alpha$&45&50&56&63&71&80&90&101&113&127&144&162&182&203&226&255&255\\
+\hline
+$\beta$&10&11&11&12&12&13&13&14&14&15&15&16&16&17&17&18&18\\
+\hline
+\end{tabular}
+\caption{关系}
+\end{table}
+
+$\alpha$和$\beta$与QP的关系将滤波强度与滤波前重建的图像一般质量联系起来。因为阈值随QP增加，当QP较大时，含有较多内容的边界需要被滤波，这是由于编码误差随QP增加的缘故。$\alpha$中的指数特性反映期望的方块效应与$\alpha$的关系，因为QP每增加6则量化步长增加一倍。
+
+\paragraph{滤波过程}
+
+基本滤波运算：
+
+先讨论对亮度点的滤波。对这种模式的滤波，滤波后的 和 值按下式计算：
+\begin{equation}
+p_0^{'} =p_0+\Delta_0,q_0^{'} =q_0-\Delta_0
+\end{equation}
+
+其中 $\Delta_0$分两步计算，先计算它的初始值$\Delta_{0i}$ ，再对这个初始值进行限幅后代入上式。初始值$\Delta_{0i}$ 根据边界两边的样点值计算：
+\begin{equation}
+\Delta_{0i}=(4(q_0-p_0)+(p_1-q_1)+4)>>3
+\end{equation}
+当上述式子成立时，才修正对应$p_1$ 或$q_1$ 值，即滤波后的$p_1$ 或$q_1$  值按下式计算：
+\begin{equation}
+p_1^{'} =p_1+\Delta_p,q_1^{'} =q_1-\Delta_q
+\end{equation}
+同时计算$p_1^{'} $的初始值$\Delta$为$\Delta_{p1i}=(p_2+((p_0+q_0+1)>>1)-2P_1)>>1,\Delta_{q1i}$按同样关系式计算，用$q_2$ 和$q_1$ 分别代替$p_2$ 和$p_1$ 即可。可以证明，上式的脉冲响应具有很强的低通特性。
+
+限幅：
+
+如果上述初始值$\Delta_{0i}$、$\Delta_{p1i}$和$\Delta_{q1i} $ 直接应用在滤波计算中，则可能导致滤波频率过低，出现图像模糊。自适应滤波器的一个重要部分是限制 的值，称为限幅。对于内部和边界上的样点，限幅过程不同。
+\begin{table}[!htbp]
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\multicolumn{20}{|c|}{$Index_A$}\\ 
+\hline
+ &<17&17&18&19&20&21&22&23&24&25&26&27&28&29&30&31&32&33&34\\
+\hline
+Bs=1&0&0&0&0&0&0&0&1&1&1&1&1&1&1&1&1&1&2&2\\
+\hline
+Bs=2&0&0&0&0&0&1&1&1&1&1&1&1&1&1&1&2&2&2&2\\
+\hline
+Bs=3&0&1&1&1&1&1&1&1&1&1&1&2&2&2&2&3&3&3&4\\
+\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\multicolumn{18}{|c|}{$Index_A$}\\ 
+\hline
+ &35&36&37&38&39&40&41&42&43&44&45&46&47&48&49&50&51\\
+\hline
+Bs=1&2&2&3&3&3&4&4&4&5&6&6&7&8&9&10&11&13\\
+\hline
+Bs=2&3&3&3&4&4&5&5&6&7&8&8&10&11&12&13&15&17\\
+\hline
+Bs=3&4&4&5&6&6&7&8&9&10&11&13&14&16&18&20&23&25\\
+\hline
+\end{tabular}
+\caption{滤波限幅变量c1值与$Index_A$和Bs的关系}
+\end{table}
+对于内部样点，用于滤波的 值$\Delta$被限制在$-c_1$ 到$c_1$ 范围内， 是从二维表中查找的参数，它是根据用于计算$\alpha$的IndexA和Bs查找。IndexA和Bs越大，则 也越大，也就允许更强的滤波。最终$p_1$和$q_1$滤波的限幅值为：
+\begin{equation}
+  \Delta_{p1}=\begin{cases}
+    -c_1 \qquad \Delta_{p1i}<-c_1\\
+    \Delta_{p1i} \qquad -c_1\leq\Delta_{p1i}\leq c_1\\
+    c_1 \qquad \Delta_{p1i}>c_1
+  \end{cases}\qquad
+  \Delta_{q1}=\begin{cases}
+    -c_1 \qquad \Delta_{q1i}<-c_1\\
+    \Delta_{q1i} \qquad -c_1\leq\Delta_{q1i}\leq c_1\\
+    c_1 \qquad \Delta_{q1i}>c_0
+  \end{cases}
+\end{equation}
+
+对于滤波边界$p_0$ 和$q_0$ 样点，$\Delta_{0i}$ 的限幅值由 $c_1$和条件决定。先将它的限幅值 $c_0$定为$c_1$ 。
+
+如果滤波条件都成立，说明边界两边内部的变化强度小于$\beta$阈值，需要对边界进行更强的滤波（同时如上述需要对 $p_1$或$q_1$ 样点进行修正），$c_0$ 将增加1。这样对边界样点的修正值为：
+\begin{equation}
+  \Delta_0=\begin{cases}
+    -c_0 \qquad \Delta_{0i}<-c_0\\
+    \Delta_{0i} \qquad -c_0\leq\Delta_{0i}\leq c_0\\
+    c_0 \qquad \Delta_{0i}>c_0
+  \end{cases}
+\end{equation}
+
+对色度点滤波，只有 $p_0$和$q_0$ 才被修正。滤波方法与亮度点一样，只是限幅值$c_0$ 为 $c_1$加1。这样对Bs小于4的边界没有必要对色度进行估计，也不必存取变量$p_2$ 和$q_2$ 值。
+
+平滑边界滤波：
+
+H.265/MPEG-4 AVC的帧内编码在对同一图像区域编码时倾向采用 16×16亮度预测模式。这会在宏块边界引起小幅度的方块效应。但是由于Mach band效应，在这种情况下，即使是很小的强度值差别在视觉上的感觉是敏感的。为了消除这种效应，需要在图像内容平滑的两个宏块边界采用较强的滤波器。
+
+对亮度滤波，根据图像内容判断选择较强的滤波器，还是较弱滤波器。较强的滤波器对边界两边的边界点及两个内部点进行修正，而较弱滤波器仅改变边界点。只有下面的跨边界差异的约束条件成立才使用较强的滤波器：
+
+\begin{equation}
+| p_0-q_0 |<(\alpha>>2)+2
+\end{equation}
+对于亮度滤波，当满足一定条件时，根据下式计算滤波后的样点值：
+\begin{align}
+  p_0^{'}&=(p_2+2p_1+2p_0+2q_0+2q_1+4)>>3\\
+  p_1^{'}&=(p_2+p_1+p_0+q_0+2)>>2\\
+  p_2^{'}&=(2p_3+3p_2+p_1+p_0+q_0+4)>>3
+\end{align}
+否则，只根据下式修正$p_0$：
+\begin{equation}
+p_0^{'} =(2p_1+p_0+q_1+2)>>2
+\end{equation}
+q点值的修正方法类似，但是在选择亮度滤波器时用相应的关系式代替。
+\subsubsection{去方块滤波实现及其效果}
+去方块滤波的具体实现因滤波顺序的不同存在多种方式：可以采用CTB为基本单位，按照raster扫描方式进行处理；或者先将整幅图像划分为互不重叠的8 8块，然后再进行滤波；或者以CU为基本单位，按照Z扫描方式进行处理。但总体上都遵循对整幅图像先水平滤波再垂直滤波，并且仅对8 8大小的块边界进行处理的原则。具体实现如下：
+\paragraph{滤波顺序}
+首先，将图像大小划分为相同的CTB块，按照raster扫描方式对每个CTB进行处理。其次，对于每个CTB，按照Z扫描方式以CU为基本单位进行处理，如图所示，设CTB大小为64$\times$64。如图\ref{LF:pic3}所示。
+\begin{figure}[H]
+  \centering
+  \includegraphics{pict/LF/DEBLOCK4.png}
+  \label{LF:pic3}
+\end{figure}
+每个亮度CU块对应2个色度块，两者相互穿插进行滤波过程。
+对垂直边界按照从左到右的顺序进行处理，如图中第一个CU块，它的亮度分量的滤波顺序为$a\to d$ ，相应的，其色度分量的滤波顺序为 $e\to f$，$g\to h$，如图\ref{LF:pic4}所示。
+\begin{figure}[H]
+  \centering
+  \includegraphics{pict/LF/DEBLOCK5.png}
+  \label{LF:pic4}
+\end{figure}
+\paragraph{具体过程}
+去方块滤波过程具体共分为4个步骤，其流程如图\ref{LF:pic5}所示
+\begin{figure}[H]
+  \centering
+  \includegraphics{pict/LF/DEBLOCK6.png}
+  \label{LF:pic5}
+\end{figure}
+\subparagraph{确定滤波边界}
+该部分的核心是确保被滤波的边界必然是PU或TU的边界，并且图像边界不需要被滤波，具体步骤如下：
+\begin{enumerate}
+\item 
+将a,b,c,d的滤波标志均设为0。
+\item
+对边界a进行判断，如果边界a不满足三种情况（a为图像的左边界，loop\_filter\_across\_titles\_enabled\_flag的值为0，并且a的左边界为title的边界，slice\_filter\_across\_titles\_enabled\_flag的值为0，并且a的左边界为Slice的边界）时，将其滤波标志重置为1。
+\item
+标记TU的边界，如果变换单元的划分方式为（a）图，则将边界c的滤波标志重置为1，如果变换单元的划分方式为（b）图，则将b,c,d的滤波标志重置为1。
+\end{enumerate}
+如图\ref{LF:pic7}所示。
+\begin{figure}[H]
+  \centering
+  \includegraphics{pict/LF/DEBLOCK7.png}
+  \caption{变化单元的划分方式对应的可滤波边界}
+  \label{LF:pic7}
+\end{figure}
+标记PU的边界。如果预测单元的划分方式为（a）图和（b）图，则将边界c的滤波标志重置为1；如果预测单元的划分方式为（c）图，则将边界b的滤波标志重置为1；如果预测单元的划分模式为（d）图，则将边界d的滤波标志重置为1。
+如图\ref{LF:pic8}所示。
+\begin{figure}[H]
+  \centering
+  \includegraphics{pict/LF/DEBLOCK8.png}
+  \caption{预测单元的划分模式对应的可滤波边界}
+  \label{LF:pic8}
+\end{figure}
+\subparagraph{计算边界强度}
+对于第一步中滤波标志为0的边界，其边界强度为0；滤波标志为1的边界，则按照 8$\times$4为基本单元计算边界强度值。如此，对于亮度分量，共得到32个BS值；对于色度分量，由特定亮度分量边界强度值复制而来。
+如图\ref{LF:pic9}所示。
+\begin{figure}[H]
+  \centering
+  \includegraphics{pict/LF/DEBLOCK9.png}
+  \label{LF:pic9}
+\end{figure}
+\subparagraph{对亮度分量进行滤波开关决策、滤波强度选择}
+如图\ref{LF:pic10}所示。
+\begin{figure}[H]
+  \centering
+  \includegraphics{pict/LF/DEBLOCK10.png}
+  \label{LF:pic10}
+\end{figure}
+\subparagraph{滤波}
+包括亮度分量的滤波以及色度分量的滤波，整体上按照下列顺序进行：$a\to e \to g \to b \to c \to f \to h \d$ 。
+
+至此，第一个CU块的垂直边界滤波完成，其余CU块的处理方法相同。待整幅图像的所有垂直边界滤波完成之后，再对其进行水平边界的滤波，前后两种滤波过程类似，不再赘述。
+
+在不同编码配置情况下，去方块滤波器可以在比特率上带来不同程度的减少，在主观感受上也有明显的改善。
+
+%%%%%%%（去方块滤波的图片&相应分析——交给你了）??
+\subsection{样点自适应补偿}
+H.265/HEVC仍采用基于块的DCT变换，并在频域对变换系数进行量化。对于图像中的强边缘，由于高频交流系数的量化失真，在解码后会在边缘周围产生波纹现象，也即振铃效应，会给视频的主客观质量带来严重的影响。造成该现象的根本原因是高频细腻的丢失，因此抑制振铃效应的关键在于减小高频分量失真，但直接操作会带来压缩效率的降低。样点自适应补偿（SAO）技术从像素域来解决该问题，使重构曲线中的波峰和波谷像素平滑化。
+
+H.265/HEVC标准中的SAO以CTB为基本单位，通过选择一个合适的分类器将重建像素划分类别，让后对不同类别像素使用不同补偿值，可有效改善图像质量。包括两大类补偿形式：边界补偿（Edge Offset，EO）和边带补偿（Band Offset，BO），此外还引入了参数融合技术。
+\subsubsection{SAO原理简介}
+\paragraph{边界补偿}
+边界补偿技术是通过比较当前像素值和相邻像素值的大小对当前像素进行归类，然后对同类像素补偿相同数值。为了均衡复杂度和编码效率，其采用了一维三像素分类模式。
+
+根据选取像素的位置差异，边界补偿共分为4种模式：水平方向（EO\_0）、垂直方向（EO\_1）、 $135^{\circ}$方向（EO\_2）和 $45^{\circ}$方向（EO\_3），如图所示，其中，c表示当前像素，a和b表示相邻像素。
+如图\ref{LF:pic11}所示。
+\begin{figure}[H]
+  \centering
+  \includegraphics{pict/LF/SAO1.png}
+  \label{LF:pic11}
+\end{figure}
+在任意一种模式下，根据以下条件将重构像素归为5个不同种类。
+\begin{enumerate}
+  \item 如果a<c且b<c，则将像素c划分为种类1。
+  \item 如果c<a且c=b或c<b且c=a，则将像素c划分为种类2。
+  \item 如果c>a且c=b或c>b且c=a，则将像素c划分为种类3。
+  \item 如果c>a且c>b，则将像素c划分为种类4。
+  \item 如果不属于以上4种情况，则将像素c划分为种类0。
+\end{enumerate}
+
+种类1~4所表示的像素关系如图\ref{LF:pic12}所示，这四个种类的边缘形状依次为谷型、凹型、凸型、峰型。
+\begin{figure}
+  \centering
+  \includegraphics{pict/LF/SAO2.PNG}
+  \caption{边界补偿分类}
+  \label{LF:pic12}
+\end{figure}
+
+边界补偿技术通过先分类，然后对于种类1~4进行补偿，种类0不进行补偿。一般来说，种类1~2的补偿值为正而种类3~4的补偿值为负。因此若只针对边界补偿来说，只要传送补偿的绝对值，便可以通过补偿种类判断其符号。
+
+\paragraph{边带补偿}
+边带补偿（BO）技术根据像素强度值进行归类，然后等分为32条边带。例如对于8bit灰度图片，其范围为0~255，每条边带包含8个像素值，之后每根边带会根据自身像素特点进行补偿，相同边带内补偿值相同。
+
+一般情况下，在一定的区域内像素值的波动很小，所以一个CTB中的大多数像素属于少数几个边带。H.265/HEVC标准规定一个CTB只能选择四条连续的边带，并且只对着四条连续的边带中的像素进行补偿，一方面统一了边带补偿值和边界补偿值，另一方面减少了对存储器的要求。选择边带的原则由率失真优化方法确定，然后将相关数据传送至解码器部分。
+
+\paragraph{参数融合}
+参数融合是针对一个CTB块，其SAO参数直接使用相邻块的SAO参数，这时只要标识采用了哪个相邻块的SAO参数即可。
+如图\ref{LF:pic13}所示，A、B、C均表示CTB块，当对C块进行SAO参数决策时，A、B块的SAO参数已经确定。此时C的SAO参数有以下三种选择：
+\begin{figure}
+  \centering
+  \includegraphics{pict/LF/SAO3.PNG}
+  \caption{参数融合示意图}
+  \ref{LF:pic13}
+\end{figure}
+\begin{enumerate}
+  \item 直接使用A块的参数。
+  \item 直接使用B块的参数。
+  \item 通过分析自身像素块得到参数。
+\end{enumerate}
+前两种选择都属于参数融合算法，C块仅需要传递参数融合位即可。
+
+然而需要注意的是，在使用该方法时，一个CTU的亮度和色度分量必须具有同步的参数。也就是说，可以同时采用相同块进行参数融合，或者根据自身像素特征选取不同的参数。
+
+为了直观感受SAO的效果，不妨以实物图片为例：下图\ref{LF:pic14}中ｃ是未经编码处理的原图片；a是经过编码处理，但未进行SAO处理的图片；b是经过编码处理，且进行SAO处理的图片。尽管现象不是很明显，但是和原图c对比后可以看到，图片a的边缘处有明显的振铃效应，而经过SAO处理的图片b的振铃效应有了较为显著的消退，能够更好地还原出该图片的本来风貌。
+
+\begin{figure}
+  \centering
+  \includegraphics{pict/LF/SAO4.PNG}
+  \caption{SAO效果图}
+  \label{LF:pic14}
+\end{figure}

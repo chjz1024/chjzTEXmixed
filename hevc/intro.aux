@@ -18,93 +18,256 @@
 \HyPL@Entry{0<</S/D>>}
 \@writefile{toc}{\contentsline {section}{\numberline {1}绪论}{1}{section.1}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.1}视频编码概述}{1}{subsection.1.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}数据压缩原理}{1}{subsection.1.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}数据压缩原理}{2}{subsection.1.2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.3}视频编码标准}{2}{subsection.1.3}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.3.1}H.26x系列}{2}{subsubsection.1.3.1}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.3.2}MPEG系列}{2}{subsubsection.1.3.2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.4}H.265/HEVC简介}{2}{subsection.1.4}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.1}标准化历程}{2}{subsubsection.1.4.1}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.2}编码框架}{3}{subsubsection.1.4.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}编码结构}{3}{section.2}}
+\citation{hevc}
+\@writefile{toc}{\contentsline {section}{\numberline {2}编码结构}{4}{section.2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}HEVC编码结构简介}{4}{subsection.2.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Block diagram of an HEVC encoder with built-in decoder (gray shaded)\relax }}{4}{figure.caption.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Block diagram of an HEVC encoder with built-in decoder (gray shaded)\relax }}{5}{figure.caption.1}}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{FW:pic1}{{2.1}{4}{Block diagram of an HEVC encoder with built-in decoder (gray shaded)\relax }{figure.caption.1}{}}
+\newlabel{FW:pic1}{{2.1}{5}{Block diagram of an HEVC encoder with built-in decoder (gray shaded)\relax }{figure.caption.1}{}}
 \citation{Chou1989OptimalPW}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}块分割}{5}{subsection.2.2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}CTU与CTB}{5}{subsubsection.2.2.1}}
-\newlabel{FW:partSec1}{{2.2.1}{5}{CTU与CTB}{subsubsection.2.2.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces 图像划分方式:(a)$16\times 16$宏块;(b)$64\times 64$ CTU。可见对于该图像来说$16\times 16$的分块方式明显不如$64\times 64$的方式编码来得有效率\relax }}{7}{figure.caption.2}}
-\newlabel{FW:pic2}{{2.2}{7}{图像划分方式:(a)$16\times 16$宏块;(b)$64\times 64$ CTU。可见对于该图像来说$16\times 16$的分块方式明显不如$64\times 64$的方式编码来得有效率\relax }{figure.caption.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Macroblock partitioning modes supported in the High profile of H.264 | MPEG-4 AVC for inter-picture coding (top line) and intra-picture coding (bottom line). If the $Inter-8\times 8$ is chosen, the $8 \times 8$ sub-macroblocks can be further partitioned into $8\times 4$, $4\times 8$, or $4\times 4$ blocks\relax }}{8}{figure.caption.3}}
-\newlabel{FW:pic3}{{2.3}{8}{Macroblock partitioning modes supported in the High profile of H.264 | MPEG-4 AVC for inter-picture coding (top line) and intra-picture coding (bottom line). If the $Inter-8\times 8$ is chosen, the $8 \times 8$ sub-macroblocks can be further partitioned into $8\times 4$, $4\times 8$, or $4\times 4$ blocks\relax }{figure.caption.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}CTU与CU}{8}{subsubsection.2.2.2}}
-\newlabel{FW:partSec2}{{2.2.2}{8}{CTU与CU}{subsubsection.2.2.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Example for the partitioning of a $64\times 64$ coding tree unit (CTU) into coding units (CUs) of $8 \times 8$ to $32 \times 32$ luma samples. The partitioning can be described by a quadtree, also referred to as coding tree, which is shown on the right. The numbers indicate the coding order of the CUs\relax }}{9}{figure.caption.4}}
-\newlabel{FW:pic4}{{2.4}{9}{Example for the partitioning of a $64\times 64$ coding tree unit (CTU) into coding units (CUs) of $8 \times 8$ to $32 \times 32$ luma samples. The partitioning can be described by a quadtree, also referred to as coding tree, which is shown on the right. The numbers indicate the coding order of the CUs\relax }{figure.caption.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}PB与PU}{9}{subsubsection.2.2.3}}
-\newlabel{FW:partSec3}{{2.2.3}{9}{PB与PU}{subsubsection.2.2.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces Illustration of the horizontal intra prediction of a selected sample inside an $8 \times 8$ coding block with $4 \times 4$ transform blocks, if the intra prediction is applied on the basis of coding blocks (a) or transform blocks (b)\relax }}{10}{figure.caption.5}}
-\newlabel{FW:pic5}{{2.5}{10}{Illustration of the horizontal intra prediction of a selected sample inside an $8 \times 8$ coding block with $4 \times 4$ transform blocks, if the intra prediction is applied on the basis of coding blocks (a) or transform blocks (b)\relax }{figure.caption.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces Supported partitioning modes for splitting a coding unit (CU) into one, two, or four prediction units (PU). The $(M/2)\times (M/2)$ mode and the modes shown in the bottom row are not supported for all CU sizes\relax }}{10}{figure.caption.6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}块分割}{6}{subsection.2.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}CTU与CTB}{7}{subsubsection.2.2.1}}
+\newlabel{FW:partSec1}{{2.2.1}{7}{CTU与CTB}{subsubsection.2.2.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces 图像划分方式:(a)$16\times 16$宏块;(b)$64\times 64$ CTU。可见对于该图像来说$16\times 16$的分块方式明显不如$64\times 64$的方式编码来得有效率\relax }}{8}{figure.caption.2}}
+\newlabel{FW:pic2}{{2.2}{8}{图像划分方式:(a)$16\times 16$宏块;(b)$64\times 64$ CTU。可见对于该图像来说$16\times 16$的分块方式明显不如$64\times 64$的方式编码来得有效率\relax }{figure.caption.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Macroblock partitioning modes supported in the High profile of H.264 | MPEG-4 AVC for inter-picture coding (top line) and intra-picture coding (bottom line). If the $Inter-8\times 8$ is chosen, the $8 \times 8$ sub-macroblocks can be further partitioned into $8\times 4$, $4\times 8$, or $4\times 4$ blocks\relax }}{9}{figure.caption.3}}
+\newlabel{FW:pic3}{{2.3}{9}{Macroblock partitioning modes supported in the High profile of H.264 | MPEG-4 AVC for inter-picture coding (top line) and intra-picture coding (bottom line). If the $Inter-8\times 8$ is chosen, the $8 \times 8$ sub-macroblocks can be further partitioned into $8\times 4$, $4\times 8$, or $4\times 4$ blocks\relax }{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}CTU与CU}{9}{subsubsection.2.2.2}}
+\newlabel{FW:partSec2}{{2.2.2}{9}{CTU与CU}{subsubsection.2.2.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Example for the partitioning of a $64\times 64$ coding tree unit (CTU) into coding units (CUs) of $8 \times 8$ to $32 \times 32$ luma samples. The partitioning can be described by a quadtree, also referred to as coding tree, which is shown on the right. The numbers indicate the coding order of the CUs\relax }}{10}{figure.caption.4}}
+\newlabel{FW:pic4}{{2.4}{10}{Example for the partitioning of a $64\times 64$ coding tree unit (CTU) into coding units (CUs) of $8 \times 8$ to $32 \times 32$ luma samples. The partitioning can be described by a quadtree, also referred to as coding tree, which is shown on the right. The numbers indicate the coding order of the CUs\relax }{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}PB与PU}{10}{subsubsection.2.2.3}}
+\newlabel{FW:partSec3}{{2.2.3}{10}{PB与PU}{subsubsection.2.2.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces Illustration of the horizontal intra prediction of a selected sample inside an $8 \times 8$ coding block with $4 \times 4$ transform blocks, if the intra prediction is applied on the basis of coding blocks (a) or transform blocks (b)\relax }}{11}{figure.caption.5}}
+\newlabel{FW:pic5}{{2.5}{11}{Illustration of the horizontal intra prediction of a selected sample inside an $8 \times 8$ coding block with $4 \times 4$ transform blocks, if the intra prediction is applied on the basis of coding blocks (a) or transform blocks (b)\relax }{figure.caption.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces Supported partitioning modes for splitting a coding unit (CU) into one, two, or four prediction units (PU). The $(M/2)\times (M/2)$ mode and the modes shown in the bottom row are not supported for all CU sizes\relax }}{12}{figure.caption.6}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.4}残差四叉树(RQT),TB与TU}{12}{subsubsection.2.2.4}}
+\newlabel{FW:partSec4}{{2.2.4}{12}{残差四叉树(RQT),TB与TU}{subsubsection.2.2.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.7}{\ignorespaces Example for the partitioning of a $64 \times 64$ luma coding tree block (black) into coding blocks (blue) and transform blocks (red). In the illustration on the right, the blue lines show the corresponding coding tree with the coding tree block (black square) at its root and the coding blocks (blue circles) at its leaf nodes; the red lines show the non-degenerated residual quadtrees with the transform blocks (red circles) as leaf nodes. Note that the transform blocks chosen identical to the corresponding coding blocks are not explicitly marked in this figure. The numbers indicate the coding order of the transform blocks\relax }}{13}{figure.caption.7}}
+\newlabel{FW:pic6}{{2.7}{13}{Example for the partitioning of a $64 \times 64$ luma coding tree block (black) into coding blocks (blue) and transform blocks (red). In the illustration on the right, the blue lines show the corresponding coding tree with the coding tree block (black square) at its root and the coding blocks (blue circles) at its leaf nodes; the red lines show the non-degenerated residual quadtrees with the transform blocks (red circles) as leaf nodes. Note that the transform blocks chosen identical to the corresponding coding blocks are not explicitly marked in this figure. The numbers indicate the coding order of the transform blocks\relax }{figure.caption.7}{}}
 \citation{23}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.7}{\ignorespaces Example for the partitioning of a $64 \times 64$ luma coding tree block (black) into coding blocks (blue) and transform blocks (red). In the illustration on the right, the blue lines show the corresponding coding tree with the coding tree block (black square) at its root and the coding blocks (blue circles) at its leaf nodes; the red lines show the non-degenerated residual quadtrees with the transform blocks (red circles) as leaf nodes. Note that the transform blocks chosen identical to the corresponding coding blocks are not explicitly marked in this figure. The numbers indicate the coding order of the transform blocks\relax }}{11}{figure.caption.7}}
-\newlabel{FW:pic6}{{2.7}{11}{Example for the partitioning of a $64 \times 64$ luma coding tree block (black) into coding blocks (blue) and transform blocks (red). In the illustration on the right, the blue lines show the corresponding coding tree with the coding tree block (black square) at its root and the coding blocks (blue circles) at its leaf nodes; the red lines show the non-degenerated residual quadtrees with the transform blocks (red circles) as leaf nodes. Note that the transform blocks chosen identical to the corresponding coding blocks are not explicitly marked in this figure. The numbers indicate the coding order of the transform blocks\relax }{figure.caption.7}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.4}残差四叉树(RQT),TB与TU}{11}{subsubsection.2.2.4}}
-\newlabel{FW:partSec4}{{2.2.4}{11}{残差四叉树(RQT),TB与TU}{subsubsection.2.2.4}{}}
 \citation{24,30}
 \citation{25}
 \citation{5}
 \citation{25,38}
 \citation{38}
 \citation{38}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.5}HEVC官方编/解码器HM工作流程}{15}{subsubsection.2.2.5}}
+\newlabel{FW:enc}{{2.2.5}{15}{HEVC官方编/解码器HM工作流程}{subsubsection.2.2.5}{}}
+\newlabel{FW:dec}{{2.2.5}{15}{HEVC官方编/解码器HM工作流程}{subsubsection.2.2.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}预测编码}{15}{section.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.8}{\ignorespaces 编码器流程\url  {https://blog.csdn.net/leixiaohua1020/article/details/49912113}\relax }}{16}{figure.caption.8}}
+\newlabel{FW:enc}{{2.8}{16}{编码器流程\url {https://blog.csdn.net/leixiaohua1020/article/details/49912113}\relax }{figure.caption.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.9}{\ignorespaces 译码器流程\url  {https://blog.csdn.net/leixiaohua1020/article/details/49912013}\relax }}{17}{figure.caption.9}}
+\newlabel{FW:dec}{{2.9}{17}{译码器流程\url {https://blog.csdn.net/leixiaohua1020/article/details/49912013}\relax }{figure.caption.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces 流程图\relax }}{18}{figure.caption.10}}
+\newlabel{PC:1}{{3.1}{18}{流程图\relax }{figure.caption.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}帧内预测}{18}{subsection.3.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}简述}{18}{subsubsection.3.1.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces 例子\relax }}{19}{figure.caption.11}}
+\newlabel{PC:2}{{3.2}{19}{例子\relax }{figure.caption.11}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}帧内预测技术(基于H.264标准的亮度信号预测)}{19}{subsubsection.3.1.2}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.1.2.1}4x4亮度块，九种预测模式}{19}{paragraph.3.1.2.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces 4x4亮度块，九种预测模式\relax }}{20}{figure.caption.12}}
+\newlabel{PC:3}{{3.3}{20}{4x4亮度块，九种预测模式\relax }{figure.caption.12}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces samples\relax }}{20}{figure.caption.13}}
+\newlabel{PC:4}{{3.4}{20}{samples\relax }{figure.caption.13}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.1.2.2}16x16帧内预测模式}{20}{paragraph.3.1.2.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces 16x16帧内预测模式\relax }}{21}{figure.caption.14}}
+\newlabel{PC:5}{{3.5}{21}{16x16帧内预测模式\relax }{figure.caption.14}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.3}选择预测模式的标准：XP和X’差值越小越好}{21}{subsubsection.3.1.3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.4}H.265/HEVC的精进之处}{21}{subsubsection.3.1.4}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.1.4.1}H.265帧内预测概述}{21}{paragraph.3.1.4.1}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.1.4.2}相邻参考像素的选取}{22}{paragraph.3.1.4.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces 参考像素的选取\relax }}{22}{figure.caption.15}}
+\newlabel{PC:6}{{3.6}{22}{参考像素的选取\relax }{figure.caption.15}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.1.4.3}参考像素的滤波}{23}{paragraph.3.1.4.3}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.1.4.4}预测像素的计算}{23}{paragraph.3.1.4.4}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.5} HEVC帧内预测模式}{23}{subsubsection.3.1.5}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.1.5.1}Planar模式}{23}{paragraph.3.1.5.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Planar模式\relax }}{24}{figure.caption.16}}
+\newlabel{PC:7}{{3.7}{24}{Planar模式\relax }{figure.caption.16}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces Planar模式\relax }}{24}{figure.caption.17}}
+\newlabel{PC:8}{{3.8}{24}{Planar模式\relax }{figure.caption.17}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.1.5.2}DC模式}{24}{paragraph.3.1.5.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.9}{\ignorespaces DC模式\relax }}{25}{figure.caption.18}}
+\newlabel{PC:9}{{3.9}{25}{DC模式\relax }{figure.caption.18}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.1.5.3}三十三种角度模式}{25}{paragraph.3.1.5.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.10}{\ignorespaces $\theta =arctan(\frac  {x}{32})$\relax }}{26}{figure.caption.19}}
+\newlabel{PC:10}{{3.10}{26}{$\theta =arctan(\frac {x}{32})$\relax }{figure.caption.19}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.11}{\ignorespaces 映射示意图\relax }}{27}{figure.caption.20}}
+\newlabel{PC:11}{{3.11}{27}{映射示意图\relax }{figure.caption.20}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.12}{\ignorespaces 效果图\relax }}{28}{figure.caption.21}}
+\newlabel{PC:12}{{3.12}{28}{效果图\relax }{figure.caption.21}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}帧间预测}{28}{subsection.3.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}基本原理}{28}{subsubsection.3.2.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.13}{\ignorespaces 残差帧(没有进行运动补偿)\relax }}{29}{figure.caption.22}}
+\newlabel{PC:img}{{3.13}{29}{残差帧(没有进行运动补偿)\relax }{figure.caption.22}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}基本概念}{29}{subsection.3.3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}帧的分类与分组}{29}{subsubsection.3.3.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.14}{\ignorespaces GOP示意图\relax }}{30}{figure.caption.23}}
+\newlabel{PC:GOP示意图}{{3.14}{30}{GOP示意图\relax }{figure.caption.23}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.15}{\ignorespaces 帧序列编码顺序\relax }}{31}{figure.caption.24}}
+\newlabel{PC:zch3}{{3.15}{31}{帧序列编码顺序\relax }{figure.caption.24}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}宏块与宏块的划分}{31}{subsubsection.3.3.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.16}{\ignorespaces H.264/AVC帧间预测块划分方式\relax }}{32}{figure.caption.25}}
+\newlabel{PC:H.264/AVC帧间预测块划分方式}{{3.16}{32}{H.264/AVC帧间预测块划分方式\relax }{figure.caption.25}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}运动估计与运动估计的准则}{32}{subsubsection.3.3.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.17}{\ignorespaces 前向和后向运动估计\relax }}{33}{figure.caption.26}}
+\newlabel{PC:前向和后向运动估计}{{3.17}{33}{前向和后向运动估计\relax }{figure.caption.26}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.18}{\ignorespaces 匹配示意图\relax }}{33}{figure.caption.27}}
+\newlabel{PC:匹配示意图}{{3.18}{33}{匹配示意图\relax }{figure.caption.27}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.4}运动搜索算法介绍}{34}{subsubsection.3.3.4}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.3.4.1}全局搜索算法}{34}{paragraph.3.3.4.1}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.3.4.2}菱形搜索法}{34}{paragraph.3.3.4.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.19}{\ignorespaces 菱形搜索法搜索点示意图\relax }}{35}{figure.caption.28}}
+\newlabel{PC:菱形搜索法搜索点示意图}{{3.19}{35}{菱形搜索法搜索点示意图\relax }{figure.caption.28}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.20}{\ignorespaces 大钻石模型和小钻石模型\relax }}{36}{figure.caption.29}}
+\newlabel{PC:大钻石模型和小钻石模型}{{3.20}{36}{大钻石模型和小钻石模型\relax }{figure.caption.29}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.3.4.3}TZSearch算法}{36}{paragraph.3.3.4.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.21}{\ignorespaces TZSearch算法示意图\relax }}{37}{figure.caption.30}}
+\newlabel{PC:TZSearch算法示意图}{{3.21}{37}{TZSearch算法示意图\relax }{figure.caption.30}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.5}MV预测技术}{37}{subsubsection.3.3.5}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.3.5.1}Merge模式}{37}{paragraph.3.3.5.1}}
+\@writefile{toc}{\contentsline {subparagraph}{空域候选列表的建立}{38}{section*.31}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.22}{\ignorespaces \relax }}{38}{figure.caption.32}}
+\newlabel{PC:}{{3.22}{38}{\relax }{figure.caption.32}{}}
+\@writefile{toc}{\contentsline {subparagraph}{时域候选列表的建立}{38}{section*.33}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.23}{\ignorespaces \relax }}{39}{figure.caption.34}}
+\newlabel{PC:}{{3.23}{39}{\relax }{figure.caption.34}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.3.5.2}AMVP模式(Inter模式)}{39}{paragraph.3.3.5.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.24}{\ignorespaces \relax }}{40}{figure.caption.35}}
+\newlabel{PC:}{{3.24}{40}{\relax }{figure.caption.35}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}结语}{40}{subsection.3.4}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}变换编码与量化}{40}{section.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}变换编码}{40}{subsection.4.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}变换编码的起因和基本概念}{40}{subsubsection.4.1.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}K-L变换编码及其实现}{41}{subsubsection.4.1.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.3}K-L变换效果分析}{41}{subsubsection.4.1.3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.4}DCT变换编码及其实现}{41}{subsubsection.4.1.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces K-L变换效果图\relax }}{42}{figure.caption.36}}
+\newlabel{TQ:KL}{{4.1}{42}{K-L变换效果图\relax }{figure.caption.36}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {原图}}}{42}{subfigure.1.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {48.44\%压缩率}}}{42}{subfigure.1.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {73.44\%压缩率}}}{42}{subfigure.1.3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {85.94\%压缩率}}}{42}{subfigure.1.4}}
+\newlabel{TQ:typeI}{{4.1}{43}{DCT变换编码及其实现}{equation.4.1}{}}
+\newlabel{TQ:typeII}{{4.2}{43}{DCT变换编码及其实现}{equation.4.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Two-dimensional DCT frequencies from the \href  {https://en.wikipedia.org/wiki/JPEG\#Discrete_cosine_transform}{JPEG DCT}\relax }}{44}{figure.caption.37}}
+\newlabel{TQ:JPEG}{{4.2}{44}{Two-dimensional DCT frequencies from the \href {https://en.wikipedia.org/wiki/JPEG\#Discrete_cosine_transform}{JPEG DCT}\relax }{figure.caption.37}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces $512\times 512$图像astronaut DCT系数分布图\relax }}{44}{figure.caption.38}}
+\newlabel{TQ:astronaut}{{4.3}{44}{$512\times 512$图像astronaut DCT系数分布图\relax }{figure.caption.38}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {原图}}}{44}{subfigure.3.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {变换系数分布}}}{44}{subfigure.3.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {大系数空间分布}}}{44}{subfigure.3.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces $512\times 512$图像astronaut重建结果\relax }}{45}{figure.caption.39}}
+\newlabel{TQ:rec}{{4.4}{45}{$512\times 512$图像astronaut重建结果\relax }{figure.caption.39}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {原图}}}{45}{subfigure.4.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {51.5\%系数重建结果,PSNR=42.63dB}}}{45}{subfigure.4.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {28.0\%系数重建结果,PSNR=36.25dB}}}{45}{subfigure.4.3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {5.27\%系数重建结果,PSNR=28.10dB}}}{45}{subfigure.4.4}}
+\citation{hevc}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.5}整数DCT}{46}{subsubsection.4.1.5}}
+\newlabel{TQ:DST}{{4.7}{46}{整数DCT}{equation.4.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}量化}{46}{subsection.4.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}标量量化}{46}{subsubsection.4.2.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces $32\times 32$变换矩阵左半元素,阴影处分别代表$16\times 16,8\times 8,4\times 4$变换矩阵矩阵\relax }}{47}{figure.caption.40}}
+\newlabel{TQ:mat}{{4.5}{47}{$32\times 32$变换矩阵左半元素,阴影处分别代表$16\times 16,8\times 8,4\times 4$变换矩阵矩阵\relax }{figure.caption.40}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}量化在H.265/HEVC中的应用}{48}{subsubsection.4.2.2}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {4.2.2.1}量化}{48}{paragraph.4.2.2.1}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces QP--$Q_{step}$对应关系\relax }}{49}{table.caption.41}}
+\newlabel{TQ:Qstep}{{4.1}{49}{QP--$Q_{step}$对应关系\relax }{table.caption.41}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {4.2.2.2}反量化}{49}{paragraph.4.2.2.2}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {4.2.2.3}率失真优化量化（RDOQ）}{50}{paragraph.4.2.2.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces QG边界与CU划分\relax }}{51}{figure.caption.43}}
+\newlabel{TQ:DCT4}{{4.6}{51}{QG边界与CU划分\relax }{figure.caption.43}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {4.2.2.4}量化参数}{51}{paragraph.4.2.2.4}}
+\@writefile{toc}{\contentsline {subparagraph}{QG概念}{51}{section*.42}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces QP的预测模板\relax }}{52}{figure.caption.45}}
+\newlabel{TQ:DCT5}{{4.7}{52}{QP的预测模板\relax }{figure.caption.45}{}}
+\@writefile{toc}{\contentsline {subparagraph}{QP的预测编码}{52}{section*.44}}
+\@writefile{toc}{\contentsline {subparagraph}{CU层QP的解析}{52}{section*.46}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3}量化矩阵}{53}{subsubsection.4.2.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}环路滤波}{53}{section.5}}
+\newlabel{LF:pic1}{{\caption@xref {LF:pic1}{ on input line 5}}{54}{环路滤波}{figure.caption.47}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}去方块滤波}{54}{subsection.5.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.1}方块效应和去方块滤波原理}{54}{subsubsection.5.1.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.2}去方块滤波算法构成}{54}{subsubsection.5.1.2}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {5.1.2.1}边界分析}{54}{paragraph.5.1.2.1}}
+\newlabel{LF:pic2}{{\caption@xref {LF:pic2}{ on input line 34}}{56}{边界分析}{figure.caption.48}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces 关系\relax }}{57}{table.caption.49}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {5.1.2.2}滤波过程}{57}{paragraph.5.1.2.2}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.2}{\ignorespaces 滤波限幅变量c1值与$Index_A$和Bs的关系\relax }}{58}{table.caption.50}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.3}去方块滤波实现及其效果}{60}{subsubsection.5.1.3}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {5.1.3.1}滤波顺序}{60}{paragraph.5.1.3.1}}
+\newlabel{LF:pic3}{{\caption@xref {LF:pic3}{ on input line 202}}{60}{滤波顺序}{figure.caption.51}{}}
+\newlabel{LF:pic4}{{\caption@xref {LF:pic4}{ on input line 209}}{61}{滤波顺序}{figure.caption.52}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {5.1.3.2}具体过程}{61}{paragraph.5.1.3.2}}
+\newlabel{LF:pic5}{{\caption@xref {LF:pic5}{ on input line 216}}{61}{具体过程}{figure.caption.53}{}}
+\@writefile{toc}{\contentsline {subparagraph}{确定滤波边界}{61}{section*.54}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces 变化单元的划分方式对应的可滤波边界\relax }}{62}{figure.caption.55}}
+\newlabel{LF:pic7}{{5.1}{62}{变化单元的划分方式对应的可滤波边界\relax }{figure.caption.55}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces 预测单元的划分模式对应的可滤波边界\relax }}{62}{figure.caption.56}}
+\newlabel{LF:pic8}{{5.2}{62}{预测单元的划分模式对应的可滤波边界\relax }{figure.caption.56}{}}
+\@writefile{toc}{\contentsline {subparagraph}{计算边界强度}{62}{section*.57}}
+\newlabel{LF:pic9}{{\caption@xref {LF:pic9}{ on input line 249}}{63}{计算边界强度}{figure.caption.58}{}}
+\@writefile{toc}{\contentsline {subparagraph}{对亮度分量进行滤波开关决策、滤波强度选择}{63}{section*.59}}
+\newlabel{LF:pic10}{{\caption@xref {LF:pic10}{ on input line 256}}{64}{对亮度分量进行滤波开关决策、滤波强度选择}{figure.caption.60}{}}
+\@writefile{toc}{\contentsline {subparagraph}{滤波}{65}{section*.61}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}样点自适应补偿}{65}{subsection.5.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}SAO原理简介}{65}{subsubsection.5.2.1}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {5.2.1.1}边界补偿}{65}{paragraph.5.2.1.1}}
+\newlabel{LF:pic11}{{\caption@xref {LF:pic11}{ on input line 279}}{66}{边界补偿}{figure.caption.62}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {5.2.1.2}边带补偿}{66}{paragraph.5.2.1.2}}
 \citation{HEVC}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.5}HEVC官方编/解码器HM工作流程}{12}{subsubsection.2.2.5}}
-\newlabel{FW:enc}{{2.2.5}{12}{HEVC官方编/解码器HM工作流程}{subsubsection.2.2.5}{}}
-\newlabel{FW:dec}{{2.2.5}{12}{HEVC官方编/解码器HM工作流程}{subsubsection.2.2.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.8}{\ignorespaces 编码器流程\url  {https://blog.csdn.net/leixiaohua1020/article/details/49912113}\relax }}{13}{figure.caption.8}}
-\newlabel{FW:enc}{{2.8}{13}{编码器流程\url {https://blog.csdn.net/leixiaohua1020/article/details/49912113}\relax }{figure.caption.8}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.9}{\ignorespaces 译码器流程\url  {https://blog.csdn.net/leixiaohua1020/article/details/49912013}\relax }}{14}{figure.caption.9}}
-\newlabel{FW:dec}{{2.9}{14}{译码器流程\url {https://blog.csdn.net/leixiaohua1020/article/details/49912013}\relax }{figure.caption.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces 边界补偿分类\relax }}{67}{figure.caption.63}}
+\newlabel{LF:pic12}{{5.3}{67}{边界补偿分类\relax }{figure.caption.63}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {5.2.1.3}参数融合}{67}{paragraph.5.2.1.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces 参数融合示意图\relax }}{68}{figure.caption.64}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces SAO效果图\relax }}{68}{figure.caption.65}}
+\newlabel{LF:pic14}{{5.5}{68}{SAO效果图\relax }{figure.caption.65}{}}
 \citation{Shannon}
 \citation{Information_Theory}
-\@writefile{toc}{\contentsline {section}{\numberline {3}预测编码}{15}{section.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}变换编码与量化}{15}{section.4}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}环路滤波}{15}{section.5}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}熵编码}{15}{section.6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}熵编码概述}{15}{subsection.6.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}熵编码}{69}{section.6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}熵编码概述}{69}{subsection.6.1}}
 \citation{hevc}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}算术编码}{16}{subsection.6.2}}
-\newlabel{EC:secAC}{{6.2}{16}{算术编码}{subsection.6.2}{}}
-\newlabel{EC:prob}{{2}{16}{算术编码}{Item.9}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}CABAC}{16}{subsection.6.3}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.1}CABAC概览}{16}{subsubsection.6.3.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces The above example visualised as a circle, the values in red encoding "WIKI" and "KIWI" \url  {https://en.wikipedia.org/wiki/Arithmetic_coding}\relax }}{17}{figure.caption.10}}
-\newlabel{EC:AC}{{6.1}{17}{The above example visualised as a circle, the values in red encoding "WIKI" and "KIWI" \url {https://en.wikipedia.org/wiki/Arithmetic_coding}\relax }{figure.caption.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}算术编码}{70}{subsection.6.2}}
+\newlabel{EC:secAC}{{6.2}{70}{算术编码}{subsection.6.2}{}}
+\newlabel{EC:prob}{{2}{70}{算术编码}{Item.36}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}CABAC}{70}{subsection.6.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces The above example visualised as a circle, the values in red encoding "WIKI" and "KIWI" \url  {https://en.wikipedia.org/wiki/Arithmetic_coding}\relax }}{71}{figure.caption.66}}
+\newlabel{EC:AC}{{6.1}{71}{The above example visualised as a circle, the values in red encoding "WIKI" and "KIWI" \url {https://en.wikipedia.org/wiki/Arithmetic_coding}\relax }{figure.caption.66}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces CABAC block diagram (from the encoder perspective): Binarization, context modeling (including probability estimation and assignment), and binary arithmetic coding. In red: Potential throughput bottlenecks, as further discussed from the decoder perspective in Sect. 8.3.2\relax }}{72}{figure.caption.67}}
+\newlabel{EC:Block_diagram}{{6.2}{72}{CABAC block diagram (from the encoder perspective): Binarization, context modeling (including probability estimation and assignment), and binary arithmetic coding. In red: Potential throughput bottlenecks, as further discussed from the decoder perspective in Sect. 8.3.2\relax }{figure.caption.67}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.1}CABAC概览}{72}{subsubsection.6.3.1}}
 \citation{98}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces CABAC block diagram (from the encoder perspective): Binarization, context modeling (including probability estimation and assignment), and binary arithmetic coding. In red: Potential throughput bottlenecks, as further discussed from the decoder perspective in Sect. 8.3.2\relax }}{18}{figure.caption.11}}
-\newlabel{EC:Block_diagram}{{6.2}{18}{CABAC block diagram (from the encoder perspective): Binarization, context modeling (including probability estimation and assignment), and binary arithmetic coding. In red: Potential throughput bottlenecks, as further discussed from the decoder perspective in Sect. 8.3.2\relax }{figure.caption.11}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.2}二进制化}{18}{subsubsection.6.3.2}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces Examples of different binarizations\relax }}{19}{table.caption.12}}
-\newlabel{EC:binarization}{{6.1}{19}{Examples of different binarizations\relax }{table.caption.12}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.3}上下文建模}{19}{subsubsection.6.3.3}}
-\newlabel{EC:eq1}{{6.2}{19}{上下文建模}{equation.6.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces Examples of different binarizations\relax }}{73}{table.caption.68}}
+\newlabel{EC:binarization}{{6.1}{73}{Examples of different binarizations\relax }{table.caption.68}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.2}二进制化}{73}{subsubsection.6.3.2}}
 \citation{1,78}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.3}上下文建模}{74}{subsubsection.6.3.3}}
+\newlabel{EC:eq1}{{6.2}{74}{上下文建模}{equation.6.2}{}}
 \citation{43,45}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.4}无乘法二进制算术编码}{20}{subsubsection.6.3.4}}
-\newlabel{EC:eq2}{{6.4}{20}{无乘法二进制算术编码}{equation.6.4}{}}
-\@writefile{toc}{\contentsline {paragraph}{\numberline {6.3.4.1}常规编码模式}{20}{paragraph.6.3.4.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.4}无乘法二进制算术编码}{75}{subsubsection.6.3.4}}
+\newlabel{EC:eq2}{{6.4}{75}{无乘法二进制算术编码}{equation.6.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {6.3.4.1}常规编码模式}{75}{paragraph.6.3.4.1}}
 \citation{48}
 \citation{47,48}
-\@writefile{toc}{\contentsline {paragraph}{\numberline {6.3.4.2}旁路编码模式}{21}{paragraph.6.3.4.2}}
-\@writefile{toc}{\contentsline {paragraph}{\numberline {6.3.4.3}快速重归一化}{21}{paragraph.6.3.4.3}}
-\@writefile{toc}{\contentsline {paragraph}{\numberline {6.3.4.4}结束标识}{21}{paragraph.6.3.4.4}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.5}CABAC流程}{21}{subsubsection.6.3.5}}
-\newlabel{EC:tableTrans}{{\caption@xref {EC:tableTrans}{ on input line 176}}{22}{CABAC流程}{table.caption.13}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.2}{\ignorespaces State transition table\relax }}{22}{table.caption.13}}
-\newlabel{EC:tableRange}{{\caption@xref {EC:tableRange}{ on input line 215}}{23}{CABAC流程}{table.caption.14}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.3}{\ignorespaces Specification of rangeTabLps depending on the values of pStateIdx and qRangeIdx\relax }}{23}{table.caption.14}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {6.3.4.2}旁路编码模式}{76}{paragraph.6.3.4.2}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {6.3.4.3}快速重归一化}{76}{paragraph.6.3.4.3}}
+\@writefile{toc}{\contentsline {paragraph}{\numberline {6.3.4.4}结束标识}{76}{paragraph.6.3.4.4}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.5}CABAC流程}{76}{subsubsection.6.3.5}}
 \bibstyle{plain}
 \bibdata{ref}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.6}运行效率}{24}{subsubsection.6.3.6}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}其他}{24}{section.7}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.2}{\ignorespaces State transition table\relax }}{78}{table.caption.69}}
+\newlabel{EC:tableTrans}{{6.2}{78}{State transition table\relax }{table.caption.69}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.6}运行效率}{78}{subsubsection.6.3.6}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.3}{\ignorespaces Specification of rangeTabLps depending on the values of pStateIdx and qRangeIdx\relax }}{79}{table.caption.70}}
+\newlabel{EC:tableRange}{{6.3}{79}{Specification of rangeTabLps depending on the values of pStateIdx and qRangeIdx\relax }{table.caption.70}{}}
