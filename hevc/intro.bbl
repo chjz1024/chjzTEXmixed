@@ -1,0 +1,112 @@
+\begin{thebibliography}{10}
+
+\bibitem{alshin2011multi}
+A~Alshin and E~Alshina.
+\newblock Multi-parameter probability up-date for cabac.
+\newblock {\em Joint Collaborative Team on Video Coding (JCT-VC), Document
+  JCTVC-F254, Torino}, 2011.
+
+\bibitem{5}
+Philip~A. Chou, Tom Lookabaugh, and Robert~M. Gray.
+\newblock Optimal pruning with applications to tree-structured source coding
+  and modeling.
+\newblock {\em IEEE transactions on information theory}, 35(2):299--315, 1989.
+
+\bibitem{Chou1989OptimalPW}
+Philip~A. Chou, Tom~D. Lookabaugh, and Robert~M. Gray.
+\newblock Optimal pruning with applications to tree-structured source coding
+  and modeling.
+\newblock {\em IEEE Trans. Information Theory}, 35:299--315, 1989.
+
+\bibitem{coding2013document}
+High Efficiency~Video Coding.
+\newblock document itu-t rec.
+\newblock {\em H}, 265:23008--2, 2013.
+
+\bibitem{Information_Theory}
+Thomas~M. Cover and Joy~A. Thomas.
+\newblock {\em Elements of Information Theory}.
+\newblock Wiley-Interscience, New York, NY, USA, 1991.
+
+\bibitem{lee2010te}
+T~Lee, J~Chen, and WJ~Han.
+\newblock Te 12.1: Transform unit quadtree/2-level test.
+\newblock {\em JCTVC-C200, Guangzhou, China}, pages 7--15, 2010.
+
+\bibitem{48}
+Detlev Marpe, Gunnar Marten, and Hans Cycon.
+\newblock A fast renormalization technique for h. 264/mpeg4-avc arithmetic
+  coding.
+\newblock 01 2019.
+
+\bibitem{47}
+Detlev Marpe, Gunnar Marten, and Hans~L. Cycon.
+\newblock A fast renormalization technique for h . 264 / mpeg 4-avc arithmetic
+  coding.
+\newblock 2006.
+
+\bibitem{25}
+Detlev Marpe, Heiko Schwarz, Sebastian Bosse, Benjamin Bross, Philipp Helle,
+  Tobias Hinz, Heiner Kirchhoffer, Haricharan Lakshman, Tung Nguyen, Simon
+  Oudin, Mischa Siekmann, Karsten Sühring, Martin Winken, and Thomas Wiegand.
+\newblock Video compression using nested quadtree structures, leaf merging, and
+  improved techniques for motion representation and entropy coding.
+\newblock {\em IEEE Trans. Circuits Syst. Video Techn.}, 20:1676--1687, 12
+  2010.
+
+\bibitem{43}
+Detlev Marpe and Thomas Wiegand.
+\newblock A highly efficient multiplication-free binary arithmetic coder and
+  its application in video coding.
+\newblock In {\em ICIP}, 2003.
+
+\bibitem{23}
+Tina Poirier and Christine Guillemot.
+\newblock Joint collaborative team on video coding (jct-vc) of itu-t sg16 wp3
+  and iso/iec jtc1/sc29/wg11 title: Intra prediction by a linear combination of
+  template matching predictors.
+\newblock 2011.
+
+\bibitem{Shannon}
+C.~E. Shannon.
+\newblock A mathematical theory of communication.
+\newblock {\em Bell System Technical Journal}, 27(3):379--423, 1948.
+
+\bibitem{siekmann2011fast}
+Mischa Siekmann, Heiko Schwarz, Benjamin Bross, Detlev Marpe, and Thomas
+  Wiegand.
+\newblock Fast encoder control for rqt.
+\newblock {\em Joint Collaborative Team on Video Coding (JCT-VC), Document
+  JCTVC-E425, Geneva}, 2011.
+
+\bibitem{stegemann2011non}
+J~Stegemann, H~Kirchhoffer, D~Marpe, and T~Wiegand.
+\newblock Non-ce1: counterbased probability model update with adapted
+  arithmetic coding engine.
+\newblock {\em Joint Collaborative Team on Video Coding (JCT-VC), Document
+  JCTVC-G547, Geneva}, 2011.
+
+\bibitem{sullivan2012overview}
+Gary~J Sullivan, Jens-Rainer Ohm, Woo-Jin Han, Thomas Wiegand, et~al.
+\newblock Overview of the high efficiency video coding(hevc) standard.
+\newblock {\em IEEE Transactions on circuits and systems for video technology},
+  22(12):1649--1668, 2012.
+
+\bibitem{sze2014high}
+Vivienne Sze, Madhukar Budagavi, and Gary~J Sullivan.
+\newblock High efficiency video coding (hevc).
+\newblock {\em Integrated Circuit and Systems, Algorithms and Architectures.
+  Springer}, 39:40, 2014.
+
+\bibitem{万帅2014新一代高效视频编码}
+万帅.
+\newblock {\em 新一代高效视频编码 H. 265/HEVC: 原理,
+  标准与实现}.
+\newblock 电子工业出版社, 2014.
+
+\bibitem{万帅2003新一代视频压缩标准}
+万帅 and 王新岱.
+\newblock 新一代视频压缩标准 h. 264.
+\newblock {\em 中国有线电视}, (18):75--78, 2003.
+
+\end{thebibliography}

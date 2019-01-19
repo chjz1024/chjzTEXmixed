@@ -15,7 +15,6 @@ HEVC标准以在以往获得很大成功的混合编码架构为基础。在该�
 CTB还可被进一步细分为编码块(Coding Block, CB), CB是编码器决定帧内预测与帧间预测进行编码的基本单元。每一帧划分为CTB与CTB划分为CB的方式将在章节\ref{FW:partSec1}与\ref{FW:partSec2}里描述。
 为了进行预测而划分CB方式在很大程度上与与CTB无关, 具体实现将在章节\ref{FW:partSec3}里介绍。
 变换编码依赖于CB的预测残差, 但可在CB的基础上被进一步细分为变换编码块(Transform Block, TB),   具体方式将在章节\ref{FW:partSec4}里介绍。
-最后, 章节\ref{FW:partEnd}提供了一些HEVC的实验数据, 并将其与以前的编码标准做对比。
 
 Slice层面的分割为并行处理提供了方便, 将在并行处理部分讲解。
 %分片<-并行处理
@@ -127,21 +126,21 @@ Slice层面的分割为并行处理提供了方便, 将在并行处理部分讲�
 
   除了RQT的具体结构外, 也需要知道对于一TB或者整个CU来说变换系数等级是否为0。对采用帧间预测的CU来说, 标志位\texttt{rqt\_root\_cbf}用来表示是否至少有一个TB的等级不为0。当其为1时如上所述传输, 否则不再传输残差矩阵, 其数值被视作0。该语法元素对于低码率编码以及可精确预测的区域有十分重要的意义。对skip模式的CU来说, 标志位\texttt{cu\_skip\_flag}被置为1, 此时没有残差需要传输, 对应的也没有RQT语法元素需要传输。然而对于帧内预测的CU来说, \texttt{rqt\_root\_cbf}总被视为1, 因此总可以认为至少一个TB的等级不为0。
 
-  更进一步说, 当\texttt{rqt\_root\_cbf=1}时, 对每个亮度TB与其对应的两个色度TB也需要传输另一个cbf为。亮度由\texttt{cbf\_luma}表示, 色度标志位\texttt{cbf\_cb}与\texttt{cbf\_cr}与\texttt{split\_transform\_flag}被交错编码。这种编码方式在有一个或所有色度TB残差均为0, 而亮度TB残差不为0时编码效率进一步增加。Details\cite{24, 30}。
+  更进一步说, 当\texttt{rqt\_root\_cbf=1}时, 对每个亮度TB与其对应的两个色度TB也需要传输另一个cbf为。亮度由\texttt{cbf\_luma}表示, 色度标志位\texttt{cbf\_cb}与\texttt{cbf\_cr}与\texttt{split\_transform\_flag}被交错编码。这种编码方式在有一个或所有色度TB残差均为0, 而亮度TB残差不为0时编码效率进一步增加。Details\cite{lee2010te}。
 
-  随RQT与其他编码树分解深度的增加, 可供选择的分解方式也呈双指数速率$2^{4^{d-1}}$增加。然而, 文章\cite{25}指出, 通过采用通用BFOS算法\cite{5}, 率失真下的最优分块方法并不一定需要穷举才能得到。实际上不采用early termination strategy的话, 运算复杂度与$(4^d-1)/3$成正比, 为了进一步降低运算复杂度, 还可使用heuristic early-pruning techniques\cite{25, 38}。
+  随RQT与其他编码树分解深度的增加, 可供选择的分解方式也呈双指数速率$2^{4^{d-1}}$增加。然而, 文章\cite{25}指出, 通过采用通用BFOS算法\cite{5}, 率失真下的最优分块方法并不一定需要穷举才能得到。实际上不采用early termination strategy的话, 运算复杂度与$(4^d-1)/3$成正比, 为了进一步降低运算复杂度, 还可使用heuristic early-pruning techniques\cite{25, siekmann2011fast}。
   
-  文章\cite{38}针对RQT分块结构提出了一种算法, 思想是当所有未量化变换系数低于合理选取的量化器步长阈值时, 进一步细分可被终止。采用这种策略, 编码器运行时间可减少$5-15\%$, 而编码器效率仅有很少损失。当RQT更深时, 耗时会减少更多。Details\cite{38}。
+  文章\cite{siekmann2011fast}对RQT分块结构提出了一种算法, 思想是当所有未量化变换系数低于合理选取的量化器步长阈值时, 进一步细分可被终止。采用这种策略, 编码器运行时间可减少$5-15\%$, 而编码器效率仅有很少损失。当RQT更深时, 耗时会减少更多。Details\cite{siekmann2011fast}。
 
 \subsubsection{HEVC官方编/解码器HM工作流程}
-  图\label{FW:enc}与\label{FW:dec}分别为HM中的HEVC视频编码器与解码器的函数调用关系, 以供参考。
-  \begin{figure}
+  图\ref{FW:enc}与\ref{FW:dec}分别为HM中的HEVC视频编码器与解码器的函数调用关系, 以供参考。
+  \begin{figure}[H]
     \centering
     \includegraphics{pict/FW/Encoder.png}
     \caption{编码器流程\url{https://blog.csdn.net/leixiaohua1020/article/details/49912113}}
     \label{FW:enc}
   \end{figure}
-  \begin{figure}
+  \begin{figure}[H]
     \centering
     \includegraphics{pict/FW/Decoder.png}
     \caption{译码器流程\url{https://blog.csdn.net/leixiaohua1020/article/details/49912013}}

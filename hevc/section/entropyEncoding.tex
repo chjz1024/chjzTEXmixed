@@ -1,4 +1,4 @@
-上下文参考自适应二进制算术编码(Context-Based Adaptive Binary Arithmetic Coding, CABAC)是HEVC使用的熵编码方法。尽管它最早在H.264/AVC标准中提出并拥有高于绝大多数熵编码的压缩率, 其数据依存性使得它难以并行处理, 因此仅在Main Profile以及更高档次下可以使用。对应地在HEVC熵编码标准化过程中, 编码效率以及吞吐量两方面被细致地研究了。本章节先介绍熵编码的一些概念, 再给出CABAC的实现方式以及其压缩效率, HEVC中CABAC的设计准则见文献\cite{HEVC}, 本文并不讨论。
+上下文参考自适应二进制算术编码(Context-Based Adaptive Binary Arithmetic Coding, CABAC)是HEVC使用的熵编码方法。尽管它最早在H.264/AVC标准中提出并拥有高于绝大多数熵编码的压缩率, 其数据依存性使得它难以并行处理, 因此仅在Main Profile以及更高档次下可以使用。对应地在HEVC熵编码标准化过程中, 编码效率以及吞吐量两方面被细致地研究了。本章节先介绍熵编码的一些概念, 再给出CABAC的实现方式以及其压缩效率, HEVC中CABAC的设计准则见文献\cite{sze2014high}, 本文并不讨论。
 
 \subsection{熵编码概述}
 由Shannon的信息论, 一个离散信源X的信源熵为$H(X)=E\left[log\frac{1}{P(x_i)}\right]$, 这也代表了对该信源进行可正确解码的编码后表示每个码字平均需要的最短码长, 而原信源平均码长等于信源熵的充要条件是其编码后的序列服从等概率分布\cite{Shannon}。
@@ -37,7 +37,7 @@ Huffman于1952年提出了一种针对已知信源构造最优变长码的方法
   \item 编解码过程中需要不断进行查表并进行浮点数运算, 当符号个数大的时候开销很大。\label{EC:prob}
   \item 传输过程中有一个bit出现问题则代表整个解码序列出差错, 且在接收到所有序列前无法解码。
 \end{enumerate}
-其中针对\ref{EC:prob}, 本章节作者写了一个算数编/解码程序\url{github}, 信源符号视为1字节ASCII码256个字符, 在使用了如Hash索引, 二分查找等快速算法的情况下平均编码速度36MB/s, 解码速度12MB/s(i7-6700单核, g++环境), 效率不高。
+其中针对\ref{EC:prob}, 本章节作者写了一个算数编/解码程序\url{https://github.com/chjz1024/hevcMiscell}, 信源符号视为1字节ASCII码256个字符, 在使用了如Hash索引, 二分查找等快速算法的情况下平均编码速度36MB/s, 解码速度12MB/s(i7-6700单核, g++环境), 效率不高。
 
 相对来说, CABAC以二进制信源作为编码元素, 并采用自适应方法编码, 总体上有以下优点:
 \begin{enumerate}
@@ -47,7 +47,7 @@ Huffman于1952年提出了一种针对已知信源构造最优变长码的方法
 \end{enumerate}
 
 \subsection{CABAC}
-CABAC在编码的最后一步进行, 此时视频已经变成了一系列语法元素。语法元素描述了该视频信号要怎么在解码器处重建, 包括了CTU、PU、TU的结构语法, 预测方式(帧内还是帧间), 预测参数以及预测残差, SAO偏移等。在HEVC中也有一些语法元素并不经过CABAC编码, 其他的高级语法元素采用零阶指数Golomb码或定长码来编码, 具体哪些需要编码见\cite{hevc}。
+CABAC在编码的最后一步进行, 此时视频已经变成了一系列语法元素。语法元素描述了该视频信号要怎么在解码器处重建, 包括了CTU、PU、TU的结构语法, 预测方式(帧内还是帧间), 预测参数以及预测残差, SAO偏移等。在HEVC中也有一些语法元素并不经过CABAC编码, 其他的高级语法元素采用零阶指数Golomb码或定长码来编码, 具体哪些需要编码见\cite{coding2013document}。
 
 \subsubsection{CABAC概览}
   CABAC编码主要包括三个基本步骤:
@@ -60,7 +60,7 @@ CABAC在编码的最后一步进行, 此时视频已经变成了一系列语法�
   \begin{figure}
     \centering
     \includegraphics{pict/EC/Block_Diagram.png}
-    \caption{CABAC block diagram (from the encoder perspective): Binarization,  context modeling (including probability estimation and assignment),  and binary arithmetic coding. In red: Potential throughput bottlenecks,  as further discussed from the decoder perspective in Sect. 8.3.2}
+    \caption{CABAC block diagram (from the encoder perspective): Binarization,  context modeling (including probability estimation and assignment),  and binary arithmetic coding. In red: Potential throughput bottlenecks.}
     \label{EC:Block_diagram}
   \end{figure}
   二进制化指将语法元素映射为二进制符号, 上下文建模预测每个常规编码符号概率, 二进制算数编码将符号编码为二进制比特流。
@@ -96,7 +96,7 @@ CABAC在编码的最后一步进行, 此时视频已经变成了一系列语法�
     \item 定长码使用长度为$\left \lceil{log_2(cMax+1)}\right \rceil $的码字表示。
   \end{itemize}
 
-  不同的语法元素使用不同的二进制化方案, 有些还与以前编码过的元素以及参数有关。大多数语法元素均采用上述方案或者其中几种的组合, 还有些语法元素使用自定义的二进制化方案, 具体内容参见\cite{98}。
+  不同的语法元素使用不同的二进制化方案, 有些还与以前编码过的元素以及参数有关。大多数语法元素均采用上述方案或者其中几种的组合, 还有些语法元素使用自定义的二进制化方案, 具体内容参见\cite{coding2013document}。
 
 \subsubsection{上下文建模}
   语法元素二进制化完成后, 其上下文建模方法依赖于编码模式。这包括两种模式:常规编码模式与旁路编码模式。旁路编码模式不对概率模型进行自适应更新, 而是假设每个符号服从均匀分布。在常规编码模式中, 概率模型或根据语法元素种类, 其符号索引(binIdx)等固定选择, 或根据其相邻块的编码信息自适应选择。这种概率模型的选择被称为上下文建模。
@@ -116,7 +116,7 @@ CABAC在编码的最后一步进行, 此时视频已经变成了一系列语法�
   \begin{equation}
     \alpha = \left(\frac{0.01875}{0.5}\right)^{\frac{1}{63}} with \min_t p_{LPS}^{(t)}=0.01875
   \end{equation}
-  且使用合理的量化将其分为63种状态, 来得到一有限状态机(Finite-state Machine, FSM), 对应一转移概率表。在HEVC中这一方式不变, 尽管有其他的提案\cite{1, 78}指出可以在跟高的运算复杂度下使平均比特率降低$0.8-0.9\%$。
+  且使用合理的量化将其分为63种状态, 来得到一有限状态机(Finite-state Machine, FSM), 对应一转移概率表。在HEVC中这一方式不变, 尽管有其他的提案\cite{alshin2011multi, stegemann2011non}指出可以在跟高的运算复杂度下使平均比特率降低$0.8-0.9\%$。
 
   CABAC中每一个概率模型都使用唯一的上下文索引(ctxIdx)指代, 其中该索引或由固定分配产生, 或由对应上下文逻辑计算得出。在HEVC标准化过程中花费了大量精力来在吞吐量与编码效率方面改进模型分配与上下文导出逻辑。
 
@@ -130,7 +130,7 @@ CABAC在编码的最后一步进行, 此时视频已经变成了一系列语法�
 
   解码器处可以通过追踪区间来很快地恢复编码比特。因为CABAC只有两个符号, 根据式\ref{EC:eq2}仅需比较一次编码值与边界值就可判断输入比特为0还是1。
 
-  从具体实现角度来说, CABAC中最耗时的操作是式\ref{EC:eq2}中的乘法, 如果概率预测基于缩放累积频率计数方法的话, 运算过程中还会包含整数除法, 这会进一步降低性能, 实际上\ref{EC:secAC}中作者写的代码就是使用的这种方法。因此为了解决这个问题, 实际上在H.264/AVC标准化过程中已经提出了一族无乘法二进制算数编码方法, 这在之后被称为\textit{modulo coder}(M coder)\cite{43, 45}。这种方法主要的特性是将基于查表的子区间划分法与上述 的FSM概率预测法结合, 以及快速的旁路编码模式。
+  从具体实现角度来说, CABAC中最耗时的操作是式\ref{EC:eq2}中的乘法, 如果概率预测基于缩放累积频率计数方法的话, 运算过程中还会包含整数除法, 这会进一步降低性能, 实际上\ref{EC:secAC}中作者写的代码就是使用的这种方法。因此为了解决这个问题, 实际上在H.264/AVC标准化过程中已经提出了一族无乘法二进制算数编码方法, 这在之后被称为\textit{modulo coder}(M coder)\cite{43}。这种方法主要的特性是将基于查表的子区间划分法与上述 的FSM概率预测法结合, 以及快速的旁路编码模式。
   
   \paragraph{常规编码模式}\mbox{}
 
@@ -213,7 +213,7 @@ CABAC在编码的最后一步进行, 此时视频已经变成了一系列语法�
     \end{itemize}
   \end{enumerate}
   rangeTabLps见表\ref{EC:tableRange}。
-  \begin{table}
+  \begin{table}[H]
     \caption{Specification of rangeTabLps depending on the values of pStateIdx and qRangeIdx}
     \label{EC:tableRange}
     \begin{center}
@@ -256,4 +256,4 @@ CABAC在编码的最后一步进行, 此时视频已经变成了一系列语法�
     \end{center}
   \end{table}
 \subsubsection{运行效率}
-  为了验证CABAC算法执行效率, 本章作者以HM源代码为基础实现了常规编码模式下的熵编码器, 托管于\url{github}。因为要体现压缩效率的话需要对应语法元素支持, 这里只列出算法执行速度为8.7MB/s。而旁路编码模式只会更快, 且还可以通过并行计算来实现, 因此实际效率会高于该值。
+  为了验证CABAC算法执行效率, 本章作者以HM源代码为基础实现了常规编码模式下的熵编码器, 托管于\url{https://github.com/chjz1024/hevcMiscell}。因为要体现压缩效率的话需要对应语法元素支持, 这里只列出算法执行速度为8.7MB/s。而旁路编码模式只会更快, 且还可以通过并行计算来实现, 因此实际效率会高于该值。

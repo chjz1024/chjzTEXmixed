@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2018)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: intro.aux
+The style file: plain.bst
+Database file #1: ref.bib
+Warning--empty journal in 48
+Warning--empty booktitle in 47
+Warning--empty booktitle in 23
+Warning--there's a number but no volume in 万帅2003新一代视频压缩标准
+You've used 18 entries,
+            2118 wiz_defined-function locations,
+            601 strings with 7195 characters,
+and the built_in function-call counts, 5927 in all, are:
+= -- 548
+> -- 346
+< -- 1
++ -- 140
+- -- 118
+* -- 427
+:= -- 1039
+add.period$ -- 54
+call.type$ -- 18
+change.case$ -- 110
+chr.to.int$ -- 0
+cite$ -- 22
+duplicate$ -- 208
+empty$ -- 429
+format.name$ -- 118
+if$ -- 1190
+int.to.chr$ -- 0
+int.to.str$ -- 18
+missing$ -- 20
+newline$ -- 93
+num.names$ -- 36
+pop$ -- 120
+preamble$ -- 1
+purify$ -- 94
+quote$ -- 0
+skip$ -- 133
+stack$ -- 0
+substring$ -- 288
+swap$ -- 23
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 68
+warning$ -- 4
+while$ -- 51
+width$ -- 20
+write$ -- 189
+(There were 4 warnings)

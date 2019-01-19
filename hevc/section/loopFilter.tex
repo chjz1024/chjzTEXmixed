@@ -2,6 +2,7 @@
 \begin{figure}[H]
   \centering
   \includegraphics{pict/LF/DEBLOCK0.PNG}
+  \caption{HEVC解码器框图\cite{sze2014high}}
   \label{LF:pic1}
 \end{figure}
 \subsection{去方块滤波}
@@ -262,7 +263,7 @@ q点值的修正方法类似,   但是在选择亮度滤波器时用相应的关
   \label{LF:pic10}
 \end{figure}
 \subparagraph{滤波}
-包括亮度分量的滤波以及色度分量的滤波,   整体上按照下列顺序进行：$a\to e \to g \to b \to c \to f \to h \d$ 。
+包括亮度分量的滤波以及色度分量的滤波,   整体上按照下列顺序进行：$a\to e \to g \to b \to c \to f \to h$ 。
 
 至此,   第一个CU块的垂直边界滤波完成,   其余CU块的处理方法相同。待整幅图像的所有垂直边界滤波完成之后,   再对其进行水平边界的滤波,   前后两种滤波过程类似,   不再赘述。
 
@@ -270,7 +271,7 @@ q点值的修正方法类似,   但是在选择亮度滤波器时用相应的关
 \begin{figure}
   \centering
   \includegraphics{pict/LF/deblocking.png}
-  \caption{视频\textit{BasketballDrive},  (a)去方块关闭,  (b)去方块开启\cite{hevc}}
+  \caption{视频\textit{BasketballDrive},  (a)去方块关闭,  (b)去方块开启\cite{sze2014high}}
   \label{LF:deblocking}
 \end{figure}
 

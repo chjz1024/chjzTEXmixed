@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99999 (TeX Live 2018) (preloaded format=xelatex 2018.12.4)  16 JAN 2019 16:46
+This is XeTeX, Version 3.14159265-2.6-0.99999 (TeX Live 2018) (preloaded format=xelatex 2018.12.4)  19 JAN 2019 16:11
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -640,12 +640,6 @@ LaTeX Warning: Unused global option(s):
 
 (./intro.aux
 
-LaTeX Warning: Label `FW:enc' multiply defined.
-
-
-LaTeX Warning: Label `FW:dec' multiply defined.
-
-
 LaTeX Warning: Label `PC:' multiply defined.
 
 
@@ -752,16 +746,13 @@ LaTeX Info: Redefining \nameref on input line 29.
 \@outlinefile=\write3
 \openout3 = `intro.out'.
 
-
-Overfull \hbox (196.22252pt too wide) in paragraph at lines 40--41
-\TU/lmr/m/n/12 tures, AI: https://zhuanlan.zhihu.com/p/40034222, chapter 6, dct: https://blog.csdn.net/u012596983/article/details/39925333, 
- []
-
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 48.
-(/usr/local/texlive/2018/texmf-dist/tex/latex/jknapltx/ursfs.fd
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 34.
+ (/usr/local/texlive/2018/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
-)
-Overfull \hbox (5.91377pt too wide) in paragraph at lines 48--50
+) [1
+
+]
+Overfull \hbox (5.91377pt too wide) in paragraph at lines 44--46
 \TU/FandolSong-Regular(0)/m/n/12 秒 需 要 处 理 的 数 据 量 为 $\OT1/cmr/m/n/12 1280 \OMS/cmsy/m/n/12 ^^B \OT1/cmr/m/n/12 720(\OML/cmm/m/it/12 pixels\OT1/cmr/m/n/12 /\OML/cmm/m/it/12 frame\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ^^B \OT1/cmr/m/n/12 3(\OML/cmm/m/it/12 Byte\OT1/cmr/m/n/12 /\OML/cmm/m/it/12 pixel\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ^^B \OT1/cmr/m/n/12 30(\OML/cmm/m/it/12 frames\OT1/cmr/m/n/12 /\OML/cmm/m/it/12 second\OT1/cmr/m/n/12 ) =
  []
 
@@ -773,34 +764,25 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[1
-
-]
+[2]
 Missing character: There is no 、 in font [lmroman12-regular]:mapping=tex-text;!
- [2] [3]
 
-LaTeX Warning: Citation `hevc' on page 4 undefined on input line 88.
 
-(./section/framework.tex
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\@ifnextchar' on input line 68.
+
+[3] (./section/framework.tex [4]
 File: pict/FW/Block_diagram.png Graphic file (type bmp)
 <pict/FW/Block_diagram.png>
- [4]
-
-LaTeX Warning: Reference `FW:partEnd' on page 5 undefined on input line 18.
-
-[5]
-
-LaTeX Warning: Citation `Chou1989OptimalPW' on page 6 undefined on input line 36.
-
-[6]
+ [5] [6] [7]
 File: pict/FW/Partition.png Graphic file (type bmp)
 <pict/FW/Partition.png>
- [7] [8]
+ [8] [9]
 File: pict/FW/Macro.png Graphic file (type bmp)
 <pict/FW/Macro.png>
 File: pict/FW/CTU.png Graphic file (type bmp)
 <pict/FW/CTU.png>
- [9]
+ [10]
 
 Package fontspec Warning: Font 'FandolFang-Regular' does not contain script
 (fontspec)                'CJK'.
@@ -819,73 +801,44 @@ Package fontspec Info: Font family 'FandolFang-Regular(0)' created for font
 
 File: pict/FW/Prediction1.png Graphic file (type bmp)
 <pict/FW/Prediction1.png>
-[10]
+[11]
 File: pict/FW/Prediction2.png Graphic file (type bmp)
 <pict/FW/Prediction2.png>
- [11]
+ [12]
 File: pict/FW/TB.png Graphic file (type bmp)
 <pict/FW/TB.png>
- [12] [13]
-
-LaTeX Warning: Citation `23' on page 14 undefined on input line 122.
-
-
-LaTeX Warning: Citation `24' on page 14 undefined on input line 130.
-
-
-LaTeX Warning: Citation `30' on page 14 undefined on input line 130.
-
-
-LaTeX Warning: Citation `25' on page 14 undefined on input line 132.
-
-
-LaTeX Warning: Citation `5' on page 14 undefined on input line 132.
-
-
-LaTeX Warning: Citation `25' on page 14 undefined on input line 132.
-
-
-LaTeX Warning: Citation `38' on page 14 undefined on input line 132.
-
-[14]
-
-LaTeX Warning: Citation `38' on page 15 undefined on input line 134.
-
-
-LaTeX Warning: Citation `38' on page 15 undefined on input line 134.
-
+ [13] [14] [15]
 File: pict/FW/Encoder.png Graphic file (type bmp)
 <pict/FW/Encoder.png>
 
-Underfull \hbox (badness 3108) in paragraph at lines 141--141
+Underfull \hbox (badness 3108) in paragraph at lines 140--140
 []\TU/FandolSong-Regular(0)/m/n/12 图 \TU/lmr/m/n/12 2.8: |\TU/FandolSong-Regular(0)/m/n/12 编 码 器 流 程[]$[][][][][] [] [] [] [][][][] [] [][][][] [] [][][] [] [][][][][][][][][][][][][][] [] [][][][][][][] [] [][][][][][][] []
  []
 
 File: pict/FW/Decoder.png Graphic file (type bmp)
 <pict/FW/Decoder.png>
 
-Underfull \hbox (badness 3108) in paragraph at lines 147--147
+Underfull \hbox (badness 3108) in paragraph at lines 146--146
 []\TU/FandolSong-Regular(0)/m/n/12 图 \TU/lmr/m/n/12 2.9: |\TU/FandolSong-Regular(0)/m/n/12 译 码 器 流 程[]$[][][][][] [] [] [] [][][][] [] [][][][] [] [][][] [] [][][][][][][][][][][][][][] [] [][][][][][][] [] [][][][][][][] []
  []
 
-) (./section/prediction/intra.tex
+[16]) [17] (./section/prediction/intra.tex [18]
 File: pict/PC/Intra/1.png Graphic file (type bmp)
 <pict/PC/Intra/1.png>
- [15] [16] [17]
 File: pict/PC/Intra/2.png Graphic file (type bmp)
 <pict/PC/Intra/2.png>
- [18]
+ [19]
 File: pict/PC/Intra/33.png Graphic file (type bmp)
 <pict/PC/Intra/33.png>
 File: pict/PC/Intra/4.png Graphic file (type bmp)
 <pict/PC/Intra/4.png>
- [19]
+ [20]
 File: pict/PC/Intra/5.png Graphic file (type bmp)
 <pict/PC/Intra/5.png>
- [20]
+ [21]
 File: pict/PC/Intra/6.png Graphic file (type bmp)
 <pict/PC/Intra/6.png>
- [21] [22]
+ [22]
 File: pict/PC/Intra/7.png Graphic file (type bmp)
 <pict/PC/Intra/7.png>
 File: pict/PC/Intra/8.png Graphic file (type bmp)
@@ -900,13 +853,13 @@ File: pict/PC/Intra/10.png Graphic file (type bmp)
 File: pict/PC/Intra/11.png Graphic file (type bmp)
 <pict/PC/Intra/11.png>
  [26]
-Underfull \hbox (badness 10000) in paragraph at lines 207--209
+Underfull \hbox (badness 10000) in paragraph at lines 209--211
 
  []
 
 [27]
-File: pict/PC/Intra/12.png Graphic file (type bmp)
-<pict/PC/Intra/12.png>
+File: pict/PC/Intra/texture.png Graphic file (type bmp)
+<pict/PC/Intra/texture.png>
 ) (./section/prediction/inter.tex
 File: pict/PC/Inter/1.png Graphic file (type bmp)
 <pict/PC/Inter/1.png>
@@ -972,42 +925,32 @@ File: pict/TQ/rec_36_25_280.png Graphic file (type bmp)
 File: pict/TQ/rec_28_10_0527.png Graphic file (type bmp)
 <pict/TQ/rec_28_10_0527.png>
  [43]
-
-LaTeX Warning: Citation `hevc' on page 44 undefined on input line 96.
-
 File: pict/TQ/mat.png Graphic file (type bmp)
 <pict/TQ/mat.png>
-[44] [45] [46] [47] [48] [49] [50]
+ [44] [45] [46] [47] [48] [49] [50]
 File: pict/TQ/DCT4.png Graphic file (type bmp)
 <pict/TQ/DCT4.png>
  [51]
 File: pict/TQ/DCT5.png Graphic file (type bmp)
 <pict/TQ/DCT5.png>
  [52]) (./section/loopFilter.tex
-
-Package caption Warning: \label without proper reference on input line 5.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `LF:pic1' on page 53 undefined on input line 1.
-
 File: pict/LF/DEBLOCK0.PNG Graphic file (type bmp)
 <pict/LF/DEBLOCK0.PNG>
-[53] [54]
+ [53] [54]
 File: pict/LF/DEBLOCK1.png Graphic file (type bmp)
 <pict/LF/DEBLOCK1.png>
  [55] [56]
-Overfull \hbox (50.92593pt too wide) in paragraph at lines 67--93
+Overfull \hbox (50.92593pt too wide) in paragraph at lines 68--94
 [][]
  []
 
 
-Overfull \hbox (29.30199pt too wide) in paragraph at lines 67--93
+Overfull \hbox (29.30199pt too wide) in paragraph at lines 68--94
 [] 
  []
 
 
-Overfull \hbox (47.58801pt too wide) in paragraph at lines 121--147
+Overfull \hbox (47.58801pt too wide) in paragraph at lines 122--148
 [][]
  []
 
@@ -1020,12 +963,12 @@ File: pict/LF/DEBLOCK5.png Graphic file (type bmp)
 File: pict/LF/DEBLOCK6.png Graphic file (type bmp)
 <pict/LF/DEBLOCK6.png>
 
-Overfull \hbox (161.99773pt too wide) in paragraph at lines 228--230
+Overfull \hbox (161.99773pt too wide) in paragraph at lines 229--231
 []\TU/FandolSong-Regular(0)/m/n/12 对 边 界 \TU/lmr/m/n/12 a \TU/FandolSong-Regular(0)/m/n/12 进 行 判 断\TU/lmr/m/n/12 , \TU/FandolSong-Regular(0)/m/n/12 如 果 边 界 \TU/lmr/m/n/12 a \TU/FandolSong-Regular(0)/m/n/12 不 满 足 三 种 情 况 \TU/lmr/m/n/12 (a \TU/FandolSong-Regular(0)/m/n/12 为 图 像 的 左 边 界\TU/lmr/m/n/12 , \TU/lmtt/m/n/12 loop_filter_across_titles_enabled_flag
  []
 
 
-Overfull \hbox (32.0097pt too wide) in paragraph at lines 228--230
+Overfull \hbox (32.0097pt too wide) in paragraph at lines 229--231
 \TU/FandolSong-Regular(0)/m/n/12 的 值 为 \TU/lmr/m/n/12 0, \TU/FandolSong-Regular(0)/m/n/12 并 且 \TU/lmr/m/n/12 a \TU/FandolSong-Regular(0)/m/n/12 的 左 边 界 为 \TU/lmr/m/n/12 title \TU/FandolSong-Regular(0)/m/n/12 的 边 界\TU/lmr/m/n/12 , \TU/lmtt/m/n/12 slice_filter_across_titles_enabled_flag
  []
 
@@ -1040,22 +983,13 @@ File: pict/LF/DEBLOCK9.png Graphic file (type bmp)
 File: pict/LF/DEBLOCK10.png Graphic file (type bmp)
 <pict/LF/DEBLOCK10.png>
  [62]
-
-LaTeX Warning: Command \d invalid in math mode on input line 265.
-
 File: pict/LF/deblocking.png Graphic file (type bmp)
 <pict/LF/deblocking.png>
-
-LaTeX Warning: Citation `hevc' on page 63 undefined on input line 273.
-
-
-LaTeX Warning: Citation `hevc' on page 63 undefined on input line 273.
-
 File: pict/LF/Ringing_artifact_example_-_original.png Graphic file (type bmp)
 <pict/LF/Ringing_artifact_example_-_original.png>
 File: pict/LF/Ringing_artifact_example.png Graphic file (type bmp)
 <pict/LF/Ringing_artifact_example.png>
-[63]
+ [63]
 File: pict/LF/SAO1.png Graphic file (type bmp)
 <pict/LF/SAO1.png>
  [64]
@@ -1066,22 +1000,13 @@ File: pict/LF/SAO3.PNG Graphic file (type bmp)
 <pict/LF/SAO3.PNG>
 File: pict/LF/SAO4.PNG Graphic file (type bmp)
 <pict/LF/SAO4.PNG>
-) (./section/entropyEncoding.tex
-
-LaTeX Warning: Citation `HEVC' on page 67 undefined on input line 1.
-
-[67]
-
-LaTeX Warning: Citation `Shannon' on page 68 undefined on input line 4.
-
-
-LaTeX Warning: Citation `Information_Theory' on page 68 undefined on input line 12.
-
+) (./section/entropyEncoding.tex [67]
 File: pict/EC/Arithmetic_coding_visualisation_circle.png Graphic file (type bmp)
 <pict/EC/Arithmetic_coding_visualisation_circle.png>
-[68]
-
-LaTeX Warning: Citation `hevc' on page 69 undefined on input line 50.
+ [68]
+Overfull \hbox (49.20844pt too wide) in paragraph at lines 40--41
+\TU/FandolSong-Regular(0)/m/n/12 其 中 针 对[]\TU/lmr/m/n/12 2[], \TU/FandolSong-Regular(0)/m/n/12 本 章 节 作 者 写 了 一 个 算 数 编\TU/lmr/m/n/12 /\TU/FandolSong-Regular(0)/m/n/12 解 码 程 序[]$[][][][][] [] [] [] [][][][][][] [] [][][] [] [][][][][][][][] [] [][][][][][][][][][][]$[]\TU/lmr/m/n/12 ,
+ []
 
 [69] [70]
 File: pict/EC/Block_Diagram.png Graphic file (type bmp)
@@ -1091,61 +1016,23 @@ Overfull \hbox (28.67313pt too wide) in paragraph at lines 95--96
 \TU/FandolSong-Regular(0)/m/n/12 由 一 个 长 为 $\OML/cmm/m/it/12 l[] \OT1/cmr/m/n/12 + 1$ \TU/FandolSong-Regular(0)/m/n/12 的 一 元 码 字 与 长 为 $\OML/cmm/m/it/12 l[] \OT1/cmr/m/n/12 + \OML/cmm/m/it/12 k$ \TU/FandolSong-Regular(0)/m/n/12 的 后 缀 组 成\TU/lmr/m/n/12 , \TU/FandolSong-Regular(0)/m/n/12 其 中 $\OML/cmm/m/it/12 l[] \OT1/cmr/m/n/12 = []$ 
  []
 
-
-LaTeX Warning: Citation `98' on page 72 undefined on input line 99.
-
-[72]
-
-LaTeX Warning: Citation `1' on page 73 undefined on input line 119.
-
-
-LaTeX Warning: Citation `78' on page 73 undefined on input line 119.
-
-[73]
-
-LaTeX Warning: Citation `43' on page 74 undefined on input line 133.
-
-
-LaTeX Warning: Citation `45' on page 74 undefined on input line 133.
-
-[74]
-
-LaTeX Warning: Citation `48' on page 75 undefined on input line 147.
-
-
-LaTeX Warning: Citation `47' on page 75 undefined on input line 147.
-
-
-LaTeX Warning: Citation `48' on page 75 undefined on input line 147.
-
-[75]
+[72] [73] [74] [75]
 Overfull \hbox (4.26804pt too wide) in paragraph at lines 180--195
  [] 
  []
 
-[76]
+[76] [77]
+Overfull \vbox (75.84367pt too high) has occurred while \output is active []
 
-LaTeX Warning: Float too large for page by 75.84367pt on input line 257.
-
-)
-No file intro.bbl.
+ [78]) (./intro.bbl [79])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 104.
-[77] [78]
+ [80]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 104.
  (./intro.aux)
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 104.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 104.
-
-
-Package rerunfilecheck Warning: File `intro.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `intro.out':
-(rerunfilecheck)             Before: 3BD36426F3865AB79E14B7275DF2A9DE
-(rerunfilecheck)             After:  168A74F4EF2498042E44DC73358B98DA.
-
-LaTeX Warning: There were undefined references.
+Package rerunfilecheck Info: File `intro.out' has not changed.
+(rerunfilecheck)             Checksum: F9948F6488B60BD7051DB26D816F451E.
 
 
 LaTeX Warning: There were multiply-defined labels.
@@ -1153,12 +1040,12 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 104.
  ) 
 Here is how much of TeX's memory you used:
- 25048 strings out of 492956
- 500056 string characters out of 6133502
- 593502 words of memory out of 5000000
- 28747 multiletter control sequences out of 15000+600000
- 536924 words of font info for 68 fonts, out of 8000000 for 9000
+ 25061 strings out of 492956
+ 499956 string characters out of 6133502
+ 593947 words of memory out of 5000000
+ 28751 multiletter control sequences out of 15000+600000
+ 538816 words of font info for 80 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 52i,15n,74p,881b,505s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 52i,15n,74p,800b,978s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on intro.pdf (78 pages).
+Output written on intro.pdf (80 pages).

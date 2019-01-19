@@ -27,19 +27,15 @@
 
 \setkeys{Gin}{width=\textwidth}
 \begin{document}
-  CABAC: hard to parallelize and vectorize
+  \title{H.265/HEVC视频编码技术}
+  \author{陈进泽, 徐楠青, 解广琪, 张淙浩, 高毅纹}
+  \date{}
+  \maketitle
+  \newpage
 
-  bit error spreads
-
-  p197,  QP prediction
-
-  编码效率提升50
-
-  dct能量集中性
-
-  bib:iso, 新一代..., High Efficiency Video Coding (HEVC): Algorithms and Architectures, AI: https://zhuanlan.zhihu.com/p/40034222, chapter 6, dct: https://blog.csdn.net/u012596983/article/details/39925333, %https://baijiahao.baidu.com/s?id=1588454914189589504&wfr=spider&for=pc
   \begin{abstract}
-    The new HEVC standard enables a major advance in compression relative to its predecessors,  and its development was a large collaborative effort that distilled the collective knowledge of the whole industry and academic community into a single coherent and extensible design. This book collects the knowledge of some of the key people who have been directly involved in developing or deploying the standard to help the community understand the standard itself and its implications. A detailed presentation is provided for each of the standard’s fundamental building blocks and how they fit together to make HEVC the powerful package that it is. The compression performance of the standard is analyzed,  and architectures for its implementation are described.
+    % The new HEVC standard enables a major advance in compression relative to its predecessors,  and its development was a large collaborative effort that distilled the collective knowledge of the whole industry and academic community into a single coherent and extensible design. This book collects the knowledge of some of the key people who have been directly involved in developing or deploying the standard to help the community understand the standard itself and its implications. A detailed presentation is provided for each of the standard’s fundamental building blocks and how they fit together to make HEVC the powerful package that it is. The compression performance of the standard is analyzed,  and architectures for its implementation are described.
+    最新的H.265/HEVC视频编码标准相比于以往的标准在视频压缩方面取得了重大进展。作为一项大型协作工程, 它将整个行业与学术界的知识整合提炼成为一连贯且可扩展的设计, 其成果让人赞叹不已, 同时数据压缩作为信息论在实际生活中的具体且实际的应用, 它也为我们设计更多复杂而系统的项目提供了一定的指导意义。本文介绍了HEVC标准中几项最关键的技术, 并分析了其相互作用以及与信息论间的联系, 而若要进一步深究的话请参考专业文档及标准。
   \end{abstract}
 
   \section{绪论}
@@ -48,15 +44,19 @@
       视频包含的数据量十分庞大。以常见的标清电影视频格式(720p)来说, 未经压缩每秒需要处理的数据量为$1280\times 720(pixels/frame)\times 3(Byte/pixel)\times 30(frames/second)=79.1MB/s$! 远远超过了一般用户数据处理能力的极限, 更不用说4K视频以及流媒体应用了。
       因此, 视频编码技术是视频应用的一个十分重要的部分, 也称视频压缩, 目的是尽可能去除视频数据中的冗余, 减少压缩或编码后的数据量。所幸的是视频中包含大量的冗余信息, 通过去除掉这些冗余视频可以获得极高的压缩比。
     \subsection{数据压缩原理}
-      由香农的信息论, 一个离散信源X可以最小平均码长$l=H(X)$信源熵来表示而不损失信息, 这种不失真的压缩方法称为无损压缩, 又称熵编码, 常见原理有Lempel-Ziv算法, Huffman编码, 算术编码, Golomb码, RLE(游程编码)等。但是熵编码一般难以达到5:1以上的压缩率, 故视频压缩都采用有损压缩方式。
+      由香农的信息论, 一个离散信源X可以最小平均码长$l=H(X)$其信源熵来表示而不损失信息, 这种不失真的压缩方法称为无损压缩, 又称熵编码, 常见原理有Lempel-Ziv算法, Huffman编码, 算术编码, Golomb码, RLE(游程编码)等。但是熵编码一般难以达到5:1以上的压缩率, 故视频压缩都采用有损压缩方式。
 
-      有损压缩的原理可以用率失真原理来解释。对一离散信源, 给定一定失真度D, 则可以以最小平均码长R(D)其率失真函数来表示。具体实现上就是对原信源引入难以察觉的失真来换取更小的信源熵, 从而得到更高的压缩率。例如人眼对图像的细节, 即图像中的高频成分不十分敏感, 则在压缩时丢掉部分高频信息可能并不会被人眼察觉。\textbf{如图。}此外, 即使压缩产生的失真能被人感知到, 但是如果这不会影响对视频内容的理解的话人们也通常愿意接受质量稍差的音、视频或者图像。在音视频和图像压缩算法中, 大量利用了人类的感知特性, 尽可能使压缩产生的失真发生在人不容易察觉到的地方。
+      有损压缩的原理可以用率失真原理来解释。对一离散信源, 给定一定失真度D, 则可以以最小平均码长R(D)其率失真函数来表示。具体实现上就是对原信源引入难以察觉的失真来换取更小的信源熵, 从而得到更高的压缩率。例如人眼对图像的细节, 即图像中的高频成分不十分敏感, 则在压缩时丢掉部分高频信息可能并不会被人眼察觉。此外, 即使压缩产生的失真能被人感知到, 但是如果这不会影响对视频内容的理解的话人们也通常愿意接受质量稍差的音、视频或者图像。在音视频和图像压缩算法中, 大量利用了人类的感知特性, 尽可能使压缩产生的失真发生在人不容易察觉到的地方。
+
+      除此之外, 也可利用信源间的相干性来进行数据压缩, 如对于序列的Markov性, 即时间相干性, 我们可以最低可以以熵率$h(X)$来传输原信息而没有任何损耗。若原信息可以分解为某一初始信息和与其独立的残差之和的话, 我们可以进一步地把信息压缩至残差的熵, 从而提高压缩率。
     \subsection{视频编码标准}
-      各种各样的视频应用从一开始就催生了多种视频编码方法。为了使编码后的码流能够在大范围内互通和规范解码, 从20世纪80年代起, 国际组织开始对视频编码建立国际标准。视频编码的国际标准通常代表这同时代最先进的视频编码技术。本文介绍的就是目前国际上最先进的视频编码标准H.265/HEVC。%值得注意的是, 视频编码标准仅规定了编码码流的语法语义和解码器,   因此符合某个视频编码标准的编码器是有很大自由度的
+      各种各样的视频应用从一开始就催生了多种视频编码方法。为了使编码后的码流能够在大范围内互通和规范解码, 从20世纪80年代起, 国际组织开始对视频编码建立国际标准。视频编码的国际标准通常代表这同时代最先进的视频编码技术。本文介绍的就是目前国际上最先进的视频编码标准H.265/HEVC。
+      
+      值得注意的是, 视频编码标准仅规定了编码码流的语法语义和解码器, 因此符合某个视频编码标准的编码器是有很大自由度的
 
-      \subsubsection{H.26x系列}
-      H.261 混合编码(Hybrid Coding)始祖
-      \subsubsection{MPEG系列}
+      % \subsubsection{H.26x系列}
+      % H.261 混合编码(Hybrid Coding)始祖
+      % \subsubsection{MPEG系列}
 
     \subsection{H.265/HEVC简介}
       \subsubsection{标准化历程}
@@ -65,7 +65,7 @@
         2013年6月7日, ITU-T网站上正式发布了H.265/HEVC标准, 该标准可以免费下载。2013年11月25日, ISO/IEC正式发布了H.265/HEVC标准。
 
         标准发布之后, 相关标准的进一步工作仍然在继续。JCT-VC现有的工作主要集中在就H.265/HEVC的扩展内容进行完善, 如更高的比特深度、4:2:2、4:4:4色度采样视频、可伸缩HEVC编码(Scalable HEVC, SHVC)和多角立体编码等。
-      \subsubsection{编码框架}
+      \subsubsection{编码框架\cite{sullivan2012overview}}
         从根本上来说, H.265/HEVC视频编码标准的编码狂及并没有革命性的改变。类似与以往的国际标准, H.265/HEVC仍旧采用混合编码框架, 包括变换、量化、熵编码、帧内预测、帧间预测以及环路滤波等模块。但是, H.265/HEVC几乎在每个模块都引入了新的编码技术。
         \begin{enumerate}
           \item 帧内预测
@@ -85,7 +85,7 @@
             经各路编码后的变换系数、运动矢量、参数集等仍有压缩空间。实际存储或传输的数据为经过熵编码后的二进制流。
         \end{enumerate}
 
-        除此之外, 为了适应不同的网络环境与视频应用, H.265/HEVC也采用了视频编码层(Video Coding Layer,  VCL)和网络适配层(Network Abstract Layer,  NAL)的双层架构;随着处理器多核架构的发展, 多核并行处理成为提高编解码能力的有效手段, H.265/HEVC在设计时充分考虑到了并行处理的必要性, 在数据单元划分与语法结构上均为其做了准备;为了在满足信道带宽和传输时延限制的情况下有效传输视频数据, 速率控制是实际编码器的很重要的组成成分。H.265/HEVC的官方编码器HM也提出了一些速率控制算法等, 本文中并不介绍, 具体可以参考\cite{hevc}。
+        除此之外, 为了适应不同的网络环境与视频应用, H.265/HEVC也采用了视频编码层(Video Coding Layer,  VCL)和网络适配层(Network Abstract Layer,  NAL)的双层架构;随着处理器多核架构的发展, 多核并行处理成为提高编解码能力的有效手段, H.265/HEVC在设计时充分考虑到了并行处理的必要性, 在数据单元划分与语法结构上均为其做了准备;为了在满足信道带宽和传输时延限制的情况下有效传输视频数据, 速率控制是实际编码器的很重要的组成成分。H.265/HEVC的官方编码器HM也提出了一些速率控制算法等, 本文中并不介绍, 具体可以参考\cite{sze2014high}。
 
       \section{编码结构}
         \input{section/framework.tex}
