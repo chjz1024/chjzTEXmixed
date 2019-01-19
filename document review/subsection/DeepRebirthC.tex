@@ -1,0 +1,37 @@
+% This paper finds another solution for speeding up model inference and reducing model size,  which is called DeepRebirth. Strictly speaking this method shouldn't be called pruning,  but it's useful for deployment in mobile phones and has been tested on some mobile devices,  so we list it here.
+本论文找到了一种提高模型预测速度与减小模型体积的方法, 被称为DeepRebirth。严格来说这一方法不应被称为剪枝, 但是它对于在移动端的部署是十分有用的, 并且作者在实际的手机上测试了这一结果, 因此我们把这种方法列了出来。
+
+% First the author found that non-tensor layers consume too much time in model execution,  which is shown below:
+首先作者发现非张量层在运行中消耗很多时间, 如下图：
+\begin{figure}[H]
+  \centering
+  \includegraphics{subsection/DeepRebirth.png}
+\end{figure}
+% So the author thought of combining those non-tensor layers with its adjacent tensor layers. This paper presents two ways to combine those layers,  called \textbf{Streamline Slimming} and \textbf{Branch Slimming} respectively.
+因此作者想要通过将非张量层与张量层合并为一层来提高运行效率。这篇文章提出了两种合并方法, 分别为\textbf{Streamline Slimming}和\textbf{Branch Slimming}。
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[h]{.49\textwidth}
+    \centering
+    \includegraphics{subsection/overall.png}
+  \end{minipage}
+  \begin{minipage}[h]{.49\textwidth}
+    \centering
+    \includegraphics{subsection/Streamline.png}
+  \end{minipage}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics{subsection/Branch.png}
+\end{figure}
+
+% The weights and biases are retrained to attain similar performance with original network,  which is given by
+权重与偏移经过重训练来获得与原网络相似的效果, 如下式：
+\begin{displaymath}
+  (\tilde{W}^*, \tilde{B}^*)=\underset{W, B}{\arg\min}\sum_i ||Y_{CNN}^i-\tilde{f}(W, B;X^i)||_F^2
+\end{displaymath}
+where $W$ and $B$ represent weight and bias matrix respectively.
+其中$W$和$B$分别代表权重与偏移矩阵。
+
+% \textbf{The main insight in this article is to evaluate execution time of non-tensor layers and solve this problem by merging certain layers,  and it has achieved great success in speeding up the whole network. However,  this is a completely engineering practice. It could be added to any network after the training has finished.}
+\textbf{本文主要的创新点是分析得到了非张量层的运行时间很长并通过合并特定层解决了该问题, 然而该方式完全为工程方向, 并不具有太多理论指导意义。好处是这一做法可以用于任何训练后的网络部署中。}

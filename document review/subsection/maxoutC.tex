@@ -1,0 +1,19 @@
+%This paper presents an approach for reducing the size of deep neural networks by pruning entire neurons. It also can be combined with subsequent weight pruning.
+本论文提出了一种剪除整个神经元的方案, 在该操作后可以进一步地进行权重剪枝。
+
+该方案主要是是哟你个了maxout单元以及其model selection能力来剪掉整个神经元, 从而压缩整个网络。该过程假设maxout单元中存在冗余, 具体流程如下图：
+\begin{figure}[H]
+  \centering
+  \includegraphics{subsection/maxout.png}
+\end{figure}
+%First,  a CNN with a maxout layer is trained. This maxout layer performs a max function among k adjacent neurons,  reducing the amount of weights connecting with the next layer by a factor of k. So,  placing this maxout layer after the one with the highest number of weights would be advisable. Second,  by counting the number of times neurons become the maximal value in each maxout unit when computing a forward pass over the training dataset,  the least active neurons of each maxout unit are removed from the network. Their effects are negligible with respect to other neurons. Third,  the remaining neurons of the CNN are re-trained. After re-training,  the process is repeated;
+首先训练一个包含maxout层的CNN。该maxout层在k个相继的神经元间取最大值, 连接数得以减少k倍, 因此将该maxout层置于最多权重的曾会得到较好效果。再来, 通过记录某一神经元在maxout单元中被激活的次数, 激活次数较小的神经元被移除, 此时该神经元对整个网络的影响可以忽略。最后该CNN被重新训练, 训练完成后重复上述过程。
+
+%In weight pruning,  the weights get pruned by thresholding them. This is one simple approach,  and it can be replaced by other criterions like relevance measure using Hessian matrix.
+权重剪枝中绝对值较低的权重被忽略。该过程可以以其他准则替代。
+
+%This approach reduced the network size by up to 74\% in LeNet-5 and 61\% in VGG16 without affecting the network's performance,  only applying the neuron pruning.
+仅进行神经元剪枝的情况下, LeNet-5的网络体积最多降低了74\%, VGG16降低了61\%而网络表现不降低。
+
+%\textbf{The main insight in this paper is considering redundancies in maxout architecture. Because this can be combined with other weight pruning methods,  it's not bad to combine this approach in certain networks.}
+\textbf{该论文主要的创新点是考虑maxout结构的冗余并对其处理。因为该过程可以与其他权重剪枝方法结合, 对于具有某些结构的网络可以考虑使用该方案。}

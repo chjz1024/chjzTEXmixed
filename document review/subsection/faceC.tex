@@ -1,0 +1,16 @@
+%This paper focused on creating a new network for face recognition,  while also sparsified the whole network after the training has finished. What's meaningful to our work is the principle he used to prune weights.
+该论文主要内容是针对人脸识别应用设计一个新的网络, 并在网络训练完成后对该网络进行剪枝操作来。对我们来说有用的只有其剪枝内容。
+
+%The author tends to keep connections (and the corresponding weights) where neurons connected have high correlations and drop connections between weakly correlated neurons. For fully and locally-connected layers,  where weights are not shared,  given a neuron $a_i$ in the current layer and its K connected neurons $b_{i1} ,  b_{i2} , \ldots , b_{iK}$ in the previous layer,  the correlation coefficient between $a_i$ to each of $b_{ik}$ for $k = 1,  2,  \ldots ,  K$ is
+%\begin{displaymath}
+%  r_{ik}=\frac{E[a_i-\mu_{a_i}][b_{ik}-\mu_{b_{ik}}]}{\sigma_{a_i}\sigma_{b_{ik}}}
+%\end{displaymath}
+作者计算神经元间相关性, 并舍弃相关性较低神经元间的链接。对与全连接层等权重不共享的层, 给定一神经元$a_i$与其前一层中K个相连的神经元$b_{i1} ,  b_{i2} , \ldots , b_{iK}$, $a_i$与$b_{ik}, k = 1, 2, \ldots, K$间的相关为：
+\begin{displaymath}
+  r_{ik}=\frac{E[a_i-\mu_{a_i}][b_{ik}-\mu_{b_{ik}}]}{\sigma_{a_i}\sigma_{b_{ik}}}
+\end{displaymath}
+%where $\mu_{a_i}, \mu_{b_{ik}}, \sigma_{a_i}, \sigma_{b_{ik}}$denote the mean and standard deviation of $a_i$ and $b_{ik}$,  respectively,  which are evaluated on a separated training set. Since both positively and negatively neurons are important,  the author used similar but slightly different methods to deal with them. For convolutional layers,  the author calculated the mean magnitude,  which we don't present here.
+其中$\mu_{ai}, \mu_{b_{ik}}, \sigma_{a_i}, \sigma_{b_{ik}}$分别代表$a_i$与$b_{ik}$的均值与标准差, 其值在另一训练集中获得。对于正和负的相关值, 作者使用了不同的方式处理。对于卷积层作者使用另一公式来计算, 在这里我们不展现。
+
+%\textbf{The main insight is to measure weight importance based on the previous layer. The author also experimented on directly training the sparse ConvNet from scratch,  which failed to find good solutions for face recognition. Although we mainly focus on pruning an existing network,  this could be some hint to the training stage.}
+\textbf{本论文主要的创新点是根据层间关系权衡重要性。除此之外, 作者也尝试了从头开始训练一稀疏网络, 结果在人脸识别上效果并不好。尽管我们的关注点是对已知网络进行剪枝, 该结论仍具有很强的指导意义。}

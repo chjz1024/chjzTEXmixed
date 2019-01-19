@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99999 (TeX Live 2018) (preloaded format=xelatex 2018.12.4)  16 JAN 2019 16:21
+This is XeTeX, Version 3.14159265-2.6-0.99999 (TeX Live 2018) (preloaded format=xelatex 2018.12.4)  16 JAN 2019 16:46
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -905,7 +905,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 207--209
  []
 
 [27]
-Missing character: There is no （ in font [lmroman12-regular]:mapping=tex-text;!
 File: pict/PC/Intra/12.png Graphic file (type bmp)
 <pict/PC/Intra/12.png>
 ) (./section/prediction/inter.tex
@@ -1021,8 +1020,8 @@ File: pict/LF/DEBLOCK5.png Graphic file (type bmp)
 File: pict/LF/DEBLOCK6.png Graphic file (type bmp)
 <pict/LF/DEBLOCK6.png>
 
-Overfull \hbox (160.81773pt too wide) in paragraph at lines 228--230
-[]\TU/FandolSong-Regular(0)/m/n/12 对 边 界 \TU/lmr/m/n/12 a \TU/FandolSong-Regular(0)/m/n/12 进 行 判 断\TU/lmr/m/n/12 , \TU/FandolSong-Regular(0)/m/n/12 如 果 边 界 \TU/lmr/m/n/12 a \TU/FandolSong-Regular(0)/m/n/12 不 满 足 三 种 情 况  |（\TU/lmr/m/n/12 a \TU/FandolSong-Regular(0)/m/n/12 为 图 像 的 左 边 界\TU/lmr/m/n/12 , \TU/lmtt/m/n/12 loop_filter_across_titles_enabled_flag
+Overfull \hbox (161.99773pt too wide) in paragraph at lines 228--230
+[]\TU/FandolSong-Regular(0)/m/n/12 对 边 界 \TU/lmr/m/n/12 a \TU/FandolSong-Regular(0)/m/n/12 进 行 判 断\TU/lmr/m/n/12 , \TU/FandolSong-Regular(0)/m/n/12 如 果 边 界 \TU/lmr/m/n/12 a \TU/FandolSong-Regular(0)/m/n/12 不 满 足 三 种 情 况 \TU/lmr/m/n/12 (a \TU/FandolSong-Regular(0)/m/n/12 为 图 像 的 左 边 界\TU/lmr/m/n/12 , \TU/lmtt/m/n/12 loop_filter_across_titles_enabled_flag
  []
 
 
@@ -1143,8 +1142,8 @@ Package rerunfilecheck Warning: File `intro.out' has changed.
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `intro.out':
-(rerunfilecheck)             Before: 0CCB6F5D8F09B3739AF7A5CA4129887A
-(rerunfilecheck)             After:  5E63262700387EEB8A83D2354BA8731B.
+(rerunfilecheck)             Before: 3BD36426F3865AB79E14B7275DF2A9DE
+(rerunfilecheck)             After:  168A74F4EF2498042E44DC73358B98DA.
 
 LaTeX Warning: There were undefined references.
 
@@ -1154,10 +1153,10 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 104.
  ) 
 Here is how much of TeX's memory you used:
- 25127 strings out of 492956
- 505915 string characters out of 6133502
- 593496 words of memory out of 5000000
- 28826 multiletter control sequences out of 15000+600000
+ 25048 strings out of 492956
+ 500056 string characters out of 6133502
+ 593502 words of memory out of 5000000
+ 28747 multiletter control sequences out of 15000+600000
  536924 words of font info for 68 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  52i,15n,74p,881b,505s stack positions out of 5000i,500n,10000p,200000b,80000s

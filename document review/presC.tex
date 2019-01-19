@@ -1,0 +1,68 @@
+\documentclass[utf8]{article}
+\usepackage{ctex}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{cite}
+\usepackage{amsmath}
+\usepackage{hyperref}
+
+\setkeys{Gin}{width=\textwidth}
+\begin{document}
+  \title{Pruning in Deep Compression}
+  \author{Jinze Chen}
+  \date{\today}
+  \maketitle
+  
+  \section{Introduction}
+    % People design pruned neural networks mainly for 2 reasons: one for the deployment in resource constrained devices,  \textit{e.g.},  mobile phones or embedded gadgets and the other to reduce the effect subjected to over-parameterization,  thus this approach may even increase the inference accuracy in certain networks.
+    对网络进行剪枝主要有两个目的:一是降低网络的内存与计算资源消耗以便于将其部署在资源有限设备上, 二是减轻过拟合现象, 因此剪枝可能提高某些网络精度。
+    
+    % For the latter one,  this process resembles the biological phenomena in mammalian brain,  where the number of neuron synapses has reached the peak in early childhood,  followed by gradual pruning during its development. However,  we don't concern much about increasing the accuracy in this article. Having a new sparse network that functions not so strayed from the original one is our ultimate goal.
+    对于后一种情况, 其整个流程类似于哺乳动物脑的发育过程, 在这过程中脑神经元的突触数量在儿童期间到达顶峰, 而后逐渐减少。然而本文并不对该内容进行阐述, 我们的最终目标是以更少的资源消耗尽可能地逼近目标网络。本文罗列了一些其他人在这方面做的努力, 将其集合起来, 并总结出网络剪枝必要的流程以及其注意事项。
+
+  \section{Related work}
+    % The main problem is the principle to find the appropriate mask in the whole network. Different choices may make different trade-offs between computational resources and accuracy,  \textit{e.g.},  weight-wise pruning may achieve better compression rate while layer-wise pruning is much easier to be performed. There are also some attempts to reconstruct a similar network but with fewer parameters or layers\cite{Li2018DeepRebirthAD},  which we'll examine later in \ref{DeepRebirth}.
+    在网络剪枝中最关键的问题是如何判别网络中不重要的成分并将其舍弃, 其中对计算资源以及网络精度的权衡也是很重要的一部分, 像是以权重为单元的剪枝通常精度较高, 但计算较慢, 相比之下更高级别的如层级别的剪枝则正好相反。还有一些通过改变原网络结构来降低存储量的做法, 具体实现将在\ref{DeepRebirth}里描述。
+
+    % In summary, less significant compositions may be masked safely without affecting the network performance. Based on this principle,  Han et al. \cite{Han2015LearningBW} proposed an iterative pruning method to remove the redundancy in deep models. Their main insight is that small-weight connectivity below a threshold should be discarded. In practice,  this can be aided by applying $l_1$ or $l_2$ regularization to push connectivity values becoming smaller. The major weakness of this strategy is the loss of universality and flexibility,  thus seems to be less practical in the real applications.
+    总结起来越不重要的元素被舍弃时对网络的影响越小, 基于该原则韩松在\cite{Han2015LearningBW}中提出了一种迭代剪枝的方法来压缩网络, 在这过程中绝对值小于一阈值的权重全被舍弃。实际应用时可以通过$l_1$与$l_2$正则化来更方便地实现。这种方法的主要缺陷是缺少通用性与灵活性。
+
+    % In order to avoid these weaknesses,  some attention has been focused on the group-wise sparsity. Lebedev and Lempitsky \cite{Lebedev2016FastCU} explored group-sparse convolution by introducing the group-sparsity regularization to the loss function,  then some entire groups of weights would shrink to zeros,  thus can be removed. Similarly,  Wen et al. \cite{Wen2016LearningSS} proposed the Structured Sparsity Learning (SSL) method to regularize filter,  channel,  filter shape and depth structures. In spite of their success,  the original network structure has been destroyed. As a result,  some dedicated libraries are needed for an efficient inference speed-up.
+    为了克服上述缺点, 也有些将注意力转移到了``组''层面的稀疏性。Lebedev与Lempitsky在他们的论文\cite{Lebedev2016FastCU}中通过对损失函数的正则化来去除一些权重组。与此类似, Wei Wen在其论文\cite{Wen2016LearningSS}中提出了Structured Sparsity Learning (SSL)方法来正规化filter, channel, filter shape以及depth structure。但是在该过程中原有网络结构已被损坏, 其结果是需要特殊的函数库来加速网络。
+
+    % Some filter level pruning strategies have been explored too. The core is to evaluate neuron importance,  which has been widely studied in the community \cite{Hu2016NetworkTA, Li2016PruningFF, Molchanov2016PruningCN, Selvaraju2017GradCAMVE, Zhou2016LearningDF}. A simplest possible method is based on the magnitude of weights. Li et al. \cite{Li2016PruningFF} measured the importance of each filter by calculating its absolute weight sum. Another practical criterion is to measure the sparsity of activations after the ReLU function. Hu et al. \cite{Hu2016NetworkTA} believed that if most outputs of some neurons are zero,  these activations should be expected to be redundant. They compute the Average Percentage of Zeros (APoZ) of each filter as its importance score. These two criteria are simple and straightforward,  but not directly related to the final loss. Inspired by this observation,  Molchanov et al. \cite{Molchanov2016PruningCN} adopted Taylor expansion to approximate the influence to loss function induced by removing each filter.
+    也有一些人以filter层面的剪枝为基础, 其研究关键点在与衡量神经元重要性, 这已经在\cite{Hu2016NetworkTA, Li2016PruningFF, Molchanov2016PruningCN, Selvaraju2017GradCAMVE, Zhou2016LearningDF}中被广泛研究了。最简单的方法是单纯根据其绝对值来衡量, 其中Hao Li在其论文\cite{Li2016PruningFF}中以绝对和为衡量标准。还有的比较实用的方法是通过根据通过ReLU函数后的激活率来判断, 如Hengyuan Hu在\cite{Hu2016NetworkTA}中的研究成果。这两种方法直接且简洁, 但它们并未将操作与结果直接联系起来。受此启发, Pavlo Molchanov在其论文\cite{Molchanov2016PruningCN}中使用泰勒级数展开来分析移除filter对最终损失的影响。
+
+  \section{Different methodologies}
+    \subsection{Neuron Pruning for Compressing Deep Networks using Maxout Architectures\cite{Rueda2017NeuronPF}}
+    \input{subsection/maxoutC.tex}
+    \subsection{ThiNet: A Filter Level Pruning Method for Deep Neural Network Compression\cite{Luo2017ThiNetAF}}
+    \input{subsection/ThiNetC.tex}
+    \subsection{Sparsifying Neural Network Connections for Face Recognition\cite{Sun2016SparsifyingNN}}
+    \input{subsection/faceC.tex}
+    \subsection{DeepRebirth: Accelerating Deep Neural Network Execution on Mobile Devices\cite{Li2018DeepRebirthAD}\label{DeepRebirth}}
+    \input{subsection/DeepRebirthC.tex}
+
+  \section{Summary}
+    % These articles all present some ways to accelerate or compress neural networks,  or both. In general,  we may derive the process for pruning an existing network as follows:
+    % \begin{enumerate}
+      % \item Get a trained network.
+      % \item Prune some components based on its importance. It's better to evaluate that based on its relation with output rather than on one layer exclusively.
+      % \item Retrain the whole network to minimize error induced by pruning. After that iterate to step 2.
+      % \item [*4] Reconstruct a new network for less model latency. 
+    % \end{enumerate}
+
+    这些论文都提出了一些加速或压缩神经网络的方案。大体上来说, 我们可以得出对一已知网络剪枝流程如下：
+    \begin{enumerate}
+      \item 获取一训练好的神经网络。
+      \item 根据其组成元素重要性进行剪枝, 其中通过层间重要性来判断通常能获得更好的效果。
+      \item 对该网络进行重训练来最小化剪枝误差, 然后回到步骤2.
+      \item [*4] 重构一网络来降低模型延迟。
+    \end{enumerate}
+
+    % In order for step 4 to be combined,  there needs some extra efforts,  or we could only focus on model speed or model size. Anyway,  that's the main framework for network pruning. Also we could combine other methods like quantization and entropy coding to reduce the model size further.
+    为了进行步骤4, 我们需要在其他一些方面入手, 或者我们只关注模型速度或模型大小。无论如何, 上述过程应该就是网络剪枝的大体流程, 而在整个过程中我们还可以采用如量化与熵编码等错吃来进一步压缩模型。
+    
+  \bibliographystyle{plain}
+  \bibliography{ref}
+\end{document}

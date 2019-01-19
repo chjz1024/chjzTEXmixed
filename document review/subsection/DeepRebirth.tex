@@ -5,7 +5,6 @@ First the author found that non-tensor layers consume too much time in model exe
   \centering
   \includegraphics{subsection/DeepRebirth.png}
 \end{figure}
-
 So the author thought of combining those non-tensor layers with its adjacent tensor layers. This paper presents two ways to combine those layers,  called \textbf{Streamline Slimming} and \textbf{Branch Slimming} respectively.
 \begin{figure}[H]
   \centering
@@ -27,7 +26,6 @@ The weights and biases are retrained to attain similar performance with original
 \begin{displaymath}
   (\tilde{W}^*, \tilde{B}^*)=\underset{W, B}{\arg\min}\sum_i ||Y_{CNN}^i-\tilde{f}(W, B;X^i)||_F^2
 \end{displaymath}
-
 where $W$ and $B$ represent weight and bias matrix respectively.
 
 \textbf{The main insight in this article is to evaluate execution time of non-tensor layers and solve this problem by merging certain layers,  and it has achieved great success in speeding up the whole network. However,  this is a completely engineering practice. It could be added to any network after the training has finished.}
