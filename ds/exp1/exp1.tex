@@ -1,0 +1,53 @@
+\documentclass{article}
+\usepackage{ctex}
+
+\begin{document}
+  \title{电子设计第一次实验报告}
+  \author{陈进泽 PB16061024}
+  \date{}
+  \maketitle
+  
+  \section{FPGA工程创建}
+  打开Quartus软件, 点击File->New->New Quartus II Project新建项目。项目名为FPGA\_EXP1。
+
+  在``Family \& Device Settings [page 3 of 5]''中选择``Device family''为``Cyclone V'', ``Devices''为 ``Cyclone V E Extended Features''来选择器件类型。在右侧 ``Show in 'Available devices' lists''中选择 ``Package'' 为 ``FBGA'', ``Pin count'' 为 ``484'', ``Speed grade''为8来筛选器件列表。最终在 ``Available devices:''菜单栏选择本实验器材 ``5CEFA2F23C8''。
+
+  在 ``EDA Tool Settings [page 4 of 5]''中选择 ``Tool Type''为 ``Simulation''行中的 ``Tool Name''为 ``Modelsim'', ``Format(s)''为 ``VHDL'', 工程创建完毕。
+
+  \section{为新创建工程添加设计文件与代码}
+  选择File->New->Design Files->VHDL FIle来创建器件代码, 键入对应代码。保存文件名需与项目名匹配, 因该项目默认Top Entity为项目名对应代码。
+
+  在代码输入完毕后选择Processing->Start->Start Analysis \& Synthesis来检查是否有语法错误, 直到显示无错误为止。
+
+  全部设计完成后可选择Tools->Netlist Viewers->RTL Viewer检查生成电路与预期的是否一致
+
+  \section{编译设计工程并仿真}
+  同样创建VHDL仿真文件, 键入仿真代码。并尝试编译以检查是否有语法错误, 直到显示无错误为止。
+
+  \subsection{设置仿真软件ModelSim与Test Bench}
+  选择Tools->Options->General->EDA Tool Options, 检查ModelSim一项是否指向正确可执行文件路径。
+
+  选择Assignments->Settings->EDA Tool Settings->simulation, 设置仿真工具为modelsim, 语言为VHDL, 在 ``Test Benches...''一栏中添加仿真代码并设置仿真时间为1000ns。
+
+  \subsection{开始仿真}
+  选择Tools->Run Simulation Tool->RTL Simulation来启动Modelsim实现功能仿真。仿真结束后可以看到signal的波形图, 检查是否与预期一致。
+
+  *注意: 默认情况下ModelSim比例尺太大, 需缩小来看到完整仿真结果。
+
+  \section{分配管脚并载入芯片}
+  选择Assignments->Pin Planner, 对照芯片原理图来进行管脚分配。
+
+  选择Processing->Start Compilation来实现Analysis \& Synthesis, Fitter及Assembler等完整的编译过程, 若有错误继续修改直到编译成功。
+
+  使用USB线连接到FPGA实验箱的JTAG口上, 选择Tools->Programmer, 检查是否连接到板子上, 若无连接则要单击 ``Hardware Setup...''进行下载线设置。添加源代码并下载到芯片上, 检查是否与预期功能一致。
+
+  实验结束。
+
+  \section{实验感想}
+  \begin{itemize}
+    \item quartus对VHDL的语法提示支持不好, 18.1版本甚至默认不勾选Autocomplete选项。
+    \item Netlist Viewer可以直接看到生成电路图, 很有趣。
+    \item Simulation配置不透明, 当原件调用深度较大时无法显示对应引脚电平。
+  \end{itemize}
+
+\end{document}
