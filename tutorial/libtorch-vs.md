@@ -6,8 +6,9 @@
 - ***cmake**: 可选, 当教程中其他方法均失败情况下尝试。
 
 ## 使用流程
-1. 下载对应版本libtorch并解压到对应目录, 如在本机为`C:\Users\chenjz\Downloads\libtorchGPU`。
-2. 打开visual studio创建新项目, 添加源代码`test.cpp`
+1. 下载对应版本libtorch并解压到对应目录, 如在本机为`E:\libtorchGPU`
+2. 配置环境变量`TORCH_LIBRARY`为libtorch解压目录`E:\libtorchGPU`
+3. 打开visual studio创建新项目, 添加源代码
 ```cpp
 #include <iostream>
 #include <torch/torch.h>
@@ -25,30 +26,30 @@ int main()
  
 ![pic1](pic/pic1.png)  
 ```
-C:\Users\chenjz\Downloads\libtorchGPU\include;C:\Users\chenjz\Downloads\libtorchGPU\include\torch\csrc\api\include;C:\Program Files\NVIDIA Corporation\NvToolsExt\include;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include;%(AdditionalIncludeDirectories)
+$(TORCH_PATH)\include;$(TORCH_PATH)\include\torch\csrc\api\include;$(NVTOOLSEXT_PATH)\include;$(CUDA_PATH)\include;%(AdditionalIncludeDirectories)
 ```
 ![pic2](pic/pic2.png)  
 ```
-C:\Users\chenjz\Downloads\libtorchGPU\lib\torch.lib
-C:\Users\chenjz\Downloads\libtorchGPU\lib\c10.lib
-C:\Program Files\NVIDIA Corporation\NvToolsExt\lib\x64\nvToolsExt64_1.lib
-C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\lib\x64\cudart.lib
-C:\Users\chenjz\Downloads\libtorchGPU\lib\c10_cuda.lib
-C:\Users\chenjz\Downloads\libtorchGPU\lib\caffe2_gpu.lib
-C:\Users\chenjz\Downloads\libtorchGPU\lib\caffe2.lib
-C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\lib\x64\cufft.lib
-C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\lib\x64\curand.lib
-C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\lib\x64\cudnn.lib
-C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\lib\x64\cublas.lib
+$(NVTOOLSEXT_PATH)\lib\x64\nvToolsExt64_1.lib
+$(CUDA_PATH)\lib\x64\cudart.lib
+$(CUDA_PATH)\lib\x64\cufft.lib
+$(CUDA_PATH)\lib\x64\curand.lib
+$(CUDA_PATH)\lib\x64\cudnn.lib
+$(CUDA_PATH)\lib\x64\cublas.lib
+$(TORCH_PATH)\lib\c10_cuda.lib
+$(TORCH_PATH)\lib\caffe2_gpu.lib
+$(TORCH_PATH)\lib\caffe2.lib
+$(TORCH_PATH)\lib\torch.lib
+$(TORCH_PATH)\lib\c10.lib
 ```
 ![pic3](pic/pic3.png)  
 ```
-PATH=%PATH%;C:\Users\chenjz\Downloads\libtorchGPU\lib
+PATH=%PATH%;$(TORCH_PATH)\lib
 ```
 
-配置1设置引用目录, 配置2设置引用静态库, 配置3设置dll引用路径, 若使用的是cpu版本可以将配置中有关cuda的部分全部删除。
+配置1设置引用目录, 配置2设置引用静态库, 配置3设置dll引用路径, 若使用的是cpu版本可以将配置中有关cuda与nvtoolsext的部分全部删除。
 
-4. 编译并链接程序: 有人build项目时可能会报错C4996, 这是msvc为了安全所引用的特性, 可以在`项目配置->C/C++->Advanced->Disable Specific Warnings`里添加4996。
+4. 如果使用的vs版本为2017及以上还需要配置`C/C++ -> Conformance Mode`为No。
 
 *在已有项目里添加libtorch同样需要以上三步。
 
