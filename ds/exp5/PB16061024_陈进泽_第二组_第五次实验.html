@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>PB16061024_陈进泽_第二组_第五次实验.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: "宋体";
+	font-size: 16px;
+	padding: 0 12px;
+	line-height: 22px;
+	word-wrap: break-word;
+}
+
+h1, h2, h3, h4, h5, h6{ font-weight: bold}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	color: #4080D0;
+	text-decoration: none;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code {
+	font-size: inherit;
+	line-height: auto;
+}
+
+a:hover {
+	color: #4080D0;
+	text-decoration: underline;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left: 5px solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 14px;
+	line-height: 19px;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+.mac code {
+	font-size: 12px;
+	line-height: 18px;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+/** Theming */
+
+.vscode-light,
+.vscode-light pre code {
+	color: rgb(30, 30, 30);
+}
+
+.vscode-dark,
+.vscode-dark pre code {
+	color: #DDD;
+}
+
+.vscode-high-contrast,
+.vscode-high-contrast pre code {
+	color: white;
+}
+
+.vscode-light code {
+	color: #A31515;
+}
+
+.vscode-dark code {
+	color: #D7BA7D;
+}
+
+.vscode-light pre:not(.hljs),
+.vscode-light code > div {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre:not(.hljs),
+.vscode-dark code > div {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre:not(.hljs),
+.vscode-high-contrast code > div {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+.vscode-light blockquote,
+.vscode-dark blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.vscode-high-contrast blockquote {
+	background: transparent;
+	border-color: #fff;
+}
+</style>
+<link rel="stylesheet" href="file:///markdown.css" type="text/css">
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family:  "宋体";
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+</head>
+<body>
+<h1 id="%E7%94%B5%E5%AD%90%E8%AE%BE%E8%AE%A1%E5%9F%BA%E7%A1%80%E8%87%AA%E4%B8%BB%E8%AE%BE%E8%AE%A1%E5%AE%9E%E9%AA%8Cuart%E6%8A%A5%E5%91%8A-pb16061024-%E9%99%88%E8%BF%9B%E6%B3%BD">电子设计基础自主设计实验UART报告 PB16061024 陈进泽</h1>
+<h1 id="%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9">实验内容</h1>
+<p>本次实验我实现了基于FPGA的UART串口通信，在此基础上根据接收数据动态控制数码管以及蜂鸣器，并可做到通过串口指令播放任意歌曲的效果。</p>
+<h1 id="%E8%AE%BE%E8%AE%A1%E5%88%86%E6%9E%90">设计分析</h1>
+<p>本次实验最关键的是UART串口通信协议的实现。由于调试以及其他需要在本实验中我仅实现了串口的接收功能，但发送功能因为不需产生同步信号实现起来更简单故在此略过。</p>
+<p>UART常用串口协议码流如下: 1位起始位、8位数据位、无奇偶校验、一位停止位，在信号空闲时为高电平。</p>
+<p>为了保证起始位的有效性我对每个比特周期再16等分，选定的波特率是115200，由于系统时钟50MHz，时钟分频数为27.13，取整为27。</p>
+<p>27分频器的设计：由于使用单计数器上升沿触发的分频器只能产生偶数分频，在设计27分频器时需要设置两个计数器来生成占空比不为0.5的分频信号。</p>
+<p>RX的设计：串口接收数据的过程可视为一有限状态机。初始状态为空闲(idle)状态，在起始位到来时进入起始(start)状态，而后进入数据(data)状态，当接收完全部8bit数据后进入终止状态，最后返回空闲(idle)状态。因为终止态不计入数据传输的过程中，在我的实现中为了方便将其省略。</p>
+<p>由于系统时钟以及分频有误差、异步收发时钟不同步等问题，不能完全依赖于上述状态机做到串口接收数据的目的，而需要选定最佳采样判决点或在不同时刻对同一比特采样实现时间分集来增加比特传输的成功率。为了实现的简易性我仅实现了最佳采样判决的方法，同时起始位的判决有一定的抗电平抖动性。</p>
+<p>RX实现细节：RX内部有两个进程sync_gen与state_transfer。state_transfer原理与上述原理一致，由sync_gen产生的异步同步信号触发；sync_gen用于判断有新的串口数据到来并根据协议在最佳判决时刻输出一个上升沿同步信号，用来触发state_transfer有限状态机。串口数据到来的准则是若在idle状态连续采样8次数据均为0则认为有数据到来，而后每采样8次翻转一下输出同步信号电平。最终，传输的数据在状态转换机内部被移位锁存到输出端以实现接收串口数据的功能。</p>
+<p>其他器件：串口协议是比较底层的协议，但一旦该器件设计好原则上可以通过通信实现任意复杂功能。在本次实验中我只实现了将接收buffer接到LED上予以显示、低四位数据接到七段数码管上显示数字以及通过高四位比特控制蜂鸣器的功能。蜂鸣器的频率由输入的串口数据控制，故可以通过合理规划串口发送数据来达到演奏任意音乐的效果，而不需要像内置的实现方式一样设计一个很长的状态转换机，却只能演奏一个或几个歌曲。</p>
+<h1 id="%E6%BA%90%E4%BB%A3%E7%A0%81">源代码</h1>
+<h2 id="27%E5%88%86%E9%A2%91%E5%99%A8">27分频器</h2>
+<pre class="hljs"><code><div><span class="hljs-keyword">library</span> ieee;
+<span class="hljs-keyword">use</span> ieee.std_logic_1164.<span class="hljs-keyword">all</span>;
+<span class="hljs-keyword">use</span> ieee.std_logic_unsigned.<span class="hljs-keyword">all</span>;
+<span class="hljs-keyword">entity</span> DIV27 <span class="hljs-keyword">is</span>
+  <span class="hljs-keyword">port</span>(
+    clk: <span class="hljs-keyword">in</span> <span class="hljs-built_in">std_logic</span>;
+    clkdiv: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic</span>
+  );
+<span class="hljs-keyword">end</span> DIV27;
+<span class="hljs-keyword">architecture</span> rtl <span class="hljs-keyword">of</span> DIV27 <span class="hljs-keyword">is</span>
+  <span class="hljs-keyword">signal</span> cnt: <span class="hljs-built_in">std_logic</span>:=<span class="hljs-string">'1'</span>;
+  <span class="hljs-keyword">type</span> states <span class="hljs-keyword">is</span>(llow, hhigh);
+<span class="hljs-keyword">begin</span>
+  <span class="hljs-keyword">process</span>(clk)
+  <span class="hljs-keyword">variable</span> i: <span class="hljs-built_in">std_logic_vector</span>(<span class="hljs-number">3</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">0</span>) := <span class="hljs-string">"0000"</span>;
+  <span class="hljs-keyword">variable</span> state: states := llow;
+  <span class="hljs-keyword">begin</span>
+    <span class="hljs-keyword">if</span>(clk<span class="hljs-symbol">'event</span> <span class="hljs-keyword">and</span> clk=<span class="hljs-string">'1'</span>) <span class="hljs-keyword">then</span>
+      <span class="hljs-keyword">if</span>(state = llow) <span class="hljs-keyword">then</span>
+         <span class="hljs-keyword">if</span>(i = <span class="hljs-string">"1100"</span>) <span class="hljs-keyword">then</span>
+            i := <span class="hljs-string">"0000"</span>;
+            state := hhigh;
+            cnt &lt;= <span class="hljs-keyword">not</span> cnt;
+         <span class="hljs-keyword">else</span>
+            i := i + <span class="hljs-string">'1'</span>;
+         <span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span>;
+      <span class="hljs-keyword">else</span>
+         <span class="hljs-keyword">if</span>(i = <span class="hljs-string">"1101"</span>) <span class="hljs-keyword">then</span>
+            i := <span class="hljs-string">"0000"</span>;
+            state := llow;
+            cnt &lt;= <span class="hljs-keyword">not</span> cnt;
+         <span class="hljs-keyword">else</span>
+            i := i + <span class="hljs-string">'1'</span>;
+         <span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span>;
+      <span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span>;
+    <span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span>;
+  <span class="hljs-keyword">end</span> <span class="hljs-keyword">process</span>;
+  clkdiv &lt;= cnt;
+<span class="hljs-keyword">end</span> rtl;
+</div></code></pre>
+<p>该代码通过低电平计数13次翻转，高电平计数14次翻转来达到27分频的效果，电路见下图：
+<img src="div27.png" alt="div27"></p>
+<h2 id="rx">RX</h2>
+<pre class="hljs"><code><div><span class="hljs-keyword">library</span> ieee;
+<span class="hljs-keyword">use</span> ieee.std_logic_1164.<span class="hljs-keyword">all</span>;
+<span class="hljs-keyword">use</span> ieee.std_logic_unsigned.<span class="hljs-keyword">all</span>;
+
+<span class="hljs-keyword">entity</span> RX <span class="hljs-keyword">is</span>
+  <span class="hljs-keyword">generic</span>(data_bits: <span class="hljs-built_in">integer</span> := <span class="hljs-number">8</span>);<span class="hljs-comment">--clkwait: integer := 16)</span>
+  <span class="hljs-keyword">port</span>(
+    clk: <span class="hljs-keyword">in</span> <span class="hljs-built_in">std_logic</span>;
+    data: <span class="hljs-keyword">in</span> <span class="hljs-built_in">std_logic</span>;
+    rd: <span class="hljs-keyword">in</span> <span class="hljs-built_in">std_logic</span>;
+    buff: <span class="hljs-keyword">buffer</span> <span class="hljs-built_in">std_logic_vector</span>(data_bits-<span class="hljs-number">1</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">0</span>);
+    rx_ready: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic</span> := <span class="hljs-string">'0'</span>;
+    sync_sig: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic</span>
+  );
+<span class="hljs-keyword">end</span> RX;
+
+<span class="hljs-keyword">architecture</span> rtl <span class="hljs-keyword">of</span> RX <span class="hljs-keyword">is</span>
+<span class="hljs-keyword">type</span> states <span class="hljs-keyword">is</span>(r_idle, r_start, r_data);
+<span class="hljs-keyword">type</span> sync_states <span class="hljs-keyword">is</span>(rx_start, rx_wait, rx_sample);
+<span class="hljs-keyword">signal</span> state: states:= r_idle;
+<span class="hljs-keyword">signal</span> sync_state: sync_states := rx_start;
+<span class="hljs-keyword">signal</span> sync: <span class="hljs-built_in">std_logic</span> := <span class="hljs-string">'0'</span>;
+<span class="hljs-keyword">begin</span>
+  
+  sync_sig &lt;= sync;
+  
+  sync_gen: <span class="hljs-keyword">process</span>(clk)
+  <span class="hljs-keyword">variable</span> clkcnt: <span class="hljs-built_in">std_logic_vector</span>(<span class="hljs-number">3</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">0</span>) := <span class="hljs-string">"0000"</span>;
+  <span class="hljs-keyword">variable</span> datacnt: <span class="hljs-built_in">integer</span> <span class="hljs-keyword">range</span> <span class="hljs-number">0</span> <span class="hljs-keyword">to</span> <span class="hljs-number">16</span>:= <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">begin</span>
+    <span class="hljs-keyword">if</span>(clk<span class="hljs-symbol">'event</span> <span class="hljs-keyword">and</span> clk=<span class="hljs-string">'1'</span>) <span class="hljs-keyword">then</span>
+      <span class="hljs-keyword">case</span> sync_state <span class="hljs-keyword">is</span>
+        <span class="hljs-keyword">when</span> rx_start =&gt;
+          <span class="hljs-keyword">if</span>(data = <span class="hljs-string">'0'</span>) <span class="hljs-keyword">then</span>
+            clkcnt := clkcnt + <span class="hljs-string">'1'</span>;
+            <span class="hljs-keyword">if</span>(clkcnt = <span class="hljs-string">"1000"</span>) <span class="hljs-keyword">then</span>
+              sync_state &lt;= rx_wait;
+              sync &lt;= <span class="hljs-keyword">not</span> sync;
+            <span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span>;
+          <span class="hljs-keyword">else</span>
+            clkcnt := <span class="hljs-string">"0000"</span>;
+            sync &lt;= <span class="hljs-string">'0'</span>;
+          <span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span>;
+        
+        <span class="hljs-keyword">when</span> rx_wait =&gt;
+          clkcnt := clkcnt + <span class="hljs-string">'1'</span>;
+          <span class="hljs-keyword">if</span>(clkcnt(<span class="hljs-number">2</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">0</span>) = <span class="hljs-string">"000"</span>) <span class="hljs-keyword">then</span>
+            sync_state &lt;= rx_sample;
+          <span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span>;
+
+        <span class="hljs-keyword">when</span> rx_sample =&gt;
+          clkcnt := clkcnt + <span class="hljs-string">'1'</span>;
+          sync &lt;= <span class="hljs-keyword">not</span> sync;
+          datacnt := datacnt + <span class="hljs-number">1</span>;
+          <span class="hljs-keyword">if</span>(datacnt = <span class="hljs-number">16</span>) <span class="hljs-keyword">then</span>
+            sync_state &lt;= rx_start;
+            datacnt := <span class="hljs-number">0</span>;
+          <span class="hljs-keyword">else</span>
+            sync_state &lt;= rx_wait;
+          <span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span>;
+
+      <span class="hljs-keyword">end</span> <span class="hljs-keyword">case</span>;
+    <span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span>;
+  <span class="hljs-keyword">end</span> <span class="hljs-keyword">process</span> sync_gen;
+
+  state_transfer: <span class="hljs-keyword">process</span>(sync)
+  <span class="hljs-keyword">variable</span> cnt: <span class="hljs-built_in">integer</span> <span class="hljs-keyword">range</span> <span class="hljs-number">0</span> <span class="hljs-keyword">to</span> data_bits := <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">begin</span>
+    <span class="hljs-keyword">if</span>(sync<span class="hljs-symbol">'event</span> <span class="hljs-keyword">and</span> sync=<span class="hljs-string">'1'</span>) <span class="hljs-keyword">then</span>
+      <span class="hljs-keyword">case</span> state <span class="hljs-keyword">is</span>
+        <span class="hljs-keyword">when</span> r_idle =&gt;
+          <span class="hljs-keyword">if</span>(data = <span class="hljs-string">'0'</span>) <span class="hljs-keyword">then</span>
+            state &lt;= r_start;
+            cnt := <span class="hljs-number">0</span>;
+          <span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span>;
+        <span class="hljs-keyword">when</span> r_start =&gt;
+          state &lt;= r_data;
+          buff(data_bits-<span class="hljs-number">1</span>) &lt;= data;
+          cnt := cnt + <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">when</span> r_data =&gt;
+          buff(data_bits-<span class="hljs-number">2</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">0</span>) &lt;= buff(data_bits-<span class="hljs-number">1</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">1</span>);
+          buff(data_bits-<span class="hljs-number">1</span>) &lt;= data;
+          <span class="hljs-keyword">if</span>(cnt = <span class="hljs-number">7</span>) <span class="hljs-keyword">then</span>
+            state &lt;= r_idle;
+            rx_ready &lt;= <span class="hljs-string">'1'</span>;
+          <span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span>;
+          cnt := cnt + <span class="hljs-number">1</span>;
+      <span class="hljs-keyword">end</span> <span class="hljs-keyword">case</span>;
+    <span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span>;
+  <span class="hljs-keyword">end</span> <span class="hljs-keyword">process</span> state_transfer;
+<span class="hljs-keyword">end</span> rtl;
+</div></code></pre>
+<p>程序原理在设计分析中有说明，代码只是将那个原理实现的过程。该模块有未实现的rd串口读取信号、rx_ready接收完成信号以及用于测试的sync_sig同步信号，可以通过扩展来实现更完善的uart串口器件，电路见下图：
+<img src="rtl_rx.png" alt="rx"></p>
+<h2 id="%E8%9C%82%E9%B8%A3%E5%99%A8%E6%8E%A7%E5%88%B6%E5%99%A8%E4%BB%B6">蜂鸣器控制器件</h2>
+<pre class="hljs"><code><div><span class="hljs-keyword">library</span> ieee;
+<span class="hljs-keyword">use</span> ieee.std_logic_1164.<span class="hljs-keyword">all</span>;
+<span class="hljs-keyword">use</span> ieee.std_logic_unsigned.<span class="hljs-keyword">all</span>;
+
+<span class="hljs-keyword">entity</span> MUSIC <span class="hljs-keyword">is</span>
+  <span class="hljs-keyword">PORT</span> (
+      KEY_CODE : <span class="hljs-keyword">IN</span> <span class="hljs-built_in">std_logic_vector</span>(<span class="hljs-number">3</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">0</span>);
+      CLK:<span class="hljs-keyword">IN</span> <span class="hljs-built_in">STD_LOGIC</span>;<span class="hljs-comment">--32</span>
+      OUTPUT:<span class="hljs-keyword">OUT</span> <span class="hljs-built_in">STD_LOGIC</span>
+      );
+<span class="hljs-keyword">END</span> MUSIC;
+
+<span class="hljs-keyword">ARCHITECTURE</span> MUSIC_BEHAVE <span class="hljs-keyword">OF</span> MUSIC <span class="hljs-keyword">IS</span>
+  <span class="hljs-keyword">SIGNAL</span> JUG : <span class="hljs-built_in">STD_LOGIC_VECTOR</span>(<span class="hljs-number">12</span> <span class="hljs-keyword">DOWNTO</span> <span class="hljs-number">0</span>);
+  <span class="hljs-keyword">signal</span> cnt : <span class="hljs-built_in">std_logic_vector</span>(<span class="hljs-number">12</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">0</span>);
+  <span class="hljs-keyword">signal</span> tmp : <span class="hljs-built_in">std_logic</span>:=<span class="hljs-string">'0'</span>; 
+<span class="hljs-keyword">BEGIN</span>  
+  <span class="hljs-keyword">PROCESS</span>(CLK)
+  <span class="hljs-comment">--variable i:integer:=0;</span>
+  <span class="hljs-keyword">BEGIN</span>
+  <span class="hljs-comment">--if(i=0)then</span>
+
+    <span class="hljs-keyword">CASE</span> KEY_CODE <span class="hljs-keyword">IS</span>
+      <span class="hljs-keyword">WHEN</span> <span class="hljs-string">"1001"</span> =&gt; JUG&lt;=<span class="hljs-string">"0101110101001"</span>;<span class="hljs-comment">--DO 2986.43 260.61</span>
+      <span class="hljs-keyword">WHEN</span> <span class="hljs-string">"1010"</span> =&gt; JUG&lt;=<span class="hljs-string">"0101001100100"</span>;<span class="hljs-comment">--RE 2660.93</span>
+      <span class="hljs-keyword">WHEN</span> <span class="hljs-string">"1011"</span> =&gt; JUG&lt;=<span class="hljs-string">"0100101000001"</span>;<span class="hljs-comment">--MI 2370.30</span>
+      <span class="hljs-keyword">WHEN</span> <span class="hljs-string">"1100"</span> =&gt; JUG&lt;=<span class="hljs-string">"0100010111100"</span>;<span class="hljs-comment">--FA 2237.26</span>
+      <span class="hljs-keyword">WHEN</span> <span class="hljs-string">"1101"</span> =&gt; JUG&lt;=<span class="hljs-string">"0011111001000"</span>;<span class="hljs-comment">--SO 1992.98</span>
+      <span class="hljs-keyword">WHEN</span> <span class="hljs-string">"1110"</span> =&gt; JUG&lt;=<span class="hljs-string">"0011011101111"</span>;<span class="hljs-comment">--LA 1775.57</span>
+      <span class="hljs-keyword">WHEN</span> <span class="hljs-string">"1111"</span> =&gt; JUG&lt;=<span class="hljs-string">"0011000101101"</span>;<span class="hljs-comment">--SI 1582.12</span>
+
+      <span class="hljs-keyword">WHEN</span> <span class="hljs-string">"0001"</span> =&gt; JUG&lt;=<span class="hljs-string">"0010111010100"</span>;<span class="hljs-comment">--DO 1493.07</span>
+      <span class="hljs-keyword">WHEN</span> <span class="hljs-string">"0010"</span> =&gt; JUG&lt;=<span class="hljs-string">"0010100110001"</span>;<span class="hljs-comment">--RE 1330.17</span>
+      <span class="hljs-keyword">WHEN</span> <span class="hljs-string">"0011"</span> =&gt; JUG&lt;=<span class="hljs-string">"0010010100001"</span>;<span class="hljs-comment">--MI 1185.04</span>
+      <span class="hljs-keyword">WHEN</span> <span class="hljs-string">"0100"</span> =&gt; JUG&lt;=<span class="hljs-string">"0010001011110"</span>;<span class="hljs-comment">--FA 1118.53</span>
+      <span class="hljs-keyword">WHEN</span> <span class="hljs-string">"0101"</span> =&gt; JUG&lt;=<span class="hljs-string">"0001111100100"</span>;<span class="hljs-comment">--SO 996.50</span>
+      <span class="hljs-keyword">WHEN</span> <span class="hljs-string">"0110"</span> =&gt; JUG&lt;=<span class="hljs-string">"0001101110111"</span>;<span class="hljs-comment">--LA 887.79</span>
+      <span class="hljs-keyword">WHEN</span> <span class="hljs-string">"0111"</span> =&gt; JUG&lt;=<span class="hljs-string">"0001100010110"</span>;<span class="hljs-comment">--SI 790.92</span>
+      <span class="hljs-keyword">WHEN</span> <span class="hljs-keyword">OTHERS</span> =&gt; JUG&lt;=<span class="hljs-string">"0000000000000"</span>;
+    <span class="hljs-keyword">END</span> <span class="hljs-keyword">CASE</span>;
+  <span class="hljs-keyword">END</span> <span class="hljs-keyword">PROCESS</span>;
+  
+  <span class="hljs-keyword">process</span>(clk)
+  <span class="hljs-keyword">begin</span>
+    <span class="hljs-keyword">if</span>(clk<span class="hljs-symbol">'event</span> <span class="hljs-keyword">and</span> clk=<span class="hljs-string">'1'</span>)<span class="hljs-keyword">then</span>
+      <span class="hljs-keyword">if</span>(cnt=JUG)<span class="hljs-keyword">then</span>
+        cnt&lt;=<span class="hljs-string">"0000000000000"</span>;
+        tmp &lt;=<span class="hljs-keyword">not</span> tmp;
+      <span class="hljs-keyword">else</span>
+        cnt&lt;=cnt+<span class="hljs-number">1</span>;
+      <span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span>;
+    <span class="hljs-keyword">end</span> <span class="hljs-keyword">if</span>;
+  <span class="hljs-keyword">end</span> <span class="hljs-keyword">process</span>;
+  OUTPUT &lt;=tmp;
+<span class="hljs-keyword">END</span> MUSIC_BEHAVE;
+</div></code></pre>
+<p>该模块原理较简单，输入时钟为32分频的50MHz时钟，根据输入的keycode输出不同频率的方波(DO-SI)接到蜂鸣器上以演奏乐曲，电路原理图如下：
+<img src="rtl_music.png" alt="music"></p>
+<h2 id="4-7%E8%AF%91%E7%A0%81%E5%99%A8%E6%A8%A1%E5%9D%97%EF%BC%8C32%E5%88%86%E9%A2%91%E5%99%A8%E5%9C%A8%E4%B9%8B%E5%89%8D%E7%9A%84%E5%AE%9E%E9%AA%8C%E4%B8%AD%E6%9C%89%E6%B6%89%E5%8F%8A%E6%95%85%E4%B8%8D%E6%94%BE%E5%88%B0%E8%AF%A5%E7%94%B5%E8%B7%AF%E4%B8%AD">4-7译码器模块，32分频器在之前的实验中有涉及故不放到该电路中</h2>
+<h2 id="%E6%80%BB%E6%A8%A1%E5%9D%97">总模块</h2>
+<pre class="hljs"><code><div><span class="hljs-keyword">library</span> ieee;
+<span class="hljs-keyword">use</span> ieee.std_logic_1164.<span class="hljs-keyword">all</span>;
+
+<span class="hljs-keyword">entity</span> UART <span class="hljs-keyword">is</span>
+  <span class="hljs-keyword">port</span>(
+    clk: <span class="hljs-keyword">in</span> <span class="hljs-built_in">std_logic</span>;
+    data: <span class="hljs-keyword">in</span> <span class="hljs-built_in">std_logic</span>;
+    rd: <span class="hljs-keyword">in</span> <span class="hljs-built_in">std_logic</span>;
+    rx_ready: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic</span>;
+    sync_sig: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic</span>;
+    ledout: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic_vector</span>(<span class="hljs-number">6</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">0</span>);
+    
+    music_out: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic</span>;
+    
+    <span class="hljs-comment">--use for powering chip</span>
+    gnd: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic</span>;
+    gndref: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic</span>;
+    <span class="hljs-comment">--chip end</span>
+    
+    led_ena: <span class="hljs-keyword">in</span> <span class="hljs-built_in">std_logic</span>;
+    led_anode: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic</span>;
+    
+    rxbuf: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic_vector</span>(<span class="hljs-number">7</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">0</span>);
+    clkkdiv: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic</span>;
+    clkkk32: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic</span>
+  );
+<span class="hljs-keyword">end</span> UART;
+
+<span class="hljs-keyword">architecture</span> rtl <span class="hljs-keyword">of</span> UART <span class="hljs-keyword">is</span>
+
+<span class="hljs-keyword">component</span> LED_TRANS <span class="hljs-keyword">is</span>
+  <span class="hljs-keyword">port</span> (
+    busin: <span class="hljs-keyword">in</span> <span class="hljs-built_in">std_logic_vector</span>(<span class="hljs-number">3</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">0</span>);
+    ledout: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic_vector</span>(<span class="hljs-number">6</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">0</span>)
+  );
+<span class="hljs-keyword">end</span> <span class="hljs-keyword">component</span>;
+
+<span class="hljs-keyword">component</span> DIV27 <span class="hljs-keyword">is</span>
+  <span class="hljs-keyword">port</span>(
+    clk: <span class="hljs-keyword">in</span> <span class="hljs-built_in">std_logic</span>;
+    clkdiv: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic</span>
+  );
+<span class="hljs-keyword">end</span> <span class="hljs-keyword">component</span>;
+
+<span class="hljs-keyword">component</span> RX <span class="hljs-keyword">is</span>
+  <span class="hljs-keyword">generic</span>(data_bits: <span class="hljs-built_in">integer</span> := <span class="hljs-number">8</span>);<span class="hljs-comment">--clkwait: integer := 16)</span>
+  <span class="hljs-keyword">port</span>(
+    clk: <span class="hljs-keyword">in</span> <span class="hljs-built_in">std_logic</span>;
+    data: <span class="hljs-keyword">in</span> <span class="hljs-built_in">std_logic</span>;
+    rd: <span class="hljs-keyword">in</span> <span class="hljs-built_in">std_logic</span>;
+    buff: <span class="hljs-keyword">buffer</span> <span class="hljs-built_in">std_logic_vector</span>(data_bits-<span class="hljs-number">1</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">0</span>);
+    rx_ready: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic</span> := <span class="hljs-string">'0'</span>;
+    sync_sig: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic</span>
+  );
+<span class="hljs-keyword">end</span> <span class="hljs-keyword">component</span>;
+
+<span class="hljs-keyword">component</span> div2 <span class="hljs-keyword">is</span>
+  <span class="hljs-keyword">generic</span>(factor:<span class="hljs-built_in">integer</span> := <span class="hljs-number">100</span>);
+  <span class="hljs-keyword">port</span>(
+    clk: <span class="hljs-keyword">in</span> <span class="hljs-built_in">std_logic</span>;
+    clkdiv: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic</span>
+  );
+<span class="hljs-keyword">end</span> <span class="hljs-keyword">component</span>;
+
+<span class="hljs-keyword">component</span> MUSIC <span class="hljs-keyword">is</span>
+  <span class="hljs-keyword">PORT</span> (
+      KEY_CODE : <span class="hljs-keyword">IN</span> <span class="hljs-built_in">std_logic_vector</span>(<span class="hljs-number">3</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">0</span>);
+      CLK:<span class="hljs-keyword">IN</span> <span class="hljs-built_in">STD_LOGIC</span>;<span class="hljs-comment">--32</span>
+      OUTPUT:<span class="hljs-keyword">OUT</span> <span class="hljs-built_in">STD_LOGIC</span>
+      );
+<span class="hljs-keyword">END</span> <span class="hljs-keyword">component</span>;
+
+  <span class="hljs-keyword">signal</span> clkdiv: <span class="hljs-built_in">std_logic</span>;
+  <span class="hljs-keyword">signal</span> clk32: <span class="hljs-built_in">std_logic</span>;
+  <span class="hljs-keyword">signal</span> buff: <span class="hljs-built_in">std_logic_vector</span>(<span class="hljs-number">7</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">0</span>);
+  
+<span class="hljs-keyword">begin</span>
+
+  gnd &lt;= <span class="hljs-string">'0'</span>;
+  gndref &lt;= <span class="hljs-string">'0'</span>;
+  
+  clkk: DIV27 <span class="hljs-keyword">port</span> <span class="hljs-keyword">map</span>(clk, clkdiv);
+  rxx: RX <span class="hljs-keyword">generic</span> <span class="hljs-keyword">map</span>(<span class="hljs-number">8</span>) <span class="hljs-keyword">port</span> <span class="hljs-keyword">map</span>(clkdiv, data, rd, buff, rx_ready, sync_sig);
+  led: LED_TRANS <span class="hljs-keyword">port</span> <span class="hljs-keyword">map</span>(buff(<span class="hljs-number">3</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">0</span>), ledout);
+  clkk32: div2 <span class="hljs-keyword">generic</span> <span class="hljs-keyword">map</span>(<span class="hljs-number">16</span>) <span class="hljs-keyword">port</span> <span class="hljs-keyword">map</span>(clk, clk32);
+  musicc: music <span class="hljs-keyword">port</span> <span class="hljs-keyword">map</span>(buff(<span class="hljs-number">7</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">4</span>), clk32, music_out);
+
+  clkkdiv &lt;= clkdiv;
+  clkkk32 &lt;= clk32;
+  rxbuf &lt;= buff;
+  led_anode &lt;= led_ena;
+  
+<span class="hljs-keyword">end</span> rtl;
+</div></code></pre>
+<p>该器件也有一些用于调试或未实现的输出，真正有用的端口在第一段注释之前。该模块将上述所有模块均连接在一起来完成预期功能，电路原理图如下：
+<img src="rtl_all.png" alt="all"></p>
+<h2 id="flow-summary">Flow Summary</h2>
+<p><img src="flow_summary.png" alt="flow"></p>
+<h1 id="%E4%BB%BF%E7%9C%9F%E5%8F%8A%E7%A4%BA%E6%B3%A2%E5%99%A8%E8%BE%93%E5%87%BA">仿真及示波器输出</h1>
+<p>本实验仅对RX模块进行了仿真。由于uart串口有些接近底层故调试时也借用示波器来辅助调试。示波器调试结果也提供在下面。</p>
+<h2 id="%E4%BB%BF%E7%9C%9F%E4%BB%A3%E7%A0%81">仿真代码</h2>
+<pre class="hljs"><code><div><span class="hljs-keyword">library</span> ieee;
+<span class="hljs-keyword">use</span> ieee.std_logic_1164.<span class="hljs-keyword">all</span>;
+
+<span class="hljs-keyword">entity</span> RX_tb <span class="hljs-keyword">is</span>
+<span class="hljs-keyword">end</span> RX_tb;
+
+<span class="hljs-keyword">architecture</span> rtl <span class="hljs-keyword">of</span> RX_tb <span class="hljs-keyword">is</span>
+<span class="hljs-keyword">component</span> RX <span class="hljs-keyword">is</span>
+	<span class="hljs-keyword">generic</span>(data_bits: <span class="hljs-built_in">integer</span> := <span class="hljs-number">8</span>);<span class="hljs-comment">--clkwait: integer := 16)</span>
+	<span class="hljs-keyword">port</span>(
+		clk: <span class="hljs-keyword">in</span> <span class="hljs-built_in">std_logic</span>;
+		data: <span class="hljs-keyword">in</span> <span class="hljs-built_in">std_logic</span>;
+		rd: <span class="hljs-keyword">in</span> <span class="hljs-built_in">std_logic</span>;
+		buff: <span class="hljs-keyword">buffer</span> <span class="hljs-built_in">std_logic_vector</span>(data_bits-<span class="hljs-number">1</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">0</span>);
+		rx_ready: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic</span> := <span class="hljs-string">'0'</span>;
+		sync_sig: <span class="hljs-keyword">out</span> <span class="hljs-built_in">std_logic</span>
+	);
+<span class="hljs-keyword">end</span> <span class="hljs-keyword">component</span>;
+
+<span class="hljs-keyword">signal</span> clk, data, rx_ready, rd, sync : <span class="hljs-built_in">std_logic</span>;
+<span class="hljs-keyword">signal</span> buff : <span class="hljs-built_in">std_logic_vector</span>(<span class="hljs-number">7</span> <span class="hljs-keyword">downto</span> <span class="hljs-number">0</span>);
+
+<span class="hljs-keyword">begin</span>
+	rxx: RX <span class="hljs-keyword">generic</span> <span class="hljs-keyword">map</span>(<span class="hljs-number">8</span>) <span class="hljs-keyword">port</span> <span class="hljs-keyword">map</span>(clk, data, rd, buff, rx_ready, sync);
+	
+	<span class="hljs-keyword">process</span>
+	<span class="hljs-keyword">begin</span>
+		clk &lt;= <span class="hljs-string">'0'</span>;
+		<span class="hljs-keyword">wait</span> <span class="hljs-keyword">for</span> <span class="hljs-number">1</span> ns;
+		clk &lt;= <span class="hljs-string">'1'</span>;
+		<span class="hljs-keyword">wait</span> <span class="hljs-keyword">for</span> <span class="hljs-number">1</span> ns;
+	<span class="hljs-keyword">end</span> <span class="hljs-keyword">process</span>;
+	
+	<span class="hljs-keyword">process</span>
+	<span class="hljs-keyword">begin</span>
+		data &lt;= <span class="hljs-string">'1'</span>;
+		<span class="hljs-keyword">wait</span> <span class="hljs-keyword">for</span> <span class="hljs-number">40</span> ns;
+		data &lt;= <span class="hljs-string">'0'</span>; <span class="hljs-comment">-- start</span>
+		<span class="hljs-keyword">wait</span> <span class="hljs-keyword">for</span> <span class="hljs-number">32</span> ns;
+		
+		data &lt;= <span class="hljs-string">'1'</span>;
+		<span class="hljs-keyword">wait</span> <span class="hljs-keyword">for</span> <span class="hljs-number">32</span> ns;
+		data &lt;= <span class="hljs-string">'0'</span>;
+		<span class="hljs-keyword">wait</span> <span class="hljs-keyword">for</span> <span class="hljs-number">32</span> ns;
+		data &lt;= <span class="hljs-string">'1'</span>;
+		<span class="hljs-keyword">wait</span> <span class="hljs-keyword">for</span> <span class="hljs-number">32</span> ns;
+		data &lt;= <span class="hljs-string">'1'</span>;
+		<span class="hljs-keyword">wait</span> <span class="hljs-keyword">for</span> <span class="hljs-number">32</span> ns;
+		
+		data &lt;= <span class="hljs-string">'0'</span>;
+		<span class="hljs-keyword">wait</span> <span class="hljs-keyword">for</span> <span class="hljs-number">32</span> ns;
+		data &lt;= <span class="hljs-string">'1'</span>;
+		<span class="hljs-keyword">wait</span> <span class="hljs-keyword">for</span> <span class="hljs-number">32</span> ns;
+		data &lt;= <span class="hljs-string">'0'</span>;
+		<span class="hljs-keyword">wait</span> <span class="hljs-keyword">for</span> <span class="hljs-number">32</span> ns;
+		data &lt;= <span class="hljs-string">'0'</span>;
+		<span class="hljs-keyword">wait</span> <span class="hljs-keyword">for</span> <span class="hljs-number">32</span> ns;
+		
+		data &lt;= <span class="hljs-string">'1'</span>;
+		<span class="hljs-keyword">wait</span> <span class="hljs-keyword">for</span> <span class="hljs-number">40</span> ns;
+	<span class="hljs-keyword">end</span> <span class="hljs-keyword">process</span>;
+
+<span class="hljs-keyword">end</span> rtl;
+</div></code></pre>
+<p>本仿真模拟真实串口数据发送情况，用以检测同步信号及接收数据是否与期待一致。仿真结果如下：
+<img src="sim.png" alt="rx_tb">
+如上图所示同步信号正确输出，表示代码逻辑正确。</p>
+<h2 id="27%E5%88%86%E9%A2%91%E7%A4%BA%E6%B3%A2%E5%99%A8%E8%BE%93%E5%87%BA">27分频示波器输出</h2>
+<p><img src="clk27.jpg" alt="clk27">
+输出信号频率为1.852MHz，预期结果50MHz/27=1.852MHz，分频成功。</p>
+<h2 id="%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E6%97%B6%E5%90%8C%E6%AD%A5%E4%BF%A1%E5%8F%B7%E8%BE%93%E5%87%BA">发送数据时同步信号输出</h2>
+<p><img src="sync_sig.jpg" alt="syn">
+由于RX根据同步信号来采样，正确的同步信号是正确采样的前提。发送波特率为115200，因该速率实际不可通过50MHz分频得到故采用最近邻整数的方式来分频。理论上输出sync信号频率应为50MHz/27/16=115.74kHz，与示波器上观察的一致。虽然与115.2kHz有些许偏差但在短序列时不影响采样判决结果。</p>
+<h2 id="%E8%9C%82%E9%B8%A3%E5%99%A8%E4%BF%A1%E5%8F%B7%E8%BE%93%E5%87%BA">蜂鸣器信号输出</h2>
+<p><img src="music.jpg" alt="music">
+987.8Hz为SO音，说明蜂鸣器可正确输出。</p>
+<h1 id="fpga%E9%AA%8C%E8%AF%81%E7%BB%93%E6%9E%9C">FPGA验证结果</h1>
+<h2 id="%E5%BC%95%E8%84%9A%E5%88%86%E9%85%8D">引脚分配</h2>
+<p><img src="pin_planner.png" alt="pin">
+接收数据接到LED0-LED7上，低4位接到数码管上，高四位接到蜂鸣器上，enaout与enain即DIP0直接相连用于提供7段数码管的阳极，sync_sig与clkdiv用于测试输出波形。</p>
+<h2 id="%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C">实验结果</h2>
+<h3 id="%E6%9D%BF%E4%B8%8A">板上</h3>
+<p><img src="board.jpg" alt="board"></p>
+<h3 id="%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE">发送数据</h3>
+<p><img src="sscom.png" alt="sscom">
+发送数据为7d，LED输出也为7d，其中d接到数码管上予以显示。</p>
+<h1 id="%E5%AE%9E%E9%AA%8C%E6%80%BB%E7%BB%93">实验总结</h1>
+<p>由于uart偏硬件故很多测试需要借助示波器辅助完成，且即使仿真完全正确板上验证也不一定正确。</p>
+<p>代码方面知道了如果有一个信号作为process的触发源但该process未调用该信号时它实际上并不会接到电路中，而此时的仿真结果却完全正确。这样的错误很难发现，需要一定的经验积累。</p>
+
+</body>
+</html>

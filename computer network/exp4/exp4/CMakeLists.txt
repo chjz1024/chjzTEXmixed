@@ -1,0 +1,4 @@
+project(computer_network_exp4)
+
+add_executable(rdt_gbn_recv exp_code_gbn/rdt_gbn_receiver.c)
+add_executable(rdt_stopwait_recv exp_code_stopwait/rdt_stopwait_receiver.c)

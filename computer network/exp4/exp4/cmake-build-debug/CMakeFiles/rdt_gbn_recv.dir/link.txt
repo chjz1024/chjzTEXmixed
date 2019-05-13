@@ -1,0 +1,1 @@
+/usr/bin/cc -g  -rdynamic CMakeFiles/rdt_gbn_recv.dir/exp_code_gbn/rdt_gbn_receiver.c.o  -o rdt_gbn_recv 

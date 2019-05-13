@@ -1,0 +1,4 @@
+/home/chjz/Desktop/exp4/exp4/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/chjz/Desktop/exp4/exp4/cmake-build-debug/CMakeFiles/rdt_gbn_recv.dir
+/home/chjz/Desktop/exp4/exp4/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/chjz/Desktop/exp4/exp4/cmake-build-debug/CMakeFiles/rdt_stopwait_recv.dir

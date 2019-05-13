@@ -1,0 +1,1 @@
+/usr/bin/cc -g  -rdynamic CMakeFiles/rdt_stopwait_recv.dir/exp_code_stopwait/rdt_stopwait_receiver.c.o  -o rdt_stopwait_recv 

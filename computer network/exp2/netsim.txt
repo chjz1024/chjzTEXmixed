@@ -1,0 +1,103 @@
+Router>
+Router>enable
+Router#config terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#interface FastEthernet 0/0
+Router(config-if)#ip address 202.38.75.33 255.255.255.0
+Router(config-if)#no shut
+%LINK-3-UPDOWN: Interface FastEthernet0/0, changed state to up
+Router(config-if)#exit
+Router(config)#interface FastEthernet 0/1
+Router(config-if)#ip address 202.38.77.254 255.255.255.0
+Router(config-if)#no shut
+%LINK-3-UPDOWN: Interface FastEthernet0/1, changed state to up
+Router(config-if)#exit
+Router(config)#ip route 202.38.76.0 255.255.255.0 202.38.75.254
+Router(config)#ip route 202.38.74.0 255.255.255.0 202.38.75.254
+Router(config)#ip route 202.38.73.0 255.255.255.0 202.38.75.254
+Router(config)#exit
+Router#show ip route
+Codes: C - connected, S - static, I - IGRP, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       E1 - OSPF external type 1, E2 - OSPF external type 2, E - EGP
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, * - candidate default
+       U - per-user static route
+
+Gateway of last resort is not set
+C      202.38.75.0/24 is directly connected, FastEthernet0/0
+C      202.38.77.0/24 is directly connected, FastEthernet0/1
+S      202.38.76.0/24 [1/0] via 202.38.75.254
+S      202.38.74.0/24 [1/0] via 202.38.75.254
+S      202.38.73.0/24 [1/0] via 202.38.75.254
+
+
+
+Router>
+Router>enable
+Router#config terminal 
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#interface FastEthernet 00/
+Invalid Command
+Router(config)#interface FastEthernet 0/0
+Router(config-if)#ip address 202.38.76.253 255.255.255.0
+Router(config-if)#no shut
+%LINK-3-UPDOWN: Interface FastEthernet0/0, changed state to up
+Router(config-if)#exit
+Router(config)#interface FastEthernet 0/1
+Router(config-if)#ip address 202.38.73.254 255.255.255.0
+Router(config-if)#no shut
+%LINK-3-UPDOWN: Interface FastEthernet0/1, changed state to up
+Router(config-if)#exit
+Router(config)#ip route 202.38.75.0 255.255.255.0 202.38.76.254
+Router(config)#ip route 202.38.74.0 255.255.255.0 202.38.76.254
+Router(config)#ip route 202.38.77.0 255.255.255.0 202.38.76.254
+Router(config)#exit
+Router#show ip route
+Codes: C - connected, S - static, I - IGRP, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       E1 - OSPF external type 1, E2 - OSPF external type 2, E - EGP
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, * - candidate default
+       U - per-user static route
+
+Gateway of last resort is not set
+C      202.38.76.0/24 is directly connected, FastEthernet0/0
+C      202.38.73.0/24 is directly connected, FastEthernet0/1
+S      202.38.75.0/24 [1/0] via 202.38.76.254
+S      202.38.74.0/24 [1/0] via 202.38.76.254
+S      202.38.77.0/24 [1/0] via 202.38.76.254
+
+Router>
+Router>enable
+Router#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#interface Ethernet 0/0
+Router(config-if)#ip address 202.38.75.254 255.255.255.0
+Router(config-if)#no shut
+%LINK-3-UPDOWN: Interface Ethernet0/0, changed state to up
+Router(config-if)#exit
+Router(config)#interface Ethernet 0/1
+Router(config-if)#ip address 202.38.76.254 255.255.255.0
+Router(config-if)#no shut
+%LINK-3-UPDOWN: Interface Ethernet0/1, changed state to up
+Router(config-if)#exit
+Router(config)#interface Ethernet 0/2
+Router(config-if)#ip address 202.38.74.254 255.255.255.0
+Router(config-if)#no shut
+%LINK-3-UPDOWN: Interface Ethernet0/2, changed state to up
+Router(config-if)#exit
+Router(config)#ip route 202.38.73.0 255.255.255.0 202.38.76.253
+Router(config)#ip route 202.38.77.0 255.255.255.0 202.38.76.253
+Router(config)#exit
+Router#show ip route
+Codes: C - connected, S - static, I - IGRP, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       E1 - OSPF external type 1, E2 - OSPF external type 2, E - EGP
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, * - candidate default
+       U - per-user static route
+
+Gateway of last resort is not set
+C      202.38.75.0/24 is directly connected, Ethernet0/0
+C      202.38.76.0/24 is directly connected, Ethernet0/1
+C      202.38.74.0/24 is directly connected, Ethernet0/2
+S      202.38.73.0/24 [1/0] via 202.38.76.253
+S      202.38.77.0/24 [1/0] via 202.38.76.253
