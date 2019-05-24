@@ -142,3 +142,16 @@ chroma预测模式: planar(1), vertical(26), horizontal(10), DC(0), derived mode
 pcCU->getPic()->getPicYuvRec()->getAddr()$\Rightarrow$重构像素信息
 
 mode selection: 先check再recur
+
+为什么rec与str匹配?
+
+TComTrQuant::
+transformNxN()->xQuant()->xRateDistOptQuant()=>estBits
+
+TEncSearch::
+xIntraCodingTUBlock()->transformNxN()
+
+TEncEntropyIf作用->虚类，代指实际编码的熵编码器：cavlc或cabac
+
+m_entropyBits
+ContextModel3DBuffer

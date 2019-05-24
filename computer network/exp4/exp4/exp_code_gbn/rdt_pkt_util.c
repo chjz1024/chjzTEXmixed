@@ -61,4 +61,3 @@ int time_out( struct timeval time_1, struct timeval time_2 ) //time_1 > time_2
 	}
 	return 0;
 }
-

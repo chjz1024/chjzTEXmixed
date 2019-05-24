@@ -31,14 +31,4 @@
 	按照Makefile中所定义的规则生成目标文件。
 运行程序： ./rdt_stopwait_sender  sendfilename
 		   ./rdt_stopwait_receiver savefilename
-//////////////////////////////////////////////////////�量及类型及包类型
-	rdt_pkt_util.c
-		包含一些功能函数，如将数据封装成RDT包的函数及解封装的函数
-		模拟不可靠数据传输的函数
-	rdt_stopwait_sender.c
-		停等协议的发送端程序，从文件中读取数据并封装成RDT数据包，采用停等协议发送数据包
-	rdt_stopwait_receiver.c
-		停等协议的接收端程序，使用UDP socket接收数据并写入到文件中
-	Makefile
-		make 的输入文件
-///////////
+//////////////////////////////////////////////////////
