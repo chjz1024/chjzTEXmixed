@@ -1,3 +1,12 @@
+---
+title: "HM代码解释"
+author: "Jinze Chen"
+output:
+  pdf_document:
+    latex_engine: xelatex
+CJKmainfont: KaiTi
+---
+
 # HM代码
 
 ```cpp
