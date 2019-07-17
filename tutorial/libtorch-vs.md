@@ -1,3 +1,12 @@
+---
+title: "Visual Studio libtorch使用教程"
+author: "Jinze Chen"
+output:
+  pdf_document:
+    latex_engine: xelatex
+CJKmainfont: KaiTi
+---
+
 # Visual Studio libtorch使用教程
 
 ## 预备软件
@@ -7,7 +16,7 @@
 
 ## 使用流程
 1. 下载对应版本libtorch并解压到对应目录, 如在本机为`E:\libtorchGPU`
-2. 配置环境变量`TORCH_LIBRARY`为libtorch解压目录`E:\libtorchGPU`
+2. 配置环境变量`TORCH_PATH`为libtorch解压目录`E:\libtorchGPU`，或者在`Property Manager`添加新的`Property Sheet`，在里面添加对应的`User Macro`
 3. 打开visual studio创建新项目, 添加源代码
 ```cpp
 #include <iostream>
@@ -55,6 +64,13 @@ PATH=%PATH%;$(TORCH_PATH)\lib
 
 ## 运行成功!
 ![pic4](pic/pic4.png)
+
+# 一些错误经验
+## libtorch使用的运行时库为Multi-threaded [Debug] DLL， HM默认情况下的运行时库为Multi-threaded [Debug]，为保证项目能编译通过需要重新配置HM所有项目的运行时库
+
+## 链接时Debug模式需要链接Debug版的libtorch，Release模式需要链接Release版的libtorch，但链接错误时张量运算仍可行，只不过无法加载模型
+
+## 模型路径不对会报错`c10::Error at memory location XXX`
 
 # 在上述方法失效的情况下从cmake重新创建工程
 以上方法依赖于libtorch现有的项目结构, 故可能不适用于未来版本。在这种时候需要从cmake项目开始重新生成sln项目。
